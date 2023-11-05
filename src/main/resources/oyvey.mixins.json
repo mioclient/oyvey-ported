@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.alpha432.oyvey.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinClientConnection"
+  ],
+  "client": [
+    "MixinClientPlayerEntity",
+    "MixinClientPlayNetworkHandler",
+    "MixinInGameHud",
+    "MixinKeyboard",
+    "MixinRenderTickCounter",
+    "MixinWorldRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

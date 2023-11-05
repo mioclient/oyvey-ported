@@ -1,0 +1,7 @@
+accessWidener v2 named
+
+accessible field net/minecraft/client/MinecraftClient itemUseCooldown I
+accessible field net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket entityId I
+accessible method net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractTypeHandler getType ()Lnet/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractType;
+accessible class net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractType
+accessible field net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket type Lnet/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractTypeHandler;
