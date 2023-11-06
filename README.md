@@ -8,7 +8,7 @@ Kosher client base ported to Minecraft 1.20.1 by [@cattyngmd](https://github.com
 # Why
 ![](https://i.imgur.com/VYjIphG.png)
 
-# How
+# What
 Add stuff to it like you would add stuff to your 1.12.2 OyVey paste
 
 </div>
