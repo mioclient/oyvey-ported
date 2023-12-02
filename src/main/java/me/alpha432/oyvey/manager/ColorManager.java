@@ -13,6 +13,11 @@ public class ColorManager {
     private float alpha = 1.0f;
     private Color color = new Color(this.red, this.green, this.blue, this.alpha);
 
+    public void init() {
+        ClickGui ui = ClickGui.getInstance();
+        setColor(ui.red.getValue(), ui.green.getValue(), ui.blue.getValue(), ui.hoverAlpha.getValue());
+    }
+
     public Color getColor() {
         return this.color;
     }
