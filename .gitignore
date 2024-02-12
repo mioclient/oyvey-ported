@@ -1,3 +1,32 @@
-# Project exclude paths
-/.gradle/
-/build/
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+/runtime/
+eclipse
+run
+*.bak
+
+# Files from Forge MDK
+forge*changelog.txt
+
+# version files
+/HeadlessMC/
+/logs/
+/plugins/

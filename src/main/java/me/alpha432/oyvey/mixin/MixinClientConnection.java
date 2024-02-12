@@ -36,7 +36,7 @@ public class MixinClientConnection {
     }
 
     @Inject(method = "sendImmediately", at = @At("HEAD"), cancellable = true)
-    private void sendImmediately(Packet<?> packet, PacketCallbacks callbacks, CallbackInfo ci) {
+    private void sendImmediately(Packet<?> packet, PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
         if (this.side != NetworkSide.CLIENTBOUND) return;
         try {
             PacketEvent.Send event = new PacketEvent.Send(packet);
