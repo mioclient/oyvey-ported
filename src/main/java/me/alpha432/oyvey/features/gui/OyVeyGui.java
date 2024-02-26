@@ -91,13 +91,13 @@ public class OyVeyGui extends Screen {
         return super.mouseReleased(mouseX, mouseY, releaseButton);
     }
 
-    @Override public boolean mouseScrolled(double mouseX, double mouseY, double dWheel) {
-        if (dWheel < 0) {
+    @Override public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        if (verticalAmount < 0) {
             this.components.forEach(component -> component.setY(component.getY() - 10));
-        } else if (dWheel > 0) {
+        } else if (verticalAmount > 0) {
             this.components.forEach(component -> component.setY(component.getY() + 10));
         }
-        return super.mouseScrolled(mouseX, mouseY, dWheel);
+        return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
     @Override public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
