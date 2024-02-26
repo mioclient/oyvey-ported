@@ -18,7 +18,7 @@ public class MixinInGameHud {
 
     @Inject(method = "render", at = @At("RETURN"))
     public void render(DrawContext context, float tickDelta, CallbackInfo ci) {
-        if(MinecraftClient.getInstance().options.getReducedDebugInfo().getValue()) return;
+        if (MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowDebugHud()) return;
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
         RenderSystem.disableDepthTest();
