@@ -1,7 +1,7 @@
 <div align="center">
 
 # oyvey-ported
-Kosher client base ported to Minecraft 1.20.1 by [@cattyngmd](https://github.com/cattyngmd)
+Kosher client base ported to Minecraft 1.20.4 by [@cattyngmd](https://github.com/cattyngmd)
 
 <img src="https://i.imgur.com/Lu6rDJB.png" width="90%" />
 
