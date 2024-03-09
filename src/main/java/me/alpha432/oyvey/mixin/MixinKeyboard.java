@@ -11,7 +11,7 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 
 @Mixin(Keyboard.class)
 public class MixinKeyboard {
-    @Inject(method = "onKey", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "onKey", at = @At("TAIL"), cancellable = true)
     private void onKey(long windowPointer, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
         KeyEvent event = new KeyEvent(key);
         EVENT_BUS.post(event);
