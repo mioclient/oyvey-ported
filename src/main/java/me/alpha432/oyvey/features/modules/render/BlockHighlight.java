@@ -5,6 +5,7 @@ import me.alpha432.oyvey.event.impl.Render3DEvent;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.util.RenderUtil;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 
 import java.awt.*;
@@ -18,7 +19,9 @@ public class BlockHighlight extends Module {
         if (mc.crosshairTarget instanceof BlockHitResult result) {
             VoxelShape shape = mc.world.getBlockState(result.getBlockPos()).getOutlineShape(mc.world, result.getBlockPos());
             if (shape.isEmpty()) return;
-            RenderUtil.drawBox(event.getMatrix(), shape.getBoundingBox(), Color.red, 1f);
+            Box box = shape.getBoundingBox();
+            box = box.offset(result.getBlockPos());
+            RenderUtil.drawBox(event.getMatrix(), box, Color.red, 1f);
         }
     }
 }
