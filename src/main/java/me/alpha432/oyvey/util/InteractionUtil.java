@@ -2,9 +2,11 @@ package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.util.traits.Util;
 import net.minecraft.block.BlockState;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffectUtil;
@@ -106,7 +108,7 @@ public class InteractionUtil implements Util {
         if (speed > 1) {
             ItemStack tool = mc.player.getInventory().getStack(slot);
 
-            int efficiency = EnchantmentHelper.getLevel(Enchantments.EFFICIENCY, tool);
+            int efficiency = EnchantmentUtil.getLevel(Enchantments.EFFICIENCY, tool);
 
             if (efficiency > 0 && !tool.isEmpty()) speed += efficiency * efficiency + 1;
         }
@@ -126,7 +128,7 @@ public class InteractionUtil implements Util {
             speed *= k;
         }
 
-        if (mc.player.isSubmergedIn(FluidTags.WATER) && !EnchantmentHelper.hasAquaAffinity(mc.player)) {
+        if (mc.player.isSubmergedIn(FluidTags.WATER) && EnchantmentUtil.has(Enchantments.AQUA_AFFINITY, EquipmentSlot.HEAD)) {
             speed /= 5.0F;
         }
 

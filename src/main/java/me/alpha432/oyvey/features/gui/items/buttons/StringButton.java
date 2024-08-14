@@ -55,9 +55,7 @@ public class StringButton
     @Override
     public void onKeyTyped(char typedChar, int keyCode) {
         if (this.isListening) {
-            if (SharedConstants.isValidChar(typedChar)) {
-                this.setString(this.currentString.string() + typedChar);
-            }
+            this.setString(this.currentString.string() + typedChar);
         }
     }
 

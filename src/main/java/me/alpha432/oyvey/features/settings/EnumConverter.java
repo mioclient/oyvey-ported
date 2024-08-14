@@ -13,8 +13,8 @@ public class EnumConverter
     }
 
     public static int currentEnum(Enum clazz) {
-        for (int i = 0; i < clazz.getClass().getEnumConstants().length; ++i) {
-            Enum e = clazz.getClass().getEnumConstants()[i];
+        for (int i = 0; i < clazz.getDeclaringClass().getEnumConstants().length; ++i) {
+            Enum e = (Enum) clazz.getDeclaringClass().getEnumConstants()[i];
             if (!e.name().equalsIgnoreCase(clazz.name())) continue;
             return i;
         }
@@ -23,12 +23,12 @@ public class EnumConverter
 
     public static Enum increaseEnum(Enum clazz) {
         int index = EnumConverter.currentEnum(clazz);
-        for (int i = 0; i < clazz.getClass().getEnumConstants().length; ++i) {
-            Enum e = clazz.getClass().getEnumConstants()[i];
+        for (int i = 0; i < clazz.getDeclaringClass().getEnumConstants().length; ++i) {
+            Enum e = (Enum) clazz.getDeclaringClass().getEnumConstants()[i];
             if (i != index + 1) continue;
             return e;
         }
-        return clazz.getClass().getEnumConstants()[0];
+        return (Enum) clazz.getDeclaringClass().getEnumConstants()[0];
     }
 
     public static String getProperName(Enum clazz) {

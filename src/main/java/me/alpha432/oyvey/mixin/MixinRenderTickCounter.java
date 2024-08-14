@@ -8,11 +8,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin( RenderTickCounter.class )
+@Mixin( RenderTickCounter.Dynamic.class )
 public class MixinRenderTickCounter {
-    @Shadow public float lastFrameDuration;
+    @Shadow
+    private float lastFrameDuration;
 
-    @Inject(method = "beginRenderTick", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/RenderTickCounter;prevTimeMillis:J"))
+    @Inject(method = "beginRenderTick(J)I", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/RenderTickCounter$Dynamic;prevTimeMillis:J"))
     public void beginRenderTick(long timeMillis, CallbackInfoReturnable<Integer> cir) {
         this.lastFrameDuration *= OyVey.TIMER;
     }
