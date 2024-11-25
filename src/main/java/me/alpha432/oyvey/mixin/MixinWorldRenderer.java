@@ -22,6 +22,7 @@ public class MixinWorldRenderer {
     private void render(RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
                         LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci,
                         @Local MatrixStack stack) {
+        stack.push();
         stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(mc.gameRenderer.getCamera().getPitch()));
         stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(mc.gameRenderer.getCamera().getYaw() + 180f));
 
@@ -30,6 +31,7 @@ public class MixinWorldRenderer {
 
         Render3DEvent event = new Render3DEvent(stack, tickCounter.getTickDelta(true));
         EVENT_BUS.post(event);
+        stack.pop();
         MinecraftClient.getInstance().getProfiler().pop();
     }
 }
