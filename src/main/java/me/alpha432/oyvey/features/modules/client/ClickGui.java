@@ -14,8 +14,6 @@ public class ClickGui
         extends Module {
     private static ClickGui INSTANCE = new ClickGui();
     public Setting<String> prefix = this.register(new Setting<>("Prefix", "."));
-    public Setting<Boolean> customFov = this.register(new Setting<>("CustomFov", false));
-    public Setting<Float> fov = this.register(new Setting<>("Fov", 150f, -180f, 180f));
     public Setting<Integer> red = this.register(new Setting<>("Red", 0, 0, 255));
     public Setting<Integer> green = this.register(new Setting<>("Green", 0, 0, 255));
     public Setting<Integer> blue = this.register(new Setting<>("Blue", 255, 0, 255));
@@ -47,13 +45,6 @@ public class ClickGui
 
     private void setInstance() {
         INSTANCE = this;
-    }
-
-    @Override
-    public void onUpdate() {
-        if (this.customFov.getValue().booleanValue()) {
-            mc.options.getFov().setValue(this.fov.getValue().intValue());
-        }
     }
 
     @Subscribe
