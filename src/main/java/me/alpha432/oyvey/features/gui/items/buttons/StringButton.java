@@ -11,6 +11,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Formatting;
+import org.lwjgl.glfw.GLFW;
 
 public class StringButton
         extends Button {
@@ -62,13 +63,10 @@ public class StringButton
     @Override public void onKeyPressed(int key) {
         if (isListening) {
             switch (key) {
-                case 1: {
-                    return;
-                }
-                case 28: {
+                case GLFW.GLFW_KEY_ENTER: {
                     this.enterString();
                 }
-                case 14: {
+                case GLFW.GLFW_KEY_BACKSPACE: {
                     this.setString(StringButton.removeLastChar(this.currentString.string()));
                 }
             }
