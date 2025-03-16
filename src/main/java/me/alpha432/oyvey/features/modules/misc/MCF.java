@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
 public class MCF extends Module {
     private boolean pressed;
     public MCF() {
-        super("MCF", "", Category.MISC, true, false, false);
+        super("MCF", "Middle click friend", Category.MISC, true, false, false);
     }
 
     @Override public void onTick() {
