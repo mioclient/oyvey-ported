@@ -13,6 +13,7 @@ import me.alpha432.oyvey.features.modules.misc.MCF;
 import me.alpha432.oyvey.features.modules.movement.ReverseStep;
 import me.alpha432.oyvey.features.modules.movement.Step;
 import me.alpha432.oyvey.features.modules.player.FastPlace;
+import me.alpha432.oyvey.features.modules.player.NoFall;
 import me.alpha432.oyvey.features.modules.player.Velocity;
 import me.alpha432.oyvey.features.modules.render.BlockHighlight;
 import me.alpha432.oyvey.util.traits.Jsonable;
@@ -39,6 +40,7 @@ public class ModuleManager implements Jsonable, Util {
         modules.add(new FastPlace());
         modules.add(new Velocity());
         modules.add(new BlockHighlight());
+        modules.add(new NoFall());
     }
 
     public Module getModuleByName(String name) {

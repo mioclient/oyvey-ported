@@ -64,7 +64,7 @@ public class InteractionUtil implements Util {
         ActionResult result = mc.interactionManager.interactBlock(mc.player, hand, new BlockHitResult(
                 Vec3d.ofCenter(pos),  direction, pos, false
         ));
-        if (result.shouldSwingHand()) {
+        if (result instanceof ActionResult.Success success && success.swingSource() != ActionResult.SwingSource.NONE) {
             mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
         }
     }
@@ -86,7 +86,7 @@ public class InteractionUtil implements Util {
                 airPlace ? Vec3d.ofCenter(pos) : Vec3d.ofCenter(pos).offset(direction.getOpposite(), 0.5),
                 airPlace ? direction : direction.getOpposite(), bp, false
         ));
-        if (result.shouldSwingHand()) {
+        if (result instanceof ActionResult.Success success && success.swingSource() != ActionResult.SwingSource.NONE) {
             mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
         }
         return true;

@@ -1,5 +1,8 @@
 package me.alpha432.oyvey.manager;
 
+import com.google.common.eventbus.Subscribe;
+import me.alpha432.oyvey.event.Stage;
+import me.alpha432.oyvey.event.impl.UpdateWalkingPlayerEvent;
 import me.alpha432.oyvey.features.Feature;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
@@ -9,6 +12,22 @@ public class PositionManager
     private double y;
     private double z;
     private boolean onground;
+    private double fallDistance;
+
+    public PositionManager() {
+        EVENT_BUS.register(this);
+    }
+
+    @Subscribe public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
+        if (event.getStage() == Stage.POST) return;
+
+        double diff = mc.player.prevY - mc.player.getY();
+        if (mc.player.isOnGround() || diff <= 0) {
+            fallDistance = 0;
+        } else {
+            fallDistance += diff;
+        }
+    }
 
     public void updatePosition() {
         this.x = mc.player.getX();
@@ -32,7 +51,8 @@ public class PositionManager
     }
 
     public void setPositionPacket(double x, double y, double z, boolean onGround, boolean setPos, boolean noLagBack) {
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, onGround));
+        boolean bl = mc.player.horizontalCollision;
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, onGround, bl));
         if (setPos) {
             mc.player.setPosition(x, y, z);
             if (noLagBack) {
@@ -63,5 +83,9 @@ public class PositionManager
 
     public void setZ(double z) {
         this.z = z;
+    }
+
+    public double getFallDistance() {
+        return fallDistance;
     }
 }
