@@ -13,26 +13,27 @@ import org.lwjgl.glfw.GLFW;
 public class ClickGui
         extends Module {
     private static ClickGui INSTANCE = new ClickGui();
-    public Setting<String> prefix = this.register(new Setting<>("Prefix", "."));
-    public Setting<Integer> red = this.register(new Setting<>("Red", 0, 0, 255));
-    public Setting<Integer> green = this.register(new Setting<>("Green", 0, 0, 255));
-    public Setting<Integer> blue = this.register(new Setting<>("Blue", 255, 0, 255));
-    public Setting<Integer> hoverAlpha = this.register(new Setting<>("Alpha", 180, 0, 255));
-    public Setting<Integer> topRed = this.register(new Setting<>("SecondRed", 0, 0, 255));
-    public Setting<Integer> topGreen = this.register(new Setting<>("SecondGreen", 0, 0, 255));
-    public Setting<Integer> topBlue = this.register(new Setting<>("SecondBlue", 150, 0, 255));
-    public Setting<Integer> alpha = this.register(new Setting<>("HoverAlpha", 240, 0, 255));
-    public Setting<Boolean> rainbow = this.register(new Setting<>("Rainbow", false));
-    public Setting<rainbowMode> rainbowModeHud = this.register(new Setting<>("HRainbowMode", rainbowMode.Static, v -> this.rainbow.getValue()));
-    public Setting<rainbowModeArray> rainbowModeA = this.register(new Setting<>("ARainbowMode", rainbowModeArray.Static, v -> this.rainbow.getValue()));
-    public Setting<Integer> rainbowHue = this.register(new Setting<>("Delay", 240, 0, 600, v -> this.rainbow.getValue()));
-    public Setting<Float> rainbowBrightness = this.register(new Setting<>("Brightness ", 150.0f, 1.0f, 255.0f, v -> this.rainbow.getValue()));
-    public Setting<Float> rainbowSaturation = this.register(new Setting<>("Saturation", 150.0f, 1.0f, 255.0f, v -> this.rainbow.getValue()));
+    public Setting<String> prefix = str("Prefix", ".");
+    public Setting<Integer> red = num("Red", 0, 0, 255);
+    public Setting<Integer> green = num("Green", 0, 0, 255);
+    public Setting<Integer> blue = num("Blue", 255, 0, 255);
+    public Setting<Integer> hoverAlpha = num("Alpha", 180, 0, 255);
+    public Setting<Integer> topRed = num("SecondRed", 0, 0, 255);
+    public Setting<Integer> topGreen = num("SecondGreen", 0, 0, 255);
+    public Setting<Integer> topBlue = num("SecondBlue", 150, 0, 255);
+    public Setting<Integer> alpha = num("HoverAlpha", 240, 0, 255);
+    public Setting<Boolean> rainbow = bool("Rainbow", false);
+    public Setting<Integer> rainbowHue = num("Delay", 240, 0, 600);
+    public Setting<Float> rainbowBrightness = num("Brightness ", 150.0f, 1.0f, 255.0f);
+    public Setting<Float> rainbowSaturation = num("Saturation", 150.0f, 1.0f, 255.0f);
     private OyVeyGui click;
 
     public ClickGui() {
         super("ClickGui", "Opens the ClickGui", Module.Category.CLIENT, true, false, false);
         setBind(GLFW.GLFW_KEY_RIGHT_SHIFT);
+        rainbowHue.setVisibility(v -> rainbow.getValue());
+        rainbowBrightness.setVisibility(v -> rainbow.getValue());
+        rainbowSaturation.setVisibility(v -> rainbow.getValue());
         this.setInstance();
     }
 

@@ -1,13 +1,14 @@
 package me.alpha432.oyvey.features;
 
 import me.alpha432.oyvey.features.settings.Setting;
+import me.alpha432.oyvey.features.settings.SettingFactory;
 import me.alpha432.oyvey.util.traits.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Feature
-        implements Util {
+        implements Util, SettingFactory {
     public List<Setting<?>> settings = new ArrayList<>();
     private String name;
 
@@ -46,27 +47,10 @@ public class Feature
         return !this.isEnabled();
     }
 
-    public <T> Setting<T> register(Setting<T> setting) {
+    public <T extends Setting<?>> T register(T setting) {
         setting.setFeature(this);
         this.settings.add(setting);
-//        if (this instanceof Module && Feature.mc.currentScreen instanceof OyVeyGui) {
-//            OyVeyGui.getInstance().updateModule((Module) this);
-//        }
         return setting;
-    }
-
-    public void unregister(Setting<?> settingIn) {
-        ArrayList<Setting<?>> removeList = new ArrayList<>();
-        for (Setting<?> setting : this.settings) {
-            if (!setting.equals(settingIn)) continue;
-            removeList.add(setting);
-        }
-        if (!removeList.isEmpty()) {
-            this.settings.removeAll(removeList);
-        }
-//        if (this instanceof Module && Feature.mc.currentScreen instanceof OyVeyGui) {
-//            OyVeyGui.getInstance().updateModule((Module) this);
-//        }
     }
 
     public Setting<?> getSettingByName(String name) {

@@ -5,7 +5,8 @@ import me.alpha432.oyvey.features.settings.Setting;
 import net.minecraft.entity.attribute.EntityAttributes;
 
 public class Step extends Module {
-    private final Setting<Float> height = register(new Setting<>("Height", 2f, 1f, 3f, v -> true));
+    private final Setting<Float> height = num("Height", 2f, 1f, 3f);
+
     public Step() {
         super("Step", "step..", Category.MOVEMENT, true, false, false);
     }
