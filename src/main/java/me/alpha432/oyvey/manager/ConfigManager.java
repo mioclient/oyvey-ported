@@ -16,7 +16,6 @@ import java.util.List;
 public class ConfigManager {
     private static final Path OYVEY_PATH = FabricLoader.getInstance().getGameDir().resolve("oyvey");
     private static final Gson gson = new GsonBuilder()
-            .setLenient()
             .setPrettyPrinting()
             .create();
     private final List<Jsonable> jsonables = List.of(OyVey.friendManager, OyVey.moduleManager, OyVey.commandManager);
