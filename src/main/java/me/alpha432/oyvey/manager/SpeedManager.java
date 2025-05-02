@@ -35,8 +35,8 @@ public class SpeedManager
     }
 
     public void updateValues() {
-        double distTraveledLastTickX = mc.player.getX() - mc.player.prevX;
-        double distTraveledLastTickZ = mc.player.getZ() - mc.player.prevZ;
+        double distTraveledLastTickX = mc.player.getX() - mc.player.lastX;
+        double distTraveledLastTickZ = mc.player.getZ() - mc.player.lastZ;
         this.speedometerCurrentSpeed = distTraveledLastTickX * distTraveledLastTickX + distTraveledLastTickZ * distTraveledLastTickZ;
         if (didJumpThisTick && (!mc.player.isOnGround() || isJumping)) {
             if (didJumpThisTick && !this.didJumpLastTick) {
@@ -59,8 +59,8 @@ public class SpeedManager
         for (PlayerEntity player : mc.world.getPlayers()) {
             if (!(mc.player.distanceTo(player) < distancer))
                 continue;
-            double distTraveledLastTickX = player.getX() - player.prevX;
-            double distTraveledLastTickZ = player.getZ() - player.prevZ;
+            double distTraveledLastTickX = player.getX() - player.lastX;
+            double distTraveledLastTickZ = player.getZ() - player.lastZ;
             double playerSpeed = distTraveledLastTickX * distTraveledLastTickX + distTraveledLastTickZ * distTraveledLastTickZ;
             this.playerSpeeds.put(player, playerSpeed);
         }

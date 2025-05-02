@@ -22,20 +22,8 @@ public class MixinInGameHud {
         if (MinecraftClient.getInstance().inGameHud.getDebugHud().shouldShowDebugHud()) return;
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-        RenderSystem.disableCull();
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-
-
-        Render2DEvent event = new Render2DEvent(context, tickCounter.getTickDelta(true));
+        Render2DEvent event = new Render2DEvent(context, tickCounter.getTickProgress(true));
         EVENT_BUS.post(event);
-
-        RenderSystem.enableDepthTest();
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
-
     }
 
 }

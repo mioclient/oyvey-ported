@@ -21,7 +21,7 @@ public class PositionManager
     @Subscribe public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         if (event.getStage() == Stage.POST) return;
 
-        double diff = mc.player.prevY - mc.player.getY();
+        double diff = mc.player.lastY - mc.player.getY();
         if (mc.player.isOnGround() || diff <= 0) {
             fallDistance = 0;
         } else {

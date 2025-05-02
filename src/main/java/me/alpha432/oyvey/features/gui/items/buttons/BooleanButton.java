@@ -5,7 +5,7 @@ import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.settings.Setting;
-import me.alpha432.oyvey.util.RenderUtil;
+import me.alpha432.oyvey.util.render.RenderUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;

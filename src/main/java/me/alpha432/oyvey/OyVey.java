@@ -26,7 +26,6 @@ public class OyVey implements ModInitializer, ClientModInitializer {
     public static ModuleManager moduleManager;
     public static ConfigManager configManager;
 
-
     @Override public void onInitialize() {
         eventManager = new EventManager();
         serverManager = new ServerManager();
@@ -39,7 +38,6 @@ public class OyVey implements ModInitializer, ClientModInitializer {
         speedManager = new SpeedManager();
         holeManager = new HoleManager();
     }
-
 
     @Override public void onInitializeClient() {
         eventManager.init();

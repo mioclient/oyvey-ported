@@ -103,7 +103,7 @@ public class InteractionUtil implements Util {
     }
 
     public static double getBlockBreakingSpeed(int slot, BlockState block) {
-        double speed = mc.player.getInventory().main.get(slot).getMiningSpeedMultiplier(block);
+        double speed = mc.player.getInventory().getMainStacks().get(slot).getMiningSpeedMultiplier(block);
 
         if (speed > 1) {
             ItemStack tool = mc.player.getInventory().getStack(slot);
@@ -139,7 +139,7 @@ public class InteractionUtil implements Util {
         float hardness = block.getHardness(null, null);
         if (hardness == -1) return 0;
 
-        speed /= hardness / (!block.isToolRequired() || mc.player.getInventory().main.get(slot).isSuitableFor(block) ? 30 : 100);
+        speed /= hardness / (!block.isToolRequired() || mc.player.getInventory().getMainStacks().get(slot).isSuitableFor(block) ? 30 : 100);
 
         float ticks = ( float ) (Math.floor(1.0f / speed) + 1.0f);
 
