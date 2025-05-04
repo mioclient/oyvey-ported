@@ -63,13 +63,7 @@ public class ModuleButton
                         item.setLocation(this.x + 1.0f, this.y + (height += 15.0f));
                         item.setHeight(15);
                         item.setWidth(this.width - 9);
-                        if(item.isHovering(mouseX, mouseY)) {
-                            ScissorUtil.disable(context);
-                        }
                         item.drawScreen(context, mouseX, mouseY, partialTicks);
-                        if(item.isHovering(mouseX, mouseY)) {
-                            ScissorUtil.enable(context);
-                        }
                     }
                     item.update();
                 }
