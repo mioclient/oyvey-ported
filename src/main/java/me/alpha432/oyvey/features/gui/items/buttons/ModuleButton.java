@@ -5,6 +5,7 @@ import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.Setting;
+import me.alpha432.oyvey.util.render.ScissorUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
@@ -62,7 +63,13 @@ public class ModuleButton
                         item.setLocation(this.x + 1.0f, this.y + (height += 15.0f));
                         item.setHeight(15);
                         item.setWidth(this.width - 9);
+                        if(item.isHovering(mouseX, mouseY)) {
+                            ScissorUtil.disable(context);
+                        }
                         item.drawScreen(context, mouseX, mouseY, partialTicks);
+                        if(item.isHovering(mouseX, mouseY)) {
+                            ScissorUtil.enable(context);
+                        }
                     }
                     item.update();
                 }

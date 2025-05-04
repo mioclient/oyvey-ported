@@ -6,6 +6,7 @@ import me.alpha432.oyvey.features.gui.items.buttons.Button;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.util.ColorUtil;
 import me.alpha432.oyvey.util.render.RenderUtil;
+import me.alpha432.oyvey.util.render.ScissorUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
@@ -28,6 +29,7 @@ public class Component
     private int height;
     private boolean open;
     private boolean hidden = false;
+    private float fullHeight = Float.NaN;
 
     public Component(String name, int x, int y, boolean open) {
         super(name);
@@ -61,6 +63,8 @@ public class Component
             RenderUtil.rect(context.getMatrices(), this.x, (float) this.y + 12.5f, this.x + this.width, (float) (this.y + this.height) + totalItemHeight, 0x77000000);
         }
         drawString(this.getName(), (float) this.x + 3.0f, (float) this.y - 4.0f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
+        ScissorUtil.enable(context, x, 0, x + width, mc.getWindow().getScaledHeight());
+
         if (this.open) {
             float y = (float) (this.getY() + this.getHeight()) - 3.0f;
             for (Item item : this.getItems()) {
@@ -68,10 +72,19 @@ public class Component
                 if (item.isHidden()) continue;
                 item.setLocation((float) this.x + 2.0f, y);
                 item.setWidth(this.getWidth() - 4);
+                if(item.isHovering(mouseX, mouseY)) {
+                    ScissorUtil.disable(context);
+                }
                 item.drawScreen(context, mouseX, mouseY, partialTicks);
+
+                if(item.isHovering(mouseX, mouseY)) {
+                    ScissorUtil.enable(context);
+                }
                 y += (float) item.getHeight() + 1.5f;
             }
         }
+
+        ScissorUtil.disable(context);
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
@@ -171,7 +184,7 @@ public class Component
         return this.items;
     }
 
-    private boolean isHovering(int mouseX, int mouseY) {
+    public boolean isHovering(int mouseX, int mouseY) {
         return mouseX >= this.getX() && mouseX <= this.getX() + this.getWidth() && mouseY >= this.getY() && mouseY <= this.getY() + this.getHeight() - (this.open ? 2 : 0);
     }
 
