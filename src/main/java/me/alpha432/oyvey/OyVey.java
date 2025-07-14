@@ -1,6 +1,7 @@
 package me.alpha432.oyvey;
 
 import me.alpha432.oyvey.manager.*;
+import me.alpha432.oyvey.util.TextUtil;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.SharedConstants;
@@ -37,6 +38,8 @@ public class OyVey implements ModInitializer, ClientModInitializer {
         moduleManager = new ModuleManager();
         speedManager = new SpeedManager();
         holeManager = new HoleManager();
+
+        TextUtil.init();
     }
 
     @Override public void onInitializeClient() {
