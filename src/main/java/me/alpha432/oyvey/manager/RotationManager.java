@@ -2,9 +2,9 @@ package me.alpha432.oyvey.manager;
 
 import me.alpha432.oyvey.util.MathUtil;
 import me.alpha432.oyvey.util.traits.Util;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.entity.Entity;
 
 public class RotationManager implements Util {
     private float yaw;

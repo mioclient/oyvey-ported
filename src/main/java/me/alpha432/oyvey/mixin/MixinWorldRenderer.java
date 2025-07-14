@@ -1,7 +1,11 @@
 package me.alpha432.oyvey.mixin;
+
 import com.llamalad7.mixinextras.sugar.Local;
 import me.alpha432.oyvey.event.impl.Render3DEvent;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.ObjectAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.RotationAxis;
@@ -15,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 import static me.alpha432.oyvey.util.traits.Util.mc;
 
-@Mixin( WorldRenderer.class )
+@Mixin(WorldRenderer.class)
 public class MixinWorldRenderer {
     @Inject(method = "render", at = @At("RETURN"))
     private void render(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline,

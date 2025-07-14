@@ -77,15 +77,18 @@ public class EventManager extends Feature {
         OyVey.moduleManager.onRender3D(event);
     }
 
-    @Subscribe public void onRenderGameOverlayEvent(Render2DEvent event) {
+    @Subscribe
+    public void onRenderGameOverlayEvent(Render2DEvent event) {
         OyVey.moduleManager.onRender2D(event);
     }
 
-    @Subscribe public void onKeyInput(KeyEvent event) {
+    @Subscribe
+    public void onKeyInput(KeyEvent event) {
         OyVey.moduleManager.onKeyPressed(event.getKey());
     }
 
-    @Subscribe public void onChatSent(ChatEvent event) {
+    @Subscribe
+    public void onChatSent(ChatEvent event) {
         if (event.getMessage().startsWith(Command.getCommandPrefix())) {
             event.cancel();
             try {

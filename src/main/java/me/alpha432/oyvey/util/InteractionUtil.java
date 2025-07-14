@@ -2,8 +2,6 @@ package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.util.traits.Util;
 import net.minecraft.block.BlockState;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -60,9 +58,9 @@ public class InteractionUtil implements Util {
 
     public static void useItem(BlockPos pos, Hand hand) {
         if (mc.world == null || mc.player == null || mc.interactionManager == null) return;
-        Direction direction = mc.crosshairTarget != null ? (( BlockHitResult ) mc.crosshairTarget).getSide() : Direction.DOWN;
+        Direction direction = mc.crosshairTarget != null ? ((BlockHitResult) mc.crosshairTarget).getSide() : Direction.DOWN;
         ActionResult result = mc.interactionManager.interactBlock(mc.player, hand, new BlockHitResult(
-                Vec3d.ofCenter(pos),  direction, pos, false
+                Vec3d.ofCenter(pos), direction, pos, false
         ));
         if (result instanceof ActionResult.Success success && success.swingSource() != ActionResult.SwingSource.NONE) {
             mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
@@ -78,7 +76,8 @@ public class InteractionUtil implements Util {
         if (!isPlaceable(pos, false)) return false;
         Direction direction = calcSide(pos);
         if (direction == null) {
-            if (airPlace) direction = mc.crosshairTarget != null ? (( BlockHitResult ) mc.crosshairTarget).getSide() : Direction.DOWN;
+            if (airPlace)
+                direction = mc.crosshairTarget != null ? ((BlockHitResult) mc.crosshairTarget).getSide() : Direction.DOWN;
             else return false;
         }
         BlockPos bp = airPlace ? pos : pos.offset(direction);
@@ -141,14 +140,14 @@ public class InteractionUtil implements Util {
 
         speed /= hardness / (!block.isToolRequired() || mc.player.getInventory().getMainStacks().get(slot).isSuitableFor(block) ? 30 : 100);
 
-        float ticks = ( float ) (Math.floor(1.0f / speed) + 1.0f);
+        float ticks = (float) (Math.floor(1.0f / speed) + 1.0f);
 
-        return ( long ) ((ticks / 20.0f) * 1000);
+        return (long) ((ticks / 20.0f) * 1000);
     }
 
     public static Direction right(Direction direction) {
         return switch (direction) {
-            case EAST  -> Direction.SOUTH;
+            case EAST -> Direction.SOUTH;
             case SOUTH -> Direction.WEST;
             case WEST -> Direction.NORTH;
             case NORTH -> Direction.EAST;
@@ -158,7 +157,7 @@ public class InteractionUtil implements Util {
 
     public static Direction left(Direction direction) {
         return switch (direction) {
-            case EAST  -> Direction.NORTH;
+            case EAST -> Direction.NORTH;
             case NORTH -> Direction.WEST;
             case WEST -> Direction.SOUTH;
             case SOUTH -> Direction.EAST;

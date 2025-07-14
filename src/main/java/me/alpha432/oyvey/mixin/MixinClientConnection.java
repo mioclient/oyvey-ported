@@ -16,11 +16,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 
-@Mixin( ClientConnection.class )
+@Mixin(ClientConnection.class)
 public class MixinClientConnection {
 
-    @Shadow private Channel channel;
-    @Shadow @Final private NetworkSide side;
+    @Shadow
+    private Channel channel;
+    @Shadow
+    @Final
+    private NetworkSide side;
 
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
     public void channelRead0(ChannelHandlerContext chc, Packet<?> packet, CallbackInfo ci) {

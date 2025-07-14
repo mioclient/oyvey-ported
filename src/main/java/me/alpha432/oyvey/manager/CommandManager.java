@@ -89,17 +89,20 @@ public class CommandManager
         this.prefix = prefix;
     }
 
-    @Override public JsonElement toJson() {
+    @Override
+    public JsonElement toJson() {
         JsonObject object = new JsonObject();
         object.addProperty("prefix", prefix);
         return object;
     }
 
-    @Override public void fromJson(JsonElement element) {
+    @Override
+    public void fromJson(JsonElement element) {
         setPrefix(element.getAsJsonObject().get("prefix").getAsString());
     }
 
-    @Override public String getFileName() {
+    @Override
+    public String getFileName() {
         return "commands.json";
     }
 }

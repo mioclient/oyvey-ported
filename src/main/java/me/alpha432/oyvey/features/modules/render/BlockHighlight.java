@@ -15,7 +15,8 @@ public class BlockHighlight extends Module {
         super("BlockHighlight", "Draws box at the block that you are looking at", Category.RENDER, true, false, false);
     }
 
-    @Subscribe public void onRender3D(Render3DEvent event) {
+    @Subscribe
+    public void onRender3D(Render3DEvent event) {
         if (mc.crosshairTarget instanceof BlockHitResult result) {
             VoxelShape shape = mc.world.getBlockState(result.getBlockPos()).getOutlineShape(mc.world, result.getBlockPos());
             if (shape.isEmpty()) return;

@@ -123,7 +123,8 @@ public class Module extends Feature implements Jsonable {
         Command.sendMessage(Formatting.RED + "A module of this name already exists.");
     }
 
-    @Override public boolean isEnabled() {
+    @Override
+    public boolean isEnabled() {
         return isOn();
     }
 
@@ -163,7 +164,8 @@ public class Module extends Feature implements Jsonable {
         return this.getDisplayName() + Formatting.GRAY + (this.getDisplayInfo() != null ? " [" + Formatting.WHITE + this.getDisplayInfo() + Formatting.GRAY + "]" : "");
     }
 
-    @Override public JsonElement toJson() {
+    @Override
+    public JsonElement toJson() {
         JsonObject object = new JsonObject();
         for (Setting<?> setting : getSettings()) {
             try {
@@ -178,7 +180,8 @@ public class Module extends Feature implements Jsonable {
         return object;
     }
 
-    @Override public void fromJson(JsonElement element) {
+    @Override
+    public void fromJson(JsonElement element) {
         JsonObject object = element.getAsJsonObject();
         String enabled = object.get("Enabled").getAsString();
         if (Boolean.parseBoolean(enabled)) toggle();

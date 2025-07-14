@@ -7,7 +7,8 @@ import net.minecraft.util.Util;
 import java.util.OptionalDouble;
 import java.util.function.Function;
 
-import static me.alpha432.oyvey.util.render.Pipelines.*;
+import static me.alpha432.oyvey.util.render.Pipelines.GLOBAL_LINES_PIPELINE;
+import static me.alpha432.oyvey.util.render.Pipelines.GLOBAL_QUADS_PIPELINE;
 
 public class Layers {
     private static final RenderLayer GLOBAL_QUADS;

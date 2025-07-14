@@ -21,7 +21,8 @@ public class HoleManager extends Feature {
         EVENT_BUS.register(this);
     }
 
-    @Subscribe private void onTick(UpdateEvent event) {
+    @Subscribe
+    private void onTick(UpdateEvent event) {
         holes.clear();
         for (int x = -range; x < range; x++) {
             for (int y = -range; y < range; y++) {
@@ -35,7 +36,8 @@ public class HoleManager extends Feature {
         }
     }
 
-    @Nullable public Hole getHole(BlockPos pos) {
+    @Nullable
+    public Hole getHole(BlockPos pos) {
         if (mc.world.getBlockState(pos).getBlock() != Blocks.AIR)
             return null;
         HoleType type = HoleType.BEDROCK;

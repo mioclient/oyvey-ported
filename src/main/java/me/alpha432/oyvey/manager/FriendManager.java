@@ -32,7 +32,8 @@ public class FriendManager implements Jsonable {
         return this.friends;
     }
 
-    @Override public JsonElement toJson() {
+    @Override
+    public JsonElement toJson() {
         JsonObject object = new JsonObject();
         JsonArray array = new JsonArray();
         for (String friend : friends) {
@@ -42,13 +43,15 @@ public class FriendManager implements Jsonable {
         return object;
     }
 
-    @Override public void fromJson(JsonElement element) {
+    @Override
+    public void fromJson(JsonElement element) {
         for (JsonElement e : element.getAsJsonObject().get("friends").getAsJsonArray()) {
             friends.add(e.getAsString());
         }
     }
 
-    @Override public String getFileName() {
+    @Override
+    public String getFileName() {
         return "friends.json";
     }
 }

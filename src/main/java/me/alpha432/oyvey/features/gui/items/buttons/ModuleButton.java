@@ -5,11 +5,9 @@ import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.Setting;
-import me.alpha432.oyvey.util.render.ScissorUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +97,8 @@ public class ModuleButton
         }
     }
 
-    @Override public void onKeyPressed(int key) {
+    @Override
+    public void onKeyPressed(int key) {
         super.onKeyPressed(key);
         if (!this.items.isEmpty() && this.subOpen) {
             for (Item item : this.items) {

@@ -10,7 +10,8 @@ public class HudModule extends Module {
         super("Hud", "hud", Category.CLIENT, true, false, false);
     }
 
-    @Override public void onRender2D(Render2DEvent event) {
+    @Override
+    public void onRender2D(Render2DEvent event) {
         event.getContext().drawTextWithShadow(
                 mc.textRenderer,
                 TextUtil.text("{global} %s {} %s", OyVey.NAME, OyVey.VERSION),

@@ -72,12 +72,12 @@ public class Component
                 if (item.isHidden()) continue;
                 item.setLocation((float) this.x + 2.0f, y);
                 item.setWidth(this.getWidth() - 4);
-                if(item.isHovering(mouseX, mouseY)) {
+                if (item.isHovering(mouseX, mouseY)) {
                     ScissorUtil.disable(context);
                 }
                 item.drawScreen(context, mouseX, mouseY, partialTicks);
 
-                if(item.isHovering(mouseX, mouseY)) {
+                if (item.isHovering(mouseX, mouseY)) {
                     ScissorUtil.enable(context);
                 }
                 y += (float) item.getHeight() + 1.5f;

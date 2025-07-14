@@ -11,7 +11,9 @@ public class Velocity extends Module {
         super("Velocity", "Removes velocity from explosions and entities", Category.PLAYER, true, false, false);
     }
 
-    @Subscribe private void onPacketReceive(PacketEvent.Receive event) {
-        if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket || event.getPacket() instanceof ExplosionS2CPacket) event.cancel();
+    @Subscribe
+    private void onPacketReceive(PacketEvent.Receive event) {
+        if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket || event.getPacket() instanceof ExplosionS2CPacket)
+            event.cancel();
     }
 }

@@ -2,6 +2,8 @@ package me.alpha432.oyvey.features.commands;
 
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.Feature;
+import me.alpha432.oyvey.util.TextUtil;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -23,16 +25,23 @@ public abstract class Command
         this.commands = commands;
     }
 
-    public static void sendMessage(String message) {
-        Command.sendSilentMessage(OyVey.commandManager.getClientMessage() + " " + Formatting.GRAY + message);
+    public static void sendMessage(String message, Object... obj) {
+        sendMessage(TextUtil.text(message, obj));
     }
 
-    public static void sendSilentMessage(String message) {
+    public static void sendMessage(Text message) {
+        MutableText text = Text.empty();
+        text.append(OyVey.commandManager.getClientMessage() + " " + Formatting.GRAY);
+        text.append(message);
+        Command.sendSilentMessage(text);
+    }
+
+    public static void sendSilentMessage(Text message) {
         if (Command.nullCheck()) {
             return;
         }
         // TODO add silent support ig
-        mc.inGameHud.getChatHud().addMessage(Text.literal(message));
+        mc.inGameHud.getChatHud().addMessage(message);
     }
 
     public static String getCommandPrefix() {

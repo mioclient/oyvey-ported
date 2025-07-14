@@ -35,7 +35,7 @@ public class ModuleCommand
                 ModuleCommand.sendMessage("This module doesnt exist.");
                 return;
             }
-            ModuleCommand.sendMessage(" This is the original name of the module. Its current name is: " + module.getDisplayName());
+            ModuleCommand.sendMessage(" This is the original name of the module. Its current name is: %s", module.getDisplayName());
             return;
         }
         if (commands.length == 2) {
@@ -65,7 +65,7 @@ public class ModuleCommand
             JsonParser jp = new JsonParser();
             if (setting.getType().equalsIgnoreCase("String")) {
                 setting.setValue(commands[3]);
-                ModuleCommand.sendMessage(Formatting.DARK_GRAY + module.getName() + " " + setting.getName() + " has been set to " + commands[3] + ".");
+                ModuleCommand.sendMessage("{dark_gray} %s %s has been set to %s.", module.getName(), setting.getName(), commands[3]);
                 return;
             }
             try {
@@ -79,10 +79,10 @@ public class ModuleCommand
                 }
                 ConfigManager.setValueFromJson(module, setting, jp.parse(commands[3]));
             } catch (Exception e) {
-                ModuleCommand.sendMessage("Bad Value! This setting requires a: " + setting.getType() + " value.");
+                ModuleCommand.sendMessage("Bad Value! This setting requires a: %s value.", setting.getType());
                 return;
             }
-            ModuleCommand.sendMessage(Formatting.GRAY + module.getName() + " " + setting.getName() + " has been set to " + commands[3] + ".");
+            ModuleCommand.sendMessage("{gray} %s %s has been set tot %s.", module.getName(), setting.getName(), commands[3]);
         }
     }
 }
