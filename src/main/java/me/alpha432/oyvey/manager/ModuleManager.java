@@ -181,7 +181,7 @@ public class ModuleManager implements Jsonable, Util {
     }
 
     public void onKeyPressed(int eventKey) {
-        if (eventKey <= 0) return;
+        if (eventKey <= 0 || mc.currentScreen != null) return;
         this.modules.forEach(module -> {
             if (module.getBind().getKey() == eventKey) {
                 module.toggle();
