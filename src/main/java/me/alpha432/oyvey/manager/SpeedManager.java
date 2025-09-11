@@ -1,6 +1,7 @@
 package me.alpha432.oyvey.manager;
 
 import me.alpha432.oyvey.features.Feature;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.HashMap;
@@ -34,8 +35,14 @@ public class SpeedManager
     }
 
     public void updateValues() {
+        Entity e = mc.player.getVehicle();
         double distTraveledLastTickX = mc.player.getX() - mc.player.lastX;
         double distTraveledLastTickZ = mc.player.getZ() - mc.player.lastZ;
+        if (e != null) {
+            distTraveledLastTickX = e.getX() - e.lastX;
+            distTraveledLastTickZ = e.getZ() - e.lastZ;
+        }
+
         this.speedometerCurrentSpeed = distTraveledLastTickX * distTraveledLastTickX + distTraveledLastTickZ * distTraveledLastTickZ;
         if (didJumpThisTick && (!mc.player.isOnGround() || isJumping)) {
             if (didJumpThisTick && !this.didJumpLastTick) {
