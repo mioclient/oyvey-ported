@@ -171,6 +171,10 @@ public class Module extends Feature implements Jsonable {
             try {
                 if (setting.getValue() instanceof Bind bind) {
                     object.addProperty(setting.getName(), bind.getKey());
+                } else if (setting.getValue() instanceof java.awt.Color color) {
+                    object.addProperty(setting.getName(), color.getRed() + "," + color.getGreen() + "," + color.getBlue() + "," + color.getAlpha());
+                } else if (setting.getValue() instanceof me.alpha432.oyvey.features.settings.Pos pos) {
+                    object.addProperty(setting.getName(), pos.getX() + "," + pos.getY());
                 } else {
                     object.addProperty(setting.getName(), setting.getValueAsString());
                 }
@@ -182,13 +186,20 @@ public class Module extends Feature implements Jsonable {
 
     @Override
     public void fromJson(JsonElement element) {
+        if (element == null || element.isJsonNull()) return;
         JsonObject object = element.getAsJsonObject();
-        String enabled = object.get("Enabled").getAsString();
-        if (Boolean.parseBoolean(enabled)) toggle();
+        if (object.has("Enabled")) {
+            String enabled = object.get("Enabled").getAsString();
+            if (Boolean.parseBoolean(enabled)) toggle();
+        }
         for (Setting<?> setting : getSettings()) {
             try {
-                ConfigManager.setValueFromJson(this, setting, object.get(setting.getName()));
+                JsonElement settingElement = object.get(setting.getName());
+                if (settingElement != null && !settingElement.isJsonNull()) {
+                    ConfigManager.setValueFromJson(this, setting, settingElement);
+                }
             } catch (Throwable throwable) {
+                throwable.printStackTrace();
             }
         }
     }
@@ -199,7 +210,8 @@ public class Module extends Feature implements Jsonable {
         RENDER("Render"),
         MOVEMENT("Movement"),
         PLAYER("Player"),
-        CLIENT("Client");
+        CLIENT("Client"),
+        HUD("Hud");
 
         private final String name;
 

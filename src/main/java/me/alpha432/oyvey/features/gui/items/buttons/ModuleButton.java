@@ -37,6 +37,10 @@ public class ModuleButton
                 if ((setting.getValue() instanceof String || setting.getValue() instanceof Character) && !setting.getName().equalsIgnoreCase("displayName")) {
                     newItems.add(new StringButton((Setting<String>) setting));
                 }
+                if (setting.isColorSetting()) {
+                    newItems.add(new ColorButton((Setting<java.awt.Color>) setting));
+                    continue;
+                }
                 if (setting.isNumberSetting() && setting.hasRestriction()) {
                     newItems.add(new Slider((Setting<Number>) setting));
                     continue;
@@ -54,14 +58,14 @@ public class ModuleButton
         super.drawScreen(context, mouseX, mouseY, partialTicks);
         if (!this.items.isEmpty()) {
             if (this.subOpen) {
-                float height = 1.0f;
+                float height = 14.0f;
                 for (Item item : this.items) {
                     Component.counter1[0] = Component.counter1[0] + 1;
                     if (!item.isHidden()) {
-                        item.setLocation(this.x + 1.0f, this.y + (height += 15.0f));
-                        item.setHeight(15);
+                        item.setLocation(this.x + 1.0f, this.y + height);
                         item.setWidth(this.width - 9);
                         item.drawScreen(context, mouseX, mouseY, partialTicks);
+                        height += item.getHeight() + 1;
                     }
                     item.update();
                 }
@@ -82,6 +86,17 @@ public class ModuleButton
                     if (item.isHidden()) continue;
                     item.mouseClicked(mouseX, mouseY, mouseButton);
                 }
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(int mouseX, int mouseY, int releaseButton) {
+        super.mouseReleased(mouseX, mouseY, releaseButton);
+        if (!this.items.isEmpty() && this.subOpen) {
+            for (Item item : this.items) {
+                if (item.isHidden()) continue;
+                item.mouseReleased(mouseX, mouseY, releaseButton);
             }
         }
     }
