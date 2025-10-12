@@ -40,19 +40,17 @@ public abstract class HudModule extends Module {
 
     @Subscribe
     public void onRender2DHud(Render2DEvent e) {
-        if (!(mc.currentScreen instanceof HudEditorScreen) || fullNullCheck()) return;
+        if (!(mc.currentScreen instanceof HudEditorScreen) || fullNullCheck() || OyVey.hudEditorScreen == null) return;
 
         float x = getX();
         float y = getY();
 
         if (button) {
-            if (!dragging && isHovering() && (OyVey.hudEditorScreen == null || !OyVey.hudEditorScreen.anyHover)) {
+            if (!dragging && isHovering() && OyVey.hudEditorScreen.currentDragging == null) {
                 dragX = getMouseX() - x;
                 dragY = getMouseY() - y;
                 dragging = true;
-                if (OyVey.hudEditorScreen != null) {
-                    OyVey.hudEditorScreen.currentDragging = this;
-                }
+                OyVey.hudEditorScreen.currentDragging = this;
             }
 
             if (dragging) {
@@ -68,7 +66,12 @@ public abstract class HudModule extends Module {
             dragging = false;
         }
 
-        if (isHovering()) {
+        boolean shouldDrawDescription = isHovering() && !OyVey.hudEditorScreen.anyHover;
+        if (OyVey.hudEditorScreen.currentDragging != null) {
+            shouldDrawDescription = OyVey.hudEditorScreen.currentDragging == this;
+        }
+
+        if (shouldDrawDescription) {
             int textWidth = mc.textRenderer.getWidth(getName());
             int textHeight = mc.textRenderer.fontHeight;
             float textX = x + width + 5;
@@ -77,6 +80,7 @@ public abstract class HudModule extends Module {
             }
             e.getContext().drawTextWithShadow(mc.textRenderer, getName(),
                     (int) textX, (int) (y + height / 2f - textHeight / 2f), -1);
+            OyVey.hudEditorScreen.anyHover = true;
         }
 
         RenderUtil.rect(e.getContext().getMatrices(),
@@ -93,7 +97,9 @@ public abstract class HudModule extends Module {
             button = false;
             dragging = false;
             OyVey.hudEditorScreen.currentDragging = null;
-        } else if (e.getAction() == 1 && isHovering() && OyVey.hudEditorScreen.currentDragging == null) {
+        }
+
+        if (e.getAction() == 1 && isHovering()) {
             button = true;
         }
     }
