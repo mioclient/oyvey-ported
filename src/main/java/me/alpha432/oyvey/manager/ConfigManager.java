@@ -61,7 +61,7 @@ public class ConfigManager {
                         setting.setValue(new Color(r, g, b, a));
                     }
                 } catch (Exception exception) {
-                    OyVey.LOGGER.error("Error parsing color for: " + feature.getName() + " : " + setting.getName());
+                    OyVey.LOGGER.error("Error parsing color for: {} : {}", feature.getName(), setting.getName());
                 }
             }
             case "Pos" -> {
@@ -74,19 +74,19 @@ public class ConfigManager {
                         setting.setValue(new Vector2f(x, y));
                     }
                 } catch (Exception exception) {
-                    OyVey.LOGGER.error("Error parsing position for: " + feature.getName() + " : " + setting.getName());
+                    OyVey.LOGGER.error("Error parsing position for: {} : {}", feature.getName(), setting.getName());
                 }
             }
             case "Enum" -> {
                 try {
                     EnumConverter converter = new EnumConverter((Class<? extends Enum<?>>) setting.getValue().getClass());
                     Enum value = converter.doBackward(element);
-                    setting.setValue((value == null) ? setting.getDefaultValue() : value);
+                    setting.setValue(value);
                 } catch (Exception exception) {
                 }
             }
             default -> {
-                OyVey.LOGGER.error("Unknown Setting type for: " + feature.getName() + " : " + setting.getName());
+                OyVey.LOGGER.error("Unknown Setting type for: {} : {}", feature.getName(), setting.getName());
             }
         }
     }
