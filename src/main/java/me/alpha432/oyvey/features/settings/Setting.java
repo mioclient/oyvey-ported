@@ -2,7 +2,9 @@ package me.alpha432.oyvey.features.settings;
 
 import me.alpha432.oyvey.event.impl.ClientEvent;
 import me.alpha432.oyvey.features.Feature;
+import org.joml.Vector2f;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
@@ -167,7 +169,7 @@ public class Setting<T> {
 
     public int getEnum(String input) {
         for (int i = 0; i < this.value.getClass().getEnumConstants().length; ++i) {
-            Enum e = (Enum) this.value.getClass().getEnumConstants()[i];
+            Enum<?> e = (Enum<?>) this.value.getClass().getEnumConstants()[i];
             if (!e.name().equalsIgnoreCase(input)) continue;
             return i;
         }
@@ -175,18 +177,18 @@ public class Setting<T> {
     }
 
     public void setEnumValue(String value) {
-        for (Enum e : (Enum[]) ((Enum) this.value).getClass().getEnumConstants()) {
+        for (Enum<?> e : ((Enum<?>) this.value).getClass().getEnumConstants()) {
             if (!e.name().equalsIgnoreCase(value)) continue;
             this.value = (T) e;
         }
     }
 
     public String currentEnumName() {
-        return EnumConverter.getProperName((Enum) this.value);
+        return EnumConverter.getProperName((Enum<?>) this.value);
     }
 
     public int currentEnum() {
-        return EnumConverter.currentEnum((Enum) this.value);
+        return EnumConverter.currentEnum((Enum<?>) this.value);
     }
 
     public void increaseEnum() {
@@ -211,29 +213,26 @@ public class Setting<T> {
         if (this.isColorSetting()) {
             return "Color";
         }
-        if (this.isPoseSetting()) {
+        if (this.isVec2fSetting()) {
             return "Pos";
         }
         return this.getClassName(this.defaultValue);
     }
 
-    public <T> String getClassName(T value) {
+    public <K> String getClassName(K value) {
         return value.getClass().getSimpleName();
     }
 
     public String getDescription() {
-        if (this.description == null) {
-            return "";
-        }
-        return this.description;
+        return Objects.requireNonNullElse(this.description, "");
     }
 
     public boolean isNumberSetting() {
-        return this.value instanceof Double || this.value instanceof Integer || this.value instanceof Short || this.value instanceof Long || this.value instanceof Float;
+        return this.value instanceof Number;
     }
 
     public boolean isEnumSetting() {
-        return !this.isNumberSetting() && !(this.value instanceof String) && !(this.value instanceof Bind) && !(this.value instanceof Character) && !(this.value instanceof Boolean) && !this.isColorSetting() && !this.isPoseSetting();
+        return this.value instanceof Enum<?>;
     }
 
     public boolean isStringSetting() {
@@ -244,8 +243,8 @@ public class Setting<T> {
         return this.value instanceof java.awt.Color;
     }
 
-    public boolean isPoseSetting() {
-        return this.value instanceof Pos;
+    public boolean isVec2fSetting() {
+        return this.value instanceof Vector2f;
     }
 
     public T getDefaultValue() {
@@ -265,9 +264,6 @@ public class Setting<T> {
     }
 
     public boolean isVisible() {
-        if (this.visibility == null) {
-            return true;
-        }
-        return this.visibility.test(this.getValue());
+        return this.visibility == null || this.visibility.test(this.getValue());
     }
 }

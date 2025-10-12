@@ -1,5 +1,7 @@
 package me.alpha432.oyvey.features.settings;
 
+import org.joml.Vector2f;
+
 import java.awt.Color;
 
 public interface SettingFactory {
@@ -33,12 +35,12 @@ public interface SettingFactory {
         return register(new Setting<>(name, new Color(r, g, b, a)));
     }
 
-    default Setting<Pos> pos(String name, Pos value) {
+    default Setting<Vector2f> vec2f(String name, Vector2f value) {
         return register(new Setting<>(name, value));
     }
 
-    default Setting<Pos> pos(String name, float x, float y) {
-        return register(new Setting<>(name, new Pos(x, y)));
+    default Setting<Vector2f> vec2f(String name, float x, float y) {
+        return register(new Setting<>(name, new Vector2f(x, y)));
     }
 
 }

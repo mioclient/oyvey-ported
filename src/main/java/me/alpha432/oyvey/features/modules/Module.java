@@ -13,6 +13,7 @@ import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.ConfigManager;
 import me.alpha432.oyvey.util.traits.Jsonable;
 import net.minecraft.util.Formatting;
+import org.joml.Vector2f;
 
 public class Module extends Feature implements Jsonable {
     private final String description;
@@ -173,8 +174,8 @@ public class Module extends Feature implements Jsonable {
                     object.addProperty(setting.getName(), bind.getKey());
                 } else if (setting.getValue() instanceof java.awt.Color color) {
                     object.addProperty(setting.getName(), color.getRed() + "," + color.getGreen() + "," + color.getBlue() + "," + color.getAlpha());
-                } else if (setting.getValue() instanceof me.alpha432.oyvey.features.settings.Pos pos) {
-                    object.addProperty(setting.getName(), pos.getX() + "," + pos.getY());
+                } else if (setting.getValue() instanceof Vector2f pos) {
+                    object.addProperty(setting.getName(), pos.x() + "," + pos.y());
                 } else {
                     object.addProperty(setting.getName(), setting.getValueAsString());
                 }

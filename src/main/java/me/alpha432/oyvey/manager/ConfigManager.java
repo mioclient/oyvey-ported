@@ -11,6 +11,7 @@ import me.alpha432.oyvey.features.settings.EnumConverter;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.traits.Jsonable;
 import net.fabricmc.loader.api.FabricLoader;
+import org.joml.Vector2f;
 
 import java.awt.Color;
 import java.nio.file.Files;
@@ -70,7 +71,7 @@ public class ConfigManager {
                     if (parts.length == 2) {
                         float x = Float.parseFloat(parts[0]);
                         float y = Float.parseFloat(parts[1]);
-                        setting.setValue(new me.alpha432.oyvey.features.settings.Pos(x, y));
+                        setting.setValue(new Vector2f(x, y));
                     }
                 } catch (Exception exception) {
                     OyVey.LOGGER.error("Error parsing position for: " + feature.getName() + " : " + setting.getName());
@@ -78,7 +79,7 @@ public class ConfigManager {
             }
             case "Enum" -> {
                 try {
-                    EnumConverter converter = new EnumConverter(((Enum) setting.getValue()).getClass());
+                    EnumConverter converter = new EnumConverter((Class<? extends Enum<?>>) setting.getValue().getClass());
                     Enum value = converter.doBackward(element);
                     setting.setValue((value == null) ? setting.getDefaultValue() : value);
                 } catch (Exception exception) {

@@ -6,13 +6,13 @@ import me.alpha432.oyvey.event.impl.MouseEvent;
 import me.alpha432.oyvey.event.impl.Render2DEvent;
 import me.alpha432.oyvey.features.gui.HudEditorScreen;
 import me.alpha432.oyvey.features.modules.Module;
-import me.alpha432.oyvey.features.settings.Pos;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.render.RenderUtil;
 import net.minecraft.client.gui.screen.ChatScreen;
+import org.joml.Vector2f;
 
 public abstract class HudModule extends Module {
-    public final Setting<Pos> pos = pos("Position", 0.5f, 0.5f);
+    public final Setting<Vector2f> pos = vec2f("Position", 0.5f, 0.5f);
     public final Setting<Boolean> chatOffset = bool("ChatOffset", true);
     private float dragX, dragY, width, height;
     private boolean dragging, button;
@@ -24,11 +24,11 @@ public abstract class HudModule extends Module {
     }
 
     public float getX() {
-        return mc.getWindow().getScaledWidth() * pos.getValue().getX();
+        return mc.getWindow().getScaledWidth() * pos.getValue().x();
     }
 
     public float getY() {
-        float baseY = mc.getWindow().getScaledHeight() * pos.getValue().getY();
+        float baseY = mc.getWindow().getScaledHeight() * pos.getValue().y();
         if (chatOffset.getValue() && mc.currentScreen instanceof ChatScreen && !(mc.currentScreen instanceof HudEditorScreen)) {
             float chatHeight = 14f;
             if (baseY > mc.getWindow().getScaledHeight() / 2f) {
@@ -61,8 +61,8 @@ public abstract class HudModule extends Module {
                 float finalY = Math.min(Math.max(getMouseY() - dragY, 0),
                         mc.getWindow().getScaledHeight() - height);
 
-                pos.getValue().setX(finalX / mc.getWindow().getScaledWidth());
-                pos.getValue().setY(finalY / mc.getWindow().getScaledHeight());
+                pos.getValue().x = finalX / mc.getWindow().getScaledWidth();
+                pos.getValue().y = finalY / mc.getWindow().getScaledHeight();
             }
         } else {
             dragging = false;
@@ -111,8 +111,8 @@ public abstract class HudModule extends Module {
     public void setBounds(float x, float y, float width, float height) {
         this.width = width;
         this.height = height;
-        pos.getValue().setX(x / mc.getWindow().getScaledWidth());
-        pos.getValue().setY(y / mc.getWindow().getScaledHeight());
+        pos.getValue().x = x / mc.getWindow().getScaledWidth();
+        pos.getValue().y = y / mc.getWindow().getScaledHeight();
     }
 
     public boolean isHovering() {
