@@ -13,7 +13,7 @@ import org.joml.Vector2f;
 
 public abstract class HudModule extends Module {
     public final Setting<Vector2f> pos = vec2f("Position", 0.5f, 0.5f);
-    public final Setting<Boolean> chatOffset = bool("ChatOffset", true);
+
     private float dragX, dragY, width, height;
     private boolean dragging, button;
 
@@ -28,12 +28,12 @@ public abstract class HudModule extends Module {
     }
 
     public float getY() {
+        float heightWithChat = mc.getWindow().getScaledHeight() - 14;
         float baseY = mc.getWindow().getScaledHeight() * pos.getValue().y();
-        if (chatOffset.getValue() && mc.currentScreen instanceof ChatScreen && !(mc.currentScreen instanceof HudEditorScreen)) {
-            float chatHeight = 14f;
-            if (baseY > mc.getWindow().getScaledHeight() / 2f) {
-                baseY -= chatHeight;
-            }
+        float combined = baseY + getHeight();
+
+        if (mc.currentScreen instanceof ChatScreen) {
+            baseY = Math.min(combined, heightWithChat) - getHeight();
         }
         return baseY;
     }
@@ -87,15 +87,13 @@ public abstract class HudModule extends Module {
     @Subscribe
     public void onMouse(MouseEvent e) {
         if (!(mc.currentScreen instanceof HudEditorScreen) || fullNullCheck()) return;
+        if (OyVey.hudEditorScreen == null) return;
 
         if (e.getAction() == 0) {
             button = false;
             dragging = false;
-            if (OyVey.hudEditorScreen != null) {
-                OyVey.hudEditorScreen.currentDragging = null;
-            }
-        } else if (e.getAction() == 1 && isHovering() &&
-                (OyVey.hudEditorScreen == null || OyVey.hudEditorScreen.currentDragging == null)) {
+            OyVey.hudEditorScreen.currentDragging = null;
+        } else if (e.getAction() == 1 && isHovering() && OyVey.hudEditorScreen.currentDragging == null) {
             button = true;
         }
     }
