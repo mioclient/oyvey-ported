@@ -37,9 +37,9 @@ public class ColorButton extends Button {
         RenderUtil.rect(context.getMatrices(), this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f,
                 !this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515);
 
-        RenderUtil.rect(context.getMatrices(), this.x + (float) this.width - 3.0f, this.y + 2.0f,
+        RenderUtil.rect(context.getMatrices(), this.x + (float) this.width - 4f, this.y + 3f,
                 this.x + (float) this.width + 5.0f, this.y + (float) this.height - 2.5f,
-                new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), 255).getRGB());
+                new Color(currentColor.getRGB(), false).getRGB());
 
         drawString(this.getName(), this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
 
@@ -51,10 +51,10 @@ public class ColorButton extends Button {
 
             int dragX = MathHelper.clamp(mouseX - (int)pickerX, 0, pickerWidth);
             int dragY = MathHelper.clamp(mouseY - (int)(getY() + yOffset), 0, pickerWidth);
-            float dragHue = pickerWidth * hsb[0];
-            float dragSaturation = pickerWidth * hsb[1];
-            float dragBrightness = pickerWidth * (1.0f - hsb[2]);
-            float dragAlpha = pickerWidth * (currentColor.getAlpha() / 255.0f);
+            float dragHue = Math.max(pickerWidth * hsb[0] - .5f, 1);
+            float dragSaturation = Math.max(pickerWidth * hsb[1] - 1, 2);
+            float dragBrightness = Math.max(pickerWidth * (1.0f - hsb[2]) - 1, 2);
+            float dragAlpha = Math.max(pickerWidth * (currentColor.getAlpha() / 255.0f) - .5f, 1);
 
             RenderUtil.horizontalGradient(context.getMatrices(), pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth, Color.WHITE, realColor);
             RenderUtil.verticalGradient(context.getMatrices(), pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth, new Color(0, 0, 0, 0), Color.BLACK);
