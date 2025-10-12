@@ -12,6 +12,7 @@ import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.traits.Jsonable;
 import net.fabricmc.loader.api.FabricLoader;
 
+import java.awt.Color;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ConfigManager {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void setValueFromJson(Feature feature, Setting setting, JsonElement element) {
+        if (element == null || element.isJsonNull()) return;
         String str;
         switch (setting.getType()) {
             case "Boolean" -> {
@@ -45,6 +47,34 @@ public class ConfigManager {
             }
             case "Bind" -> {
                 setting.setValue(new Bind(element.getAsInt()));
+            }
+            case "Color" -> {
+                try {
+                    String colorStr = element.getAsString();
+                    String[] parts = colorStr.split(",");
+                    if (parts.length == 4) {
+                        int r = Integer.parseInt(parts[0]);
+                        int g = Integer.parseInt(parts[1]);
+                        int b = Integer.parseInt(parts[2]);
+                        int a = Integer.parseInt(parts[3]);
+                        setting.setValue(new Color(r, g, b, a));
+                    }
+                } catch (Exception exception) {
+                    OyVey.LOGGER.error("Error parsing color for: " + feature.getName() + " : " + setting.getName());
+                }
+            }
+            case "Pos" -> {
+                try {
+                    String posStr = element.getAsString();
+                    String[] parts = posStr.split(",");
+                    if (parts.length == 2) {
+                        float x = Float.parseFloat(parts[0]);
+                        float y = Float.parseFloat(parts[1]);
+                        setting.setValue(new me.alpha432.oyvey.features.settings.Pos(x, y));
+                    }
+                } catch (Exception exception) {
+                    OyVey.LOGGER.error("Error parsing position for: " + feature.getName() + " : " + setting.getName());
+                }
             }
             case "Enum" -> {
                 try {

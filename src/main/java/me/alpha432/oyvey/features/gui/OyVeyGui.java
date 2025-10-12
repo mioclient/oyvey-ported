@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class OyVeyGui extends Screen {
-    private static OyVeyGui oyveyGui;
     private static OyVeyGui INSTANCE;
+    private static Color colorClipboard = null;
 
     static {
         INSTANCE = new OyVeyGui();
@@ -47,6 +47,7 @@ public class OyVeyGui extends Screen {
     private void load() {
         int x = -84;
         for (final Module.Category category : OyVey.moduleManager.getCategories()) {
+            if (category == Module.Category.HUD) continue; // Skip HUD category in ClickGui
             this.components.add(new Component(category.getName(), x += 90, 4, true) {
 
                 @Override
@@ -135,5 +136,13 @@ public class OyVeyGui extends Screen {
             return component;
         }
         return null;
+    }
+
+    public static Color getColorClipboard() {
+        return colorClipboard;
+    }
+
+    public static void setColorClipboard(Color color) {
+        colorClipboard = color;
     }
 }

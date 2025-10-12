@@ -1,5 +1,6 @@
 package me.alpha432.oyvey;
 
+import me.alpha432.oyvey.features.gui.HudEditorScreen;
 import me.alpha432.oyvey.manager.*;
 import me.alpha432.oyvey.util.TextUtil;
 import net.fabricmc.api.ClientModInitializer;
@@ -26,6 +27,7 @@ public class OyVey implements ModInitializer, ClientModInitializer {
     public static FriendManager friendManager;
     public static ModuleManager moduleManager;
     public static ConfigManager configManager;
+    public static HudEditorScreen hudEditorScreen;
 
     @Override
     public void onInitialize() {
@@ -47,6 +49,7 @@ public class OyVey implements ModInitializer, ClientModInitializer {
     public void onInitializeClient() {
         eventManager.init();
         moduleManager.init();
+        hudEditorScreen = new HudEditorScreen();
 
         configManager = new ConfigManager();
         configManager.load();

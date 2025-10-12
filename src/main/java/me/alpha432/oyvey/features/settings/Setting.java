@@ -208,6 +208,12 @@ public class Setting<T> {
         if (this.isEnumSetting()) {
             return "Enum";
         }
+        if (this.isColorSetting()) {
+            return "Color";
+        }
+        if (this.isPoseSetting()) {
+            return "Pos";
+        }
         return this.getClassName(this.defaultValue);
     }
 
@@ -227,11 +233,19 @@ public class Setting<T> {
     }
 
     public boolean isEnumSetting() {
-        return !this.isNumberSetting() && !(this.value instanceof String) && !(this.value instanceof Bind) && !(this.value instanceof Character) && !(this.value instanceof Boolean);
+        return !this.isNumberSetting() && !(this.value instanceof String) && !(this.value instanceof Bind) && !(this.value instanceof Character) && !(this.value instanceof Boolean) && !this.isColorSetting() && !this.isPoseSetting();
     }
 
     public boolean isStringSetting() {
         return this.value instanceof String;
+    }
+
+    public boolean isColorSetting() {
+        return this.value instanceof java.awt.Color;
+    }
+
+    public boolean isPoseSetting() {
+        return this.value instanceof Pos;
     }
 
     public T getDefaultValue() {

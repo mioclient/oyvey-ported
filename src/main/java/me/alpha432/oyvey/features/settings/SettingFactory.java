@@ -1,5 +1,7 @@
 package me.alpha432.oyvey.features.settings;
 
+import java.awt.Color;
+
 public interface SettingFactory {
     <T extends Setting<?>> T register(T setting);
 
@@ -21,6 +23,22 @@ public interface SettingFactory {
 
     default Setting<Bind> key(String name, Bind bind) {
         return register(new Setting<>(name, bind));
+    }
+
+    default Setting<Color> color(String name, Color value) {
+        return register(new Setting<>(name, value));
+    }
+
+    default Setting<Color> color(String name, int r, int g, int b, int a) {
+        return register(new Setting<>(name, new Color(r, g, b, a)));
+    }
+
+    default Setting<Pos> pos(String name, Pos value) {
+        return register(new Setting<>(name, value));
+    }
+
+    default Setting<Pos> pos(String name, float x, float y) {
+        return register(new Setting<>(name, new Pos(x, y)));
     }
 
 }

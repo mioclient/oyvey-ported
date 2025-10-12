@@ -11,6 +11,7 @@
     "MixinClientPlayNetworkHandler",
     "MixinInGameHud",
     "MixinKeyboard",
+    "MixinMouse",
     "MixinRenderTickCounter",
     "MixinWorldRenderer"
   ],

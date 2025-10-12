@@ -93,6 +93,28 @@ public class RenderUtil implements Util {
         Layers.getGlobalQuads().draw(bufferBuilder.end());
     }
 
+    public static void horizontalGradient(MatrixStack matrix, float x1, float y1, float x2, float y2, Color left, Color right) {
+        BufferBuilder bufferBuilder = Tessellator.getInstance()
+                .begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(matrix.peek().getPositionMatrix(), x1, y1, 0.0F).color(left.getRed() / 255.0F, left.getGreen() / 255.0F, left.getBlue() / 255.0F, left.getAlpha() / 255.0F);
+        bufferBuilder.vertex(matrix.peek().getPositionMatrix(), x1, y2, 0.0F).color(left.getRed() / 255.0F, left.getGreen() / 255.0F, left.getBlue() / 255.0F, left.getAlpha() / 255.0F);
+        bufferBuilder.vertex(matrix.peek().getPositionMatrix(), x2, y2, 0.0F).color(right.getRed() / 255.0F, right.getGreen() / 255.0F, right.getBlue() / 255.0F, right.getAlpha() / 255.0F);
+        bufferBuilder.vertex(matrix.peek().getPositionMatrix(), x2, y1, 0.0F).color(right.getRed() / 255.0F, right.getGreen() / 255.0F, right.getBlue() / 255.0F, right.getAlpha() / 255.0F);
+
+        Layers.getGlobalQuads().draw(bufferBuilder.end());
+    }
+
+    public static void verticalGradient(MatrixStack matrix, float x1, float y1, float x2, float y2, Color top, Color bottom) {
+        BufferBuilder bufferBuilder = Tessellator.getInstance()
+                .begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(matrix.peek().getPositionMatrix(), x1, y1, 0.0F).color(top.getRed() / 255.0F, top.getGreen() / 255.0F, top.getBlue() / 255.0F, top.getAlpha() / 255.0F);
+        bufferBuilder.vertex(matrix.peek().getPositionMatrix(), x1, y2, 0.0F).color(bottom.getRed() / 255.0F, bottom.getGreen() / 255.0F, bottom.getBlue() / 255.0F, bottom.getAlpha() / 255.0F);
+        bufferBuilder.vertex(matrix.peek().getPositionMatrix(), x2, y2, 0.0F).color(bottom.getRed() / 255.0F, bottom.getGreen() / 255.0F, bottom.getBlue() / 255.0F, bottom.getAlpha() / 255.0F);
+        bufferBuilder.vertex(matrix.peek().getPositionMatrix(), x2, y1, 0.0F).color(top.getRed() / 255.0F, top.getGreen() / 255.0F, top.getBlue() / 255.0F, top.getAlpha() / 255.0F);
+
+        Layers.getGlobalQuads().draw(bufferBuilder.end());
+    }
+
     // 3d
     public static void drawBoxFilled(MatrixStack stack, Box box, Color c) {
         float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPos().getX());
