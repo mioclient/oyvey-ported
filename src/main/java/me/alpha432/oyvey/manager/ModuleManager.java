@@ -7,6 +7,7 @@ import me.alpha432.oyvey.event.impl.Render3DEvent;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
+import me.alpha432.oyvey.features.modules.combat.SelfFill;
 import me.alpha432.oyvey.features.modules.hud.*;
 import me.alpha432.oyvey.features.modules.client.HudEditor;
 import me.alpha432.oyvey.features.modules.combat.Criticals;
@@ -44,6 +45,8 @@ public class ModuleManager implements Jsonable, Util {
         modules.add(new Velocity());
         modules.add(new BlockHighlight());
         modules.add(new NoFall());
+        modules.add(new SelfFill());
+        modules.add(new Welcomer());
     }
 
     public Module getModuleByName(String name) {
