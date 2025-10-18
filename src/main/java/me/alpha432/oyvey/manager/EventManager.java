@@ -8,6 +8,9 @@ import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.util.models.Timer;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.BrandCustomPayload;
+import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 import net.minecraft.util.Formatting;
 
@@ -70,6 +73,10 @@ public class EventManager extends Feature {
         OyVey.serverManager.onPacketReceived();
         if (event.getPacket() instanceof WorldTimeUpdateS2CPacket)
             OyVey.serverManager.update();
+        if (event.getPacket() instanceof CustomPayloadS2CPacket(CustomPayload payload)
+                && payload instanceof BrandCustomPayload(String brand)) {
+            OyVey.serverManager.setServerBrand(brand);
+        }
     }
 
     @Subscribe
