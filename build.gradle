@@ -1,8 +1,7 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.9-SNAPSHOT'
     id 'maven-publish'
 }
-
 version = project.mod_version
 group = project.maven_group
 
