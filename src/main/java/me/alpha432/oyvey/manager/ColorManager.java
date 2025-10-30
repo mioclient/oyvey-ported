@@ -7,7 +7,7 @@ import me.alpha432.oyvey.util.ColorUtil;
 import java.awt.*;
 
 public class ColorManager {
-    private Color color = new Color(0, 0, 255, 180);
+    private Color color = new Color(255, 95, 31);
 
     public void init() {
         ClickGui ui = ClickGui.getInstance();
