@@ -6,7 +6,6 @@ import me.alpha432.oyvey.event.Stage;
 import me.alpha432.oyvey.event.impl.*;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
-import me.alpha432.oyvey.util.models.Timer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.BrandCustomPayload;
 import net.minecraft.network.packet.CustomPayload;
@@ -15,8 +14,6 @@ import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 import net.minecraft.util.Formatting;
 
 public class EventManager extends Feature {
-    private final Timer logoutTimer = new Timer();
-
     public void init() {
         EVENT_BUS.register(this);
     }
@@ -27,17 +24,10 @@ public class EventManager extends Feature {
 
     @Subscribe
     public void onUpdate(UpdateEvent event) {
-        mc.getWindow().setTitle("OyVey 0.0.3");
         if (!fullNullCheck()) {
-//            OyVey.inventoryManager.update();
             OyVey.moduleManager.onUpdate();
             OyVey.moduleManager.sortModules(true);
             onTick();
-//            if ((HUD.getInstance()).renderingMode.getValue() == HUD.RenderingMode.Length) {
-//                OyVey.moduleManager.sortModules(true);
-//            } else {
-//                OyVey.moduleManager.sortModulesABC();
-//            }
         }
     }
 
@@ -49,7 +39,6 @@ public class EventManager extends Feature {
             if (player == null || player.getHealth() > 0.0F)
                 continue;
             EVENT_BUS.post(new DeathEvent(player));
-//            PopCounter.getInstance().onDeath(player);
         }
     }
 
@@ -58,7 +47,7 @@ public class EventManager extends Feature {
         if (fullNullCheck())
             return;
         if (event.getStage() == Stage.PRE) {
-            OyVey.speedManager.updateValues();
+            OyVey.speedManager.update();
             OyVey.rotationManager.updateRotations();
             OyVey.positionManager.updatePosition();
         }

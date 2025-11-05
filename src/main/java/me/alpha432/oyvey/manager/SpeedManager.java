@@ -4,94 +4,44 @@ import me.alpha432.oyvey.features.Feature;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SpeedManager
-        extends Feature {
-    public static final double LAST_JUMP_INFO_DURATION_DEFAULT = 3.0;
-    public static boolean didJumpThisTick = false;
-    public static boolean isJumping = false;
-    private final int distancer = 20;
-    public double firstJumpSpeed = 0.0;
-    public double lastJumpSpeed = 0.0;
-    public double percentJumpSpeedChanged = 0.0;
-    public double jumpSpeedChanged = 0.0;
-    public boolean didJumpLastTick = false;
-    public long jumpInfoStartTime = 0L;
-    public boolean wasFirstJump = true;
-    public double speedometerCurrentSpeed = 0.0;
-    public HashMap<PlayerEntity, Double> playerSpeeds = new HashMap();
+public class SpeedManager extends Feature {
+    private static final int SPEED_NORMALIZATION = 20;
 
-    public static void setDidJumpThisTick(boolean val) {
-        didJumpThisTick = val;
+    private final List<Float> localSpeed = new ArrayList<>();
+    private float localSpeedNormal = 0f;
+
+    public void update() {
+        localSpeed.add(getCurrentSpeed(mc.player));
+        while (localSpeed.size() > SPEED_NORMALIZATION) localSpeed.removeFirst();
+
+        localSpeedNormal = localSpeed.stream().reduce(0f, Float::sum) / localSpeed.size();
     }
 
-    public static void setIsJumping(boolean val) {
-        isJumping = val;
+    public double getSpeed(PlayerEntity player) {
+        if (mc.player == player) return localSpeedNormal;
+        return getCurrentSpeed(player);
     }
 
-    public float lastJumpInfoTimeRemaining() {
-        return (float) (System.currentTimeMillis() - this.jumpInfoStartTime) / 1000.0f;
+    public double getSpeedBpS(PlayerEntity player) {
+        return getSpeed(player) * 20;
     }
 
-    public void updateValues() {
-        Entity e = mc.player.getVehicle();
-        double distTraveledLastTickX = mc.player.getX() - mc.player.lastX;
-        double distTraveledLastTickZ = mc.player.getZ() - mc.player.lastZ;
-        if (e != null) {
-            distTraveledLastTickX = e.getX() - e.lastX;
-            distTraveledLastTickZ = e.getZ() - e.lastZ;
+    public double getSpeedKmH(PlayerEntity player) {
+        return getSpeedBpS(player) * 3.6;
+    }
+
+    public float getCurrentSpeed(Entity entity) {
+        Entity vehicle = entity.getVehicle();
+        double distTraveledX = entity.getX() - entity.lastX;
+        double distTraveledZ = entity.getZ() - entity.lastZ;
+        if (vehicle != null) {
+            distTraveledX = vehicle.getX() - vehicle.lastX;
+            distTraveledZ = vehicle.getZ() - vehicle.lastZ;
         }
 
-        this.speedometerCurrentSpeed = distTraveledLastTickX * distTraveledLastTickX + distTraveledLastTickZ * distTraveledLastTickZ;
-        if (didJumpThisTick && (!mc.player.isOnGround() || isJumping)) {
-            if (didJumpThisTick && !this.didJumpLastTick) {
-                this.wasFirstJump = this.lastJumpSpeed == 0.0;
-                this.percentJumpSpeedChanged = this.speedometerCurrentSpeed != 0.0 ? this.speedometerCurrentSpeed / this.lastJumpSpeed - 1.0 : -1.0;
-                this.jumpSpeedChanged = this.speedometerCurrentSpeed - this.lastJumpSpeed;
-                this.jumpInfoStartTime = System.currentTimeMillis();
-                this.lastJumpSpeed = this.speedometerCurrentSpeed;
-                this.firstJumpSpeed = this.wasFirstJump ? this.lastJumpSpeed : 0.0;
-            }
-            this.didJumpLastTick = didJumpThisTick;
-        } else {
-            this.didJumpLastTick = false;
-            this.lastJumpSpeed = 0.0;
-        }
-        this.updatePlayers();
-    }
-
-    public void updatePlayers() {
-        for (PlayerEntity player : mc.world.getPlayers()) {
-            if (!(mc.player.distanceTo(player) < distancer))
-                continue;
-            double distTraveledLastTickX = player.getX() - player.lastX;
-            double distTraveledLastTickZ = player.getZ() - player.lastZ;
-            double playerSpeed = distTraveledLastTickX * distTraveledLastTickX + distTraveledLastTickZ * distTraveledLastTickZ;
-            this.playerSpeeds.put(player, playerSpeed);
-        }
-    }
-
-    public double getPlayerSpeed(PlayerEntity player) {
-        if (this.playerSpeeds.get(player) == null) {
-            return 0.0;
-        }
-        return this.turnIntoKpH(this.playerSpeeds.get(player));
-    }
-
-    public double turnIntoKpH(double input) {
-        return Math.sqrt(input) * 71.2729367892;
-    }
-
-    public double getSpeedKpH() {
-        double speedometerkphdouble = this.turnIntoKpH(this.speedometerCurrentSpeed);
-        speedometerkphdouble = (double) Math.round(10.0 * speedometerkphdouble) / 10.0;
-        return speedometerkphdouble;
-    }
-
-    public double getSpeedMpS() {
-        double speedometerMpsdouble = this.turnIntoKpH(this.speedometerCurrentSpeed) / 3.6;
-        speedometerMpsdouble = (double) Math.round(10.0 * speedometerMpsdouble) / 10.0;
-        return speedometerMpsdouble;
+        return  (float) Math.hypot(distTraveledX, distTraveledZ);
     }
 }
