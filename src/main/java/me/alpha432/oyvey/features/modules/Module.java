@@ -18,22 +18,19 @@ import org.joml.Vector2f;
 public class Module extends Feature implements Jsonable {
     private final String description;
     private final Category category;
-    public Setting<Boolean> enabled = bool("Enabled", false);
-    public Setting<Boolean> drawn = bool("Drawn", true);
-    public Setting<Bind> bind = key("Keybind", new Bind(-1));
-    public Setting<String> displayName;
-    public boolean hasListener;
-    public boolean alwaysListening;
+
+    public final Setting<Boolean> enabled = bool("Enabled", false);
+    public final Setting<Boolean> drawn = bool("Drawn", true);
+    public final Setting<Bind> bind = key("Keybind", new Bind(-1));
+    public final Setting<String> displayName;
+
     public boolean hidden;
 
-    public Module(String name, String description, Category category, boolean hasListener, boolean hidden, boolean alwaysListening) {
+    public Module(String name, String description, Category category) {
         super(name);
         this.displayName = str("DisplayName", name);
         this.description = description;
         this.category = category;
-        this.hasListener = hasListener;
-        this.hidden = hidden;
-        this.alwaysListening = alwaysListening;
     }
 
     public void onEnable() {
@@ -67,14 +64,6 @@ public class Module extends Feature implements Jsonable {
         return null;
     }
 
-    public boolean isOn() {
-        return this.enabled.getValue();
-    }
-
-    public boolean isOff() {
-        return !this.enabled.getValue();
-    }
-
     public void setEnabled(boolean enabled) {
         if (enabled) {
             this.enable();
@@ -85,17 +74,13 @@ public class Module extends Feature implements Jsonable {
 
     public void enable() {
         this.enabled.setValue(true);
+        EVENT_BUS.register(this);
         this.onToggle();
         this.onEnable();
-        if (this.isOn() && this.hasListener && !this.alwaysListening) {
-            EVENT_BUS.register(this);
-        }
     }
 
     public void disable() {
-        if (this.hasListener && !this.alwaysListening) {
-            EVENT_BUS.unregister(this);
-        }
+        EVENT_BUS.unregister(this);
         this.enabled.setValue(false);
         this.onToggle();
         this.onDisable();
@@ -126,7 +111,7 @@ public class Module extends Feature implements Jsonable {
 
     @Override
     public boolean isEnabled() {
-        return isOn();
+        return enabled.getValue();
     }
 
     public String getDescription() {
@@ -155,10 +140,6 @@ public class Module extends Feature implements Jsonable {
 
     public void setBind(int key) {
         this.bind.setValue(new Bind(key));
-    }
-
-    public boolean listening() {
-        return this.hasListener && this.isOn() || this.alwaysListening;
     }
 
     public String getFullArrayString() {

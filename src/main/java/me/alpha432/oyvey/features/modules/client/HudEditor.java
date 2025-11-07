@@ -8,7 +8,7 @@ import me.alpha432.oyvey.features.modules.Module;
 
 public class HudEditor extends Module {
     public HudEditor() {
-        super("HudEditor", "Edit HUD element positions", Category.CLIENT, true, false, false);
+        super("HudEditor", "Edit HUD element positions", Category.CLIENT);
     }
 
     @Override

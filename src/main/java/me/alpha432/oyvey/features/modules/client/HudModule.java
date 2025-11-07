@@ -18,7 +18,7 @@ public abstract class HudModule extends Module {
     private boolean dragging, button;
 
     public HudModule(String name, String description, float width, float height) {
-        super(name, description, Category.HUD, true, false, false);
+        super(name, description, Category.HUD);
         this.width = width;
         this.height = height;
     }
