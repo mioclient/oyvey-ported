@@ -57,7 +57,7 @@ public class ClickGui
 
     @Override
     public void onEnable() {
-        if (fullNullCheck()) {
+        if (nullCheck()) {
             return;
         }
         mc.setScreen(OyVeyGui.getClickGui());

@@ -30,9 +30,9 @@ public class ColorManager {
         return ColorUtil.toRGBA(new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 255));
     }
 
-    public int getColorWithAlpha(int alpha) {
+    public int getColorWithAlpha(float offset, int alpha) {
         if (ClickGui.getInstance().rainbow.getValue()) {
-            return ColorUtil.rainbow(Component.counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB();
+            return ColorUtil.rainbow((int) (offset / 10f * ClickGui.getInstance().rainbowHue.getValue())).getRGB();
         }
         return new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), alpha).getRGB();
     }

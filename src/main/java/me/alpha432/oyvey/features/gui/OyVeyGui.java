@@ -21,7 +21,7 @@ public class OyVeyGui extends Screen {
         INSTANCE = new OyVeyGui();
     }
 
-    private final ArrayList<Component> components = new ArrayList();
+    private final ArrayList<Component> components = new ArrayList<>();
 
     public OyVeyGui() {
         super(Text.literal("OyVey"));
@@ -46,34 +46,15 @@ public class OyVeyGui extends Screen {
 
     private void load() {
         int x = -84;
-        for (final Module.Category category : OyVey.moduleManager.getCategories()) {
-            if (category == Module.Category.HUD) continue; // Skip HUD category in ClickGui
-            this.components.add(new Component(category.getName(), x += 90, 4, true) {
-
-                @Override
-                public void setupItems() {
-                    counter1 = new int[]{1};
-                    OyVey.moduleManager.getModulesByCategory(category).forEach(module -> {
-                        if (!module.hidden) {
-                            this.addButton(new ModuleButton(module));
-                        }
-                    });
-                }
-            });
+        for (Module.Category category : OyVey.moduleManager.getCategories()) {
+            if (category == Module.Category.HUD) continue;
+            Component panel = new Component(category.getName(), x += 90, 4, true);
+            OyVey.moduleManager.stream()
+                    .filter(m -> m.getCategory() == category && !m.hidden)
+                    .map(ModuleButton::new)
+                    .forEach(panel::addButton);
         }
         this.components.forEach(components -> components.getItems().sort(Comparator.comparing(Feature::getName)));
-    }
-
-    public void updateModule(Module module) {
-        for (Component component : this.components) {
-            for (Item item : component.getItems()) {
-                if (!(item instanceof ModuleButton)) continue;
-                ModuleButton button = (ModuleButton) item;
-                Module mod = button.getModule();
-                if (module == null || !module.equals(mod)) continue;
-                button.initSettings();
-            }
-        }
     }
 
     @Override
@@ -121,8 +102,7 @@ public class OyVeyGui extends Screen {
     public boolean shouldPause() {
         return false;
     }
-
-    @Override 
+    @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
     }//ignore 1.21.8 blur thing
 
@@ -132,14 +112,6 @@ public class OyVeyGui extends Screen {
 
     public int getTextOffset() {
         return -6;
-    }
-
-    public Component getComponentByName(String name) {
-        for (Component component : this.components) {
-            if (!component.getName().equalsIgnoreCase(name)) continue;
-            return component;
-        }
-        return null;
     }
 
     public static Color getColorClipboard() {

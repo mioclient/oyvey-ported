@@ -20,10 +20,6 @@ public class Feature
     }
 
     public static boolean nullCheck() {
-        return Feature.mc.player == null;
-    }
-
-    public static boolean fullNullCheck() {
         return Feature.mc.player == null || Feature.mc.world == null;
     }
 
@@ -65,9 +61,5 @@ public class Feature
         for (Setting<?> setting : this.settings) {
             setting.reset();
         }
-    }
-
-    public void clearSettings() {
-        this.settings = new ArrayList<>();
     }
 }

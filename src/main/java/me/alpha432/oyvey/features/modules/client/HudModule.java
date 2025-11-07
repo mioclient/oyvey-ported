@@ -40,7 +40,7 @@ public abstract class HudModule extends Module {
 
     @Subscribe
     public void onRender2DHud(Render2DEvent e) {
-        if (!(mc.currentScreen instanceof HudEditorScreen) || fullNullCheck() || OyVey.hudEditorScreen == null) return;
+        if (!(mc.currentScreen instanceof HudEditorScreen) || nullCheck() || OyVey.hudEditorScreen == null) return;
 
         float x = getX();
         float y = getY();
@@ -90,7 +90,7 @@ public abstract class HudModule extends Module {
 
     @Subscribe
     public void onMouse(MouseEvent e) {
-        if (!(mc.currentScreen instanceof HudEditorScreen) || fullNullCheck()) return;
+        if (!(mc.currentScreen instanceof HudEditorScreen) || nullCheck()) return;
         if (OyVey.hudEditorScreen == null) return;
 
         if (e.getAction() == 0) {

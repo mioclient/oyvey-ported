@@ -17,7 +17,6 @@ import java.util.List;
 
 public class Component
         extends Feature {
-    public static int[] counter1 = new int[]{1};
     protected DrawContext context;
     private final List<Item> items = new ArrayList<>();
     public boolean drag;
@@ -29,7 +28,6 @@ public class Component
     private int height;
     private boolean open;
     private boolean hidden = false;
-    private float fullHeight = Float.NaN;
 
     public Component(String name, int x, int y, boolean open) {
         super(name);
@@ -38,10 +36,6 @@ public class Component
         this.width = 88;
         this.height = 18;
         this.open = open;
-        this.setupItems();
-    }
-
-    public void setupItems() {
     }
 
     private void drag(int mouseX, int mouseY) {
@@ -55,7 +49,6 @@ public class Component
     public void drawScreen(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         this.context = context;
         this.drag(mouseX, mouseY);
-        counter1 = new int[]{1};
         float totalItemHeight = this.open ? this.getTotalItemHeight() - 2.0f : 0.0f;
         int color = ClickGui.getInstance().topColor.getValue().getRGB();
         context.fill(this.x, this.y - 1, this.x + this.width, this.y + this.height - 6, ClickGui.getInstance().rainbow.getValue() ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB() : color);
@@ -68,7 +61,6 @@ public class Component
         if (this.open) {
             float y = (float) (this.getY() + this.getHeight()) - 3.0f;
             for (Item item : this.getItems()) {
-                Component.counter1[0] = counter1[0] + 1;
                 if (item.isHidden()) continue;
                 item.setLocation((float) this.x + 2.0f, y);
                 item.setWidth(this.getWidth() - 4);

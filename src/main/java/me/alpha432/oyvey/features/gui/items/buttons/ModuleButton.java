@@ -60,7 +60,6 @@ public class ModuleButton
             if (this.subOpen) {
                 float height = 14.0f;
                 for (Item item : this.items) {
-                    Component.counter1[0] = Component.counter1[0] + 1;
                     if (!item.isHidden()) {
                         item.setLocation(this.x + 1.0f, this.y + height);
                         item.setWidth(this.width - 9);

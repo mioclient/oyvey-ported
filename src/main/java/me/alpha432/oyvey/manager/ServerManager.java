@@ -3,28 +3,18 @@ package me.alpha432.oyvey.manager;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.util.models.Timer;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 
 public class ServerManager
         extends Feature {
     private final float[] tpsCounts = new float[10];
-    private final DecimalFormat format = new DecimalFormat("##.00#");
     private final Timer timer = new Timer();
-    private float TPS = 20.0f;
+    private float tps = 20.0f;
     private long lastUpdate = -1L;
     private String serverBrand = "";
 
     public void onPacketReceived() {
         this.timer.reset();
-    }
-
-    public boolean isServerNotResponding() {
-        return this.timer.passedMs(2000);
-    }
-
-    public long serverRespondingTime() {
-        return this.timer.getPassedTimeMs();
     }
 
     public void update() {
@@ -51,22 +41,30 @@ public class ServerManager
         if ((total /= this.tpsCounts.length) > 20.0) {
             total = 20.0;
         }
-        this.TPS = Float.parseFloat(this.format.format(total).replace(",", "."));
+        this.tps = (float) total;
         this.lastUpdate = currentTime;
     }
 
     @Override
     public void reset() {
         Arrays.fill(this.tpsCounts, 20.0f);
-        this.TPS = 20.0f;
+        this.tps = 20.0f;
+    }
+
+    public boolean isServerNotResponding() {
+        return this.timer.passedMs(2000);
+    }
+
+    public long serverRespondingTime() {
+        return this.timer.getPassedTimeMs();
     }
 
     public float getTpsFactor() {
-        return 20.0f / this.TPS;
+        return 20.0f / this.tps;
     }
 
-    public float getTPS() {
-        return this.TPS;
+    public float getTps() {
+        return this.tps;
     }
 
     public String getServerBrand() {
@@ -78,7 +76,7 @@ public class ServerManager
     }
 
     public int getPing() {
-        if (ServerManager.fullNullCheck()) {
+        if (ServerManager.nullCheck()) {
             return 0;
         }
         try {

@@ -117,13 +117,13 @@ public class ColorButton extends Button {
 
             int buttonWidth = availableWidth / 2;
             RenderUtil.rect(context, pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14,
-                    hoveringCopy ? OyVey.colorManager.getColorWithAlpha(ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
-            drawString("Copy", pickerX + buttonWidth / 2 - mc.textRenderer.getWidth("Copy") / 2, this.y + yOffset + 2, -1);
+                    hoveringCopy ? OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
+            drawString("Copy", pickerX + buttonWidth / 2 - mc.textRenderer.getWidth("Copy") / 2, this.y + yOffset + 3, -1);
             hoveringCopy = isHoveringArea(mouseX, mouseY, pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14);
 
             RenderUtil.rect(context, pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14,
-                    hoveringPaste ? OyVey.colorManager.getColorWithAlpha(ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
-            drawString("Paste", pickerX + buttonWidth + buttonWidth / 2 - mc.textRenderer.getWidth("Paste") / 2 + 1, this.y + yOffset + 2, -1);
+                    hoveringPaste ? OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
+            drawString("Paste", pickerX + buttonWidth + buttonWidth / 2 - mc.textRenderer.getWidth("Paste") / 2 + 1, this.y + yOffset + 3, -1);
             hoveringPaste = isHoveringArea(mouseX, mouseY, pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14);
         }
     }

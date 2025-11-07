@@ -30,7 +30,7 @@ public class Slider
     public void drawScreen(DrawContext context, int mouseX, int mouseY, float partialTicks) {
         this.dragSetting(mouseX, mouseY);
         RenderUtil.rect(context, this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515);
-        RenderUtil.rect(context, this.x, this.y, (this.setting.getValue()).floatValue() <= this.min.floatValue() ? this.x : this.x + ((float) this.width + 7.4f) * this.partialMultiplier(), this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? OyVey.colorManager.getColorWithAlpha(ClickGui.getInstance().color.getValue().getAlpha()) : OyVey.colorManager.getColorWithAlpha(ClickGui.getInstance().topColor.getValue().getAlpha()));
+        RenderUtil.rect(context, this.x, this.y, (this.setting.getValue()).floatValue() <= this.min.floatValue() ? this.x : this.x + ((float) this.width + 7.4f) * this.partialMultiplier(), this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().color.getValue().getAlpha()) : OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().topColor.getValue().getAlpha()));
         drawString(this.getName() + " " + Formatting.GRAY + (this.setting.getValue() instanceof Float ? this.setting.getValue() : Double.valueOf((this.setting.getValue()).doubleValue())), this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
     }
 
@@ -60,11 +60,6 @@ public class Slider
         if (this.isHovering(mouseX, mouseY) && GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), 0) == 1) {
             this.setSettingFromX(mouseX);
         }
-    }
-
-    @Override
-    public int getHeight() {
-        return 14;
     }
 
     private void setSettingFromX(int mouseX) {

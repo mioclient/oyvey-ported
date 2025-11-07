@@ -13,7 +13,7 @@ public class HudEditor extends Module {
 
     @Override
     public void onEnable() {
-        if (fullNullCheck()) {
+        if (nullCheck()) {
             disable();
             return;
         }
@@ -22,13 +22,13 @@ public class HudEditor extends Module {
 
     @Override
     public void onDisable() {
-        if (fullNullCheck()) return;
+        if (nullCheck()) return;
         mc.setScreen(null);
     }
 
     @Subscribe
     public void onUpdate(UpdateEvent event) {
-        if (fullNullCheck()) return;
+        if (nullCheck()) return;
         if (!(mc.currentScreen instanceof HudEditorScreen)) {
             disable();
         }

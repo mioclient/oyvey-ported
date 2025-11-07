@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ModuleManager implements Jsonable, Util {
     public List<Module> modules = new ArrayList<>();
@@ -134,6 +135,14 @@ public class ModuleManager implements Jsonable, Util {
             }
         });
         return modulesCategory;
+    }
+
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public Stream<Module> stream() {
+        return getModules().stream();
     }
 
     public List<Module.Category> getCategories() {

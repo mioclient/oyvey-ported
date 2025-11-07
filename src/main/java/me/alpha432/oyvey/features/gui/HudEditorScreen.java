@@ -23,17 +23,11 @@ public class HudEditorScreen extends Screen {
     }
 
     private void load() {
-        this.components.add(new Component("Hud", 50, 50, true) {
-            @Override
-            public void setupItems() {
-                Component.counter1 = new int[]{1};
-                OyVey.moduleManager.getModulesByCategory(Module.Category.HUD).forEach(module -> {
-                    if (!module.hidden) {
-                        this.addButton(new ModuleButton(module));
-                    }
-                });
-            }
-        });
+        Component hud = new Component("Hud", 50, 50, true);
+        OyVey.moduleManager.stream()
+                .filter(m -> m.getCategory() == Module.Category.HUD && !m.hidden)
+                .map(ModuleButton::new)
+                .forEach(hud::addButton);
         this.components.forEach(component -> component.getItems().sort(Comparator.comparing(Feature::getName)));
     }
 

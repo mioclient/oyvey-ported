@@ -17,7 +17,7 @@ public class Coordinates extends HudModule {
     public void onRender2D(Render2DEvent e) {
         super.onRender2DHud(e);
 
-        if (fullNullCheck()) return;
+        if (nullCheck()) return;
 
         String coordsStr = String.format("X: %d Y: %d Z: %d",
                 mc.player.getBlockX(),

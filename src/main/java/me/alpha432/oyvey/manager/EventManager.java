@@ -24,7 +24,7 @@ public class EventManager extends Feature {
 
     @Subscribe
     public void onUpdate(UpdateEvent event) {
-        if (!fullNullCheck()) {
+        if (!nullCheck()) {
             OyVey.moduleManager.onUpdate();
             OyVey.moduleManager.sortModules(true);
             onTick();
@@ -32,7 +32,7 @@ public class EventManager extends Feature {
     }
 
     public void onTick() {
-        if (fullNullCheck())
+        if (nullCheck())
             return;
         OyVey.moduleManager.onTick();
         for (PlayerEntity player : mc.world.getPlayers()) {
@@ -44,7 +44,7 @@ public class EventManager extends Feature {
 
     @Subscribe
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
-        if (fullNullCheck())
+        if (nullCheck())
             return;
         if (event.getStage() == Stage.PRE) {
             OyVey.speedManager.update();
