@@ -63,10 +63,10 @@ public class ColorButton extends Button {
             hoveringColor = isHoveringArea(mouseX, mouseY, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth);
 
             if (dragSaturation < pickerWidth && dragBrightness < pickerWidth) {
+                RenderUtil.rect(context, pickerX + dragSaturation - 2.5f, this.y + yOffset + dragBrightness - 2.5f,
+                        pickerX + dragSaturation + 0.5f, this.y + yOffset + dragBrightness + 0.5f, outlineColor.getRGB());
                 RenderUtil.rect(context, pickerX + dragSaturation - 1.5f, this.y + yOffset + dragBrightness - 1.5f,
-                        pickerX + dragSaturation + 1.5f, this.y + yOffset + dragBrightness + 1.5f, outlineColor.getRGB());
-                RenderUtil.rect(context, pickerX + dragSaturation - 0.5f, this.y + yOffset + dragBrightness - 0.5f,
-                        pickerX + dragSaturation + 0.5f, this.y + yOffset + dragBrightness + 0.5f, Color.WHITE.getRGB());
+                        pickerX + dragSaturation - 0.5f, this.y + yOffset + dragBrightness - 0.5f, Color.WHITE.getRGB());
             }
 
             if (draggingColor) {
