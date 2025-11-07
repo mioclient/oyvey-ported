@@ -20,11 +20,11 @@ public class ModuleCommand
         if (commands.length == 1) {
             ModuleCommand.sendMessage("Modules: ");
             for (Module.Category category : OyVey.moduleManager.getCategories()) {
-                String modules = category.getName() + ": ";
-                for (Module module1 : OyVey.moduleManager.getModulesByCategory(category)) {
-                    modules = modules + (module1.isEnabled() ? Formatting.GREEN : Formatting.RED) + module1.getName() + Formatting.WHITE + ", ";
+                StringBuilder modules = new StringBuilder(category.getName() + ": ");
+                for (Module module : OyVey.moduleManager.getModulesByCategory(category)) {
+                    modules.append(module.isEnabled() ? Formatting.GREEN : Formatting.RED).append(module.getName()).append(Formatting.WHITE).append(", ");
                 }
-                ModuleCommand.sendMessage(modules);
+                ModuleCommand.sendMessage(modules.toString());
             }
             return;
         }
@@ -62,7 +62,6 @@ public class ModuleCommand
             return;
         }
         if (commands.length == 5 && (setting = module.getSettingByName(commands[2])) != null) {
-            JsonParser jp = new JsonParser();
             if (setting.getType().equalsIgnoreCase("String")) {
                 setting.setValue(commands[3]);
                 ModuleCommand.sendMessage("{dark_gray} %s %s has been set to %s.", module.getName(), setting.getName(), commands[3]);
@@ -77,7 +76,7 @@ public class ModuleCommand
                         module.disable();
                     }
                 }
-                ConfigManager.setValueFromJson(module, setting, jp.parse(commands[3]));
+                ConfigManager.setValueFromJson(module, setting, JsonParser.parseString(commands[3]));
             } catch (Exception e) {
                 ModuleCommand.sendMessage("Bad Value! This setting requires a: %s value.", setting.getType());
                 return;
