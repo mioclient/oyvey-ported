@@ -6,13 +6,13 @@ import me.alpha432.oyvey.util.TextUtil;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.SharedConstants;
+import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class OyVey implements ModInitializer, ClientModInitializer {
     public static final String NAME = "OyVey";
-    public static final String VERSION = SharedConstants.getGameVersion().getName();
-
+    public static final String VERSION = "1.21.8"; 
     public static float TIMER = 1f;
 
     public static final Logger LOGGER = LogManager.getLogger("OyVey");

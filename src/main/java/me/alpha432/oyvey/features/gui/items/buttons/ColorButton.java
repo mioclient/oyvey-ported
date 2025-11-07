@@ -34,10 +34,10 @@ public class ColorButton extends Button {
         Color outlineColor = Color.BLACK;
         Color realColor = Color.getHSBColor(hsb[0], 1, 1);
 
-        RenderUtil.rect(context.getMatrices(), this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f,
+        RenderUtil.rect(context, this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f,
                 !this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515);
 
-        RenderUtil.rect(context.getMatrices(), this.x + (float) this.width - 4f, this.y + 3f,
+        RenderUtil.rect(context, this.x + (float) this.width - 4f, this.y + 3f,
                 this.x + (float) this.width + 5.0f, this.y + (float) this.height - 2.5f,
                 new Color(currentColor.getRGB(), false).getRGB());
 
@@ -56,16 +56,16 @@ public class ColorButton extends Button {
             float dragBrightness = Math.max(pickerWidth * (1.0f - hsb[2]) - 1, 2);
             float dragAlpha = Math.max(pickerWidth * (currentColor.getAlpha() / 255.0f) - .5f, 1);
 
-            RenderUtil.horizontalGradient(context.getMatrices(), pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth, Color.WHITE, realColor);
-            RenderUtil.verticalGradient(context.getMatrices(), pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth, new Color(0, 0, 0, 0), Color.BLACK);
-            RenderUtil.rect(context.getMatrices(), pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth, outlineColor.getRGB(), 1.0f);
+            RenderUtil.horizontalGradient(context, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth, Color.WHITE, realColor);
+            RenderUtil.verticalGradient(context, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth, new Color(0, 0, 0, 0), Color.BLACK);
+            RenderUtil.rect(context, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth, outlineColor.getRGB(), 1.0f);
 
             hoveringColor = isHoveringArea(mouseX, mouseY, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + pickerWidth);
 
             if (dragSaturation < pickerWidth && dragBrightness < pickerWidth) {
-                RenderUtil.rect(context.getMatrices(), pickerX + dragSaturation - 1.5f, this.y + yOffset + dragBrightness - 1.5f,
+                RenderUtil.rect(context, pickerX + dragSaturation - 1.5f, this.y + yOffset + dragBrightness - 1.5f,
                         pickerX + dragSaturation + 1.5f, this.y + yOffset + dragBrightness + 1.5f, outlineColor.getRGB());
-                RenderUtil.rect(context.getMatrices(), pickerX + dragSaturation - 0.5f, this.y + yOffset + dragBrightness - 0.5f,
+                RenderUtil.rect(context, pickerX + dragSaturation - 0.5f, this.y + yOffset + dragBrightness - 0.5f,
                         pickerX + dragSaturation + 0.5f, this.y + yOffset + dragBrightness + 0.5f, Color.WHITE.getRGB());
             }
 
@@ -77,15 +77,15 @@ public class ColorButton extends Button {
 
             yOffset += pickerWidth + 2;
 
-            RenderUtil.horizontalGradient(context.getMatrices(), pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + 8,
+            RenderUtil.horizontalGradient(context, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + 8,
                     new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), 0),
                     new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), 255));
-            RenderUtil.rect(context.getMatrices(), pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + 8, outlineColor.getRGB(), 1.0f);
+            RenderUtil.rect(context, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + 8, outlineColor.getRGB(), 1.0f);
             hoveringAlpha = isHoveringArea(mouseX, mouseY, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + 8);
 
-            RenderUtil.rect(context.getMatrices(), pickerX + dragAlpha - 1.5f, this.y + yOffset - 1,
+            RenderUtil.rect(context, pickerX + dragAlpha - 1.5f, this.y + yOffset - 1,
                     pickerX + dragAlpha + 1.5f, this.y + yOffset + 9, outlineColor.getRGB());
-            RenderUtil.rect(context.getMatrices(), pickerX + dragAlpha - 0.5f, this.y + yOffset,
+            RenderUtil.rect(context, pickerX + dragAlpha - 0.5f, this.y + yOffset,
                     pickerX + dragAlpha + 0.5f, this.y + yOffset + 8, Color.WHITE.getRGB());
 
             if (draggingAlpha) {
@@ -95,16 +95,16 @@ public class ColorButton extends Button {
             yOffset += 10;
 
             for (float i = 0; i < pickerWidth; i += 0.5f) {
-                RenderUtil.rect(context.getMatrices(), pickerX + i, this.y + yOffset, pickerX + i + 0.5f, this.y + yOffset + 8,
+                RenderUtil.rect(context, pickerX + i, this.y + yOffset, pickerX + i + 0.5f, this.y + yOffset + 8,
                         Color.getHSBColor(i / pickerWidth, 1.0f, 1.0f).getRGB());
             }
-            RenderUtil.rect(context.getMatrices(), pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + 8, outlineColor.getRGB(), 1.0f);
+            RenderUtil.rect(context, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + 8, outlineColor.getRGB(), 1.0f);
             hoveringHue = isHoveringArea(mouseX, mouseY, pickerX, this.y + yOffset, pickerX + pickerWidth, this.y + yOffset + 8);
 
             if (dragHue < pickerWidth) {
-                RenderUtil.rect(context.getMatrices(), pickerX + dragHue - 1.5f, this.y + yOffset - 1,
+                RenderUtil.rect(context, pickerX + dragHue - 1.5f, this.y + yOffset - 1,
                         pickerX + dragHue + 1.5f, this.y + yOffset + 9, outlineColor.getRGB());
-                RenderUtil.rect(context.getMatrices(), pickerX + dragHue - 0.5f, this.y + yOffset,
+                RenderUtil.rect(context, pickerX + dragHue - 0.5f, this.y + yOffset,
                         pickerX + dragHue + 0.5f, this.y + yOffset + 8, Color.WHITE.getRGB());
             }
 
@@ -116,12 +116,12 @@ public class ColorButton extends Button {
             yOffset += 10;
 
             int buttonWidth = availableWidth / 2;
-            RenderUtil.rect(context.getMatrices(), pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14,
+            RenderUtil.rect(context, pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14,
                     hoveringCopy ? OyVey.colorManager.getColorWithAlpha(ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
             drawString("Copy", pickerX + buttonWidth / 2 - mc.textRenderer.getWidth("Copy") / 2, this.y + yOffset + 2, -1);
             hoveringCopy = isHoveringArea(mouseX, mouseY, pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14);
 
-            RenderUtil.rect(context.getMatrices(), pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14,
+            RenderUtil.rect(context, pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14,
                     hoveringPaste ? OyVey.colorManager.getColorWithAlpha(ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
             drawString("Paste", pickerX + buttonWidth + buttonWidth / 2 - mc.textRenderer.getWidth("Paste") / 2 + 1, this.y + yOffset + 2, -1);
             hoveringPaste = isHoveringArea(mouseX, mouseY, pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14);

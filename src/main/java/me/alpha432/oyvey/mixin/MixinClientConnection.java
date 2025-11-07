@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import me.alpha432.oyvey.event.impl.PacketEvent;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.NetworkSide;
-import net.minecraft.network.PacketCallbacks;
+import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.packet.Packet;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,7 +39,7 @@ public class MixinClientConnection {
     }
 
     @Inject(method = "sendImmediately", at = @At("HEAD"), cancellable = true)
-    private void sendImmediately(Packet<?> packet, PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
+    private void sendImmediately(Packet<?> packet, ChannelFutureListener callbacks, boolean flush, CallbackInfo ci) {
         if (this.side != NetworkSide.CLIENTBOUND) return;
         try {
             PacketEvent.Send event = new PacketEvent.Send(packet);

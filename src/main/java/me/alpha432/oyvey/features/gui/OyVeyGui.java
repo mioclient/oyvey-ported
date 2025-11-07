@@ -122,6 +122,10 @@ public class OyVeyGui extends Screen {
         return false;
     }
 
+    @Override 
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+    }//ignore 1.21.8 blur thing
+
     public final ArrayList<Component> getComponents() {
         return this.components;
     }

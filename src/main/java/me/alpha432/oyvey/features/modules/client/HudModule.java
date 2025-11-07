@@ -83,7 +83,7 @@ public abstract class HudModule extends Module {
             OyVey.hudEditorScreen.anyHover = true;
         }
 
-        RenderUtil.rect(e.getContext().getMatrices(),
+        RenderUtil.rect(e.getContext(),
                 x - 1, y - 1, x + width + 1, y + height + 1,
                 OyVey.colorManager.getColor().getRGB(), 1.0f);
     }
