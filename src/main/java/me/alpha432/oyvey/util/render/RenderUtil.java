@@ -2,6 +2,7 @@ package me.alpha432.oyvey.util.render;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import me.alpha432.oyvey.util.traits.Util;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
@@ -10,8 +11,59 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class RenderUtil implements Util {
+
+    public static void rect(DrawContext context, float x1, float y1, float x2, float y2, int color) {
+        int ix1 = Math.round(x1);
+        int iy1 = Math.round(y1);
+        int ix2 = Math.round(x2);
+        int iy2 = Math.round(y2);
+        context.fill(ix1, iy1, ix2, iy2, color);
+    }
+
+    public static void rect(DrawContext context, float x1, float y1, float x2, float y2, int color, float width) {
+        int w = Math.max(1, Math.round(width));
+        context.fill(Math.round(x1), Math.round(y1), Math.round(x2), Math.round(y1) + w, color);
+        context.fill(Math.round(x2) - w, Math.round(y1), Math.round(x2), Math.round(y2), color);
+        context.fill(Math.round(x1), Math.round(y2) - w, Math.round(x2), Math.round(y2), color);
+        context.fill(Math.round(x1), Math.round(y1), Math.round(x1) + w, Math.round(y2), color);
+    }
+
+    public static void horizontalGradient(DrawContext context, float x1, float y1, float x2, float y2, Color left, Color right) {
+        int ix1 = Math.round(x1);
+        int iy1 = Math.round(y1);
+        int ix2 = Math.round(x2);
+        int iy2 = Math.round(y2);
+        int width = Math.max(1, ix2 - ix1);
+        for (int i = 0; i < width; i++) {
+            float t = width == 1 ? 1f : (float) i / (float) (width - 1);
+            int r = (int) (left.getRed() + (right.getRed() - left.getRed()) * t);
+            int g = (int) (left.getGreen() + (right.getGreen() - left.getGreen()) * t);
+            int b = (int) (left.getBlue() + (right.getBlue() - left.getBlue()) * t);
+            int a = (int) (left.getAlpha() + (right.getAlpha() - left.getAlpha()) * t);
+            int argb = (a & 0xFF) << 24 | (r & 0xFF) << 16 | (g & 0xFF) << 8 | (b & 0xFF);
+            context.fill(ix1 + i, iy1, ix1 + i + 1, iy2, argb);
+        }
+    }
+
+    public static void verticalGradient(DrawContext context, float x1, float y1, float x2, float y2, Color top, Color bottom) {
+        int ix1 = Math.round(x1);
+        int iy1 = Math.round(y1);
+        int ix2 = Math.round(x2);
+        int iy2 = Math.round(y2);
+        int height = Math.max(1, iy2 - iy1);
+        for (int i = 0; i < height; i++) {
+            float t = height == 1 ? 1f : (float) i / (float) (height - 1);
+            int r = (int) (top.getRed() + (bottom.getRed() - top.getRed()) * t);
+            int g = (int) (top.getGreen() + (bottom.getGreen() - top.getGreen()) * t);
+            int b = (int) (top.getBlue() + (bottom.getBlue() - top.getBlue()) * t);
+            int a = (int) (top.getAlpha() + (bottom.getAlpha() - top.getAlpha()) * t);
+            int argb = (a & 0xFF) << 24 | (r & 0xFF) << 16 | (g & 0xFF) << 8 | (b & 0xFF);
+            context.fill(ix1, iy1 + i, ix2, iy1 + i + 1, argb);
+        }
+    }
 
     public static void rect(MatrixStack stack, float x1, float y1, float x2, float y2, int color) {
         rectFilled(stack, x1, y1, x2, y2, color);

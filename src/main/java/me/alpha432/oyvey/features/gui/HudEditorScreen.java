@@ -82,6 +82,11 @@ public class HudEditorScreen extends Screen {
         return false;
     }
 
+    @Override // ignore 1.21.8 menu blur thing
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+    }
+
+
     public ArrayList<Component> getComponents() {
         return components;
     }
