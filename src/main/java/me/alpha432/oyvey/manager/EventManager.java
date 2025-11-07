@@ -26,7 +26,6 @@ public class EventManager extends Feature {
     public void onUpdate(UpdateEvent event) {
         if (!nullCheck()) {
             OyVey.moduleManager.onUpdate();
-            OyVey.moduleManager.sortModules(true);
             onTick();
         }
     }
