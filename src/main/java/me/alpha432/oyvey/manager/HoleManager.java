@@ -49,7 +49,15 @@ public class HoleManager extends Feature {
         return new Hole(pos, type);
     }
 
-    private record Hole(BlockPos pos, HoleType holeType) {
+    public List<Hole> getHoles() {
+        return holes;
+    }
+
+    public boolean isHole(BlockPos pos) {
+        return holes.stream().anyMatch(hole -> hole.pos().equals(pos));
+    }
+
+    public record Hole(BlockPos pos, HoleType holeType) {
     }
 
     private enum HoleType {
