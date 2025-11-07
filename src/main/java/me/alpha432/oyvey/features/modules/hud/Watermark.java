@@ -8,7 +8,7 @@ import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.TextUtil;
 
 public class Watermark extends HudModule {
-    public Setting<String> text = str("Text", "OyVey");
+    public Setting<String> text = str("Text", OyVey.NAME);
 
     public Watermark() {
         super("Watermark", "Display watermark", 100, 10);
