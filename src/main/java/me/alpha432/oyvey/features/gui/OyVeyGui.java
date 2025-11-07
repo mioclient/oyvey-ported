@@ -53,6 +53,7 @@ public class OyVeyGui extends Screen {
                     .filter(m -> m.getCategory() == category && !m.hidden)
                     .map(ModuleButton::new)
                     .forEach(panel::addButton);
+            this.components.add(panel);
         }
         this.components.forEach(components -> components.getItems().sort(Comparator.comparing(Feature::getName)));
     }

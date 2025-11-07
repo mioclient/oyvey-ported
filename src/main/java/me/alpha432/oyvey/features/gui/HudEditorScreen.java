@@ -28,6 +28,7 @@ public class HudEditorScreen extends Screen {
                 .filter(m -> m.getCategory() == Module.Category.HUD && !m.hidden)
                 .map(ModuleButton::new)
                 .forEach(hud::addButton);
+        this.components.add(hud);
         this.components.forEach(component -> component.getItems().sort(Comparator.comparing(Feature::getName)));
     }
 
