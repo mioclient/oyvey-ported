@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.mixin;
 
 import me.alpha432.oyvey.event.Stage;
-import me.alpha432.oyvey.event.impl.UpdateEvent;
+import me.alpha432.oyvey.event.impl.TickEvent;
 import me.alpha432.oyvey.event.impl.UpdateWalkingPlayerEvent;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +15,7 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 public class MixinClientPlayerEntity {
     @Inject(method = "tick", at = @At("TAIL"))
     private void tickHook(CallbackInfo ci) {
-        EVENT_BUS.post(new UpdateEvent());
+        EVENT_BUS.post(new TickEvent());
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tick()V", shift = At.Shift.AFTER))

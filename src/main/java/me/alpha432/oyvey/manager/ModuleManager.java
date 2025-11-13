@@ -79,10 +79,6 @@ public class ModuleManager implements Jsonable, Util {
         getModules().forEach(Module::onLoad);
     }
 
-    public void onUpdate() {
-        stream().filter(Feature::isEnabled).forEach(Module::onUpdate);
-    }
-
     public void onTick() {
         stream().filter(Feature::isEnabled).forEach(Module::onTick);
     }
