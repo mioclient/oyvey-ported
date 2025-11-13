@@ -5,8 +5,11 @@ import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.gui.items.buttons.ModuleButton;
 import me.alpha432.oyvey.features.modules.Module;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 
 import java.awt.*;
@@ -66,15 +69,15 @@ public class OyVeyGui extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int clickedButton) {
-        this.components.forEach(components -> components.mouseClicked((int) mouseX, (int) mouseY, clickedButton));
-        return super.mouseClicked(mouseX, mouseY, clickedButton);
+    public boolean mouseClicked(Click click, boolean doubled) {
+        this.components.forEach(components -> components.mouseClicked((int) click.x(), (int) click.y(), click.button()));
+        return super.mouseClicked(click, doubled);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int releaseButton) {
-        this.components.forEach(components -> components.mouseReleased((int) mouseX, (int) mouseY, releaseButton));
-        return super.mouseReleased(mouseX, mouseY, releaseButton);
+    public boolean mouseReleased(Click click) {
+        this.components.forEach(components -> components.mouseReleased((int) click.x(), (int) click.y(), click.button()));
+        return super.mouseReleased(click);
     }
 
     @Override
@@ -88,15 +91,15 @@ public class OyVeyGui extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        this.components.forEach(component -> component.onKeyPressed(keyCode));
-        return super.keyPressed(keyCode, scanCode, modifiers);
+    public boolean keyPressed(KeyInput input) {
+        this.components.forEach(component -> component.onKeyPressed(input.getKeycode()));
+        return super.keyPressed(input);
     }
 
     @Override
-    public boolean charTyped(char chr, int modifiers) {
-        this.components.forEach(component -> component.onKeyTyped(chr, modifiers));
-        return super.charTyped(chr, modifiers);
+    public boolean charTyped(CharInput input) {
+        this.components.forEach(component -> component.onKeyTyped(input.asString(), input.modifiers()));
+        return super.charTyped(input);
     }
 
     @Override

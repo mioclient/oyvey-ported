@@ -101,7 +101,7 @@ public class ModuleButton
     }
 
     @Override
-    public void onKeyTyped(char typedChar, int keyCode) {
+    public void onKeyTyped(String typedChar, int keyCode) {
         super.onKeyTyped(typedChar, keyCode);
         if (!this.items.isEmpty() && this.subOpen) {
             for (Item item : this.items) {

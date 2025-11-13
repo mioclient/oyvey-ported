@@ -35,7 +35,7 @@ public class Item
     public void update() {
     }
 
-    public void onKeyTyped(char typedChar, int keyCode) {
+    public void onKeyTyped(String typedChar, int keyCode) {
     }
 
     public void onKeyPressed(int key) {

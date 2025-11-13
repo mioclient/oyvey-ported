@@ -230,7 +230,7 @@ public class RenderUtil implements Util {
         BufferBuilder bufferBuilder = Tessellator.getInstance()
                 .begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
 
-        VertexRendering.drawBox(stack, bufferBuilder, minX, minY, minZ, maxX, maxY, maxZ,
+        VertexRendering.drawBox(stack.peek(), bufferBuilder, minX, minY, minZ, maxX, maxY, maxZ,
                 c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
 
         Layers.getGlobalLines(lineWidth).draw(bufferBuilder.end());

@@ -53,7 +53,7 @@ public class StringButton
     }
 
     @Override
-    public void onKeyTyped(char typedChar, int keyCode) {
+    public void onKeyTyped(String typedChar, int keyCode) {
         if (this.isListening) {
             this.setString(this.currentString.string() + typedChar);
         }
