@@ -183,7 +183,7 @@ public class MathUtil
             vec3ds.add(new Vec3d(minX, y, maxZ));
             return vec3ds;
         }
-        vec3ds.add(entity.getPos());
+        vec3ds.add(entity.getEntityPos());
         return vec3ds;
     }
 

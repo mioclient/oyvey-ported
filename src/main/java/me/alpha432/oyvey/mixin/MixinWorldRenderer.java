@@ -24,8 +24,9 @@ import static me.alpha432.oyvey.util.traits.Util.mc;
 public class MixinWorldRenderer {
     @Inject(method = "render", at = @At("RETURN"))
     private void render(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline,
-                        Camera camera, Matrix4f positionMatrix, Matrix4f projectionMatrix, GpuBufferSlice gpuBufferSlice, Vector4f viewArea, boolean someFlag,
-                        CallbackInfo ci, @Local Profiler profiler) {
+                        Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix,
+                        GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci, @Local Profiler profiler) {
+
         MatrixStack stack = new MatrixStack();
         stack.push();
         stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(mc.gameRenderer.getCamera().getPitch()));

@@ -112,7 +112,7 @@ public class Component
         this.getItems().forEach(item -> item.mouseReleased(mouseX, mouseY, releaseButton));
     }
 
-    public void onKeyTyped(char typedChar, int keyCode) {
+    public void onKeyTyped(String typedChar, int keyCode) {
         if (!this.open) {
             return;
         }

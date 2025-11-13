@@ -80,7 +80,7 @@ public class ServerManager
             return 0;
         }
         try {
-            return mc.getNetworkHandler().getPlayerListEntry(mc.player.getGameProfile().getName()).getLatency();
+            return mc.getNetworkHandler().getPlayerListEntry(mc.player.getGameProfile().name()).getLatency();
         } catch (Throwable e) {
             return 0;
         }
