@@ -2,7 +2,7 @@ package me.alpha432.oyvey.features.modules.client;
 
 import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.event.impl.UpdateEvent;
+import me.alpha432.oyvey.event.impl.TickEvent;
 import me.alpha432.oyvey.features.gui.HudEditorScreen;
 import me.alpha432.oyvey.features.modules.Module;
 
@@ -27,7 +27,7 @@ public class HudEditor extends Module {
     }
 
     @Subscribe
-    public void onUpdate(UpdateEvent event) {
+    public void onTick(TickEvent event) {
         if (nullCheck()) return;
         if (!(mc.currentScreen instanceof HudEditorScreen)) {
             disable();

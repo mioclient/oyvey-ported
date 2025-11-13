@@ -23,14 +23,7 @@ public class EventManager extends Feature {
     }
 
     @Subscribe
-    public void onUpdate(UpdateEvent event) {
-        if (!nullCheck()) {
-            OyVey.moduleManager.onUpdate();
-            onTick();
-        }
-    }
-
-    public void onTick() {
+    public void onTick(TickEvent event) {
         if (nullCheck())
             return;
         OyVey.moduleManager.onTick();

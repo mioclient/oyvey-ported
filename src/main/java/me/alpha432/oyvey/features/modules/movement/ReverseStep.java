@@ -8,7 +8,7 @@ public class ReverseStep extends Module {
     }
 
     @Override
-    public void onUpdate() {
+    public void onTick() {
         if (nullCheck()) return;
         if (mc.player.isInLava() || mc.player.isTouchingWater() || !mc.player.isOnGround()) return;
         mc.player.addVelocity(0, -1, 0);

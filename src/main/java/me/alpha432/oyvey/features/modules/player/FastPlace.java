@@ -9,7 +9,7 @@ public class FastPlace extends Module {
     }
 
     @Override
-    public void onUpdate() {
+    public void onTick() {
         if (nullCheck()) return;
 
         if (mc.player.isHolding(Items.EXPERIENCE_BOTTLE)) {

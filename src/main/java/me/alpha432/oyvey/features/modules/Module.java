@@ -48,9 +48,6 @@ public class Module extends Feature implements Jsonable {
     public void onTick() {
     }
 
-    public void onUpdate() {
-    }
-
     public void onRender2D(Render2DEvent event) {
     }
 

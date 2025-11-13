@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.manager;
 
 import com.google.common.eventbus.Subscribe;
-import me.alpha432.oyvey.event.impl.UpdateEvent;
+import me.alpha432.oyvey.event.impl.TickEvent;
 import me.alpha432.oyvey.features.Feature;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -22,7 +22,7 @@ public class HoleManager extends Feature {
     }
 
     @Subscribe
-    private void onTick(UpdateEvent event) {
+    private void onTick(TickEvent event) {
         holes.clear();
         for (int x = -range; x < range; x++) {
             for (int y = -range; y < range; y++) {

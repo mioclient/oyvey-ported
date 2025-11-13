@@ -29,7 +29,7 @@ public class Step extends Module {
     }
 
     @Override
-    public void onUpdate() {
+    public void onTick() {
         if (nullCheck()) return;
         mc.player.getAttributeInstance(EntityAttributes.STEP_HEIGHT).setBaseValue(height.getValue());
     }
