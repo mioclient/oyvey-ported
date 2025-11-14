@@ -12,21 +12,7 @@ public class EventBus {
     private final Map<Class<?>, CopyOnWriteArrayList<Listener>> listeners = new ConcurrentHashMap<>();
 
     public void register(Object host) {
-        for (Method method : host.getClass().getDeclaredMethods()) {
-            Subscribe subscribe = method.getAnnotation(Subscribe.class);
-            if (subscribe == null) continue;
-
-            Class<?>[] params = method.getParameterTypes();
-            if (params.length == 1) {
-                Class<?> eventType = params[0];
-
-                Listener listener = Listener.of(host, subscribe.priority(), method);
-                List<Listener> registry = listeners.computeIfAbsent(eventType,
-                        k -> new CopyOnWriteArrayList<>());
-
-                register(registry, listener);
-            }
-        }
+        register(host, host.getClass());
     }
 
     public void unregister(Object host) {
@@ -43,6 +29,27 @@ public class EventBus {
             if (event.isCancelled()) return;
             listener.invoke(event);
         }
+    }
+
+    private void register(Object host, Class<?> klass) {
+        for (Method method : host.getClass().getDeclaredMethods()) {
+            Subscribe subscribe = method.getAnnotation(Subscribe.class);
+            if (subscribe == null) continue;
+
+            Class<?>[] params = method.getParameterTypes();
+            if (params.length == 1) {
+                Class<?> eventType = params[0];
+
+                Listener listener = Listener.of(host, subscribe.priority(), method);
+                List<Listener> registry = listeners.computeIfAbsent(eventType,
+                        k -> new CopyOnWriteArrayList<>());
+
+                register(registry, listener);
+            }
+        }
+
+        if (klass.getSuperclass() != null)
+            register(host, klass.getSuperclass());
     }
 
     private void register(List<Listener> registry, Listener target) {
