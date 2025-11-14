@@ -13,14 +13,18 @@ public class EventBus {
 
     public void register(Object host) {
         for (Method method : host.getClass().getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Subscribe.class)) {
-                Class<?>[] params = method.getParameterTypes();
-                if (params.length == 1) {
-                    Class<?> eventType = params[0];
+            Subscribe subscribe = method.getAnnotation(Subscribe.class);
+            if (subscribe == null) continue;
 
-                    listeners.computeIfAbsent(eventType, k -> new CopyOnWriteArrayList<>())
-                            .add(Listener.of(host, method));
-                }
+            Class<?>[] params = method.getParameterTypes();
+            if (params.length == 1) {
+                Class<?> eventType = params[0];
+
+                Listener listener = Listener.of(host, subscribe.priority(), method);
+                List<Listener> registry = listeners.computeIfAbsent(eventType,
+                        k -> new CopyOnWriteArrayList<>());
+
+                register(registry, listener);
             }
         }
     }
@@ -39,5 +43,14 @@ public class EventBus {
             if (event.isCancelled()) return;
             listener.invoke(event);
         }
+    }
+
+    private void register(List<Listener> registry, Listener target) {
+        int i = 0;
+        for (Listener listener : registry) {
+            i++;
+            if (target.priority() > listener.priority()) break;
+        }
+        registry.add(i, target);
     }
 }

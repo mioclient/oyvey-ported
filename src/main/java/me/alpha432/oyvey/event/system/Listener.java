@@ -4,9 +4,9 @@ import java.lang.invoke.*;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
-public record Listener(Object host, Consumer<Object> consumer) {
-    public static Listener of(Object host, Method method) {
-        return new Listener(host, buildLambdaMetafactory(host, method));
+public record Listener(Object host, int priority, Consumer<Object> consumer) {
+    public static Listener of(Object host, int priority, Method method) {
+        return new Listener(host, priority, buildLambdaMetafactory(host, method));
     }
 
     public void invoke(Object event) {
