@@ -40,6 +40,26 @@ public abstract class HudModule extends Module {
 
     @Subscribe
     public void onRender2DHud(Render2DEvent e) {
+        render(e);
+    }
+
+    @Subscribe
+    public void onMouse(MouseEvent e) {
+        if (!(mc.currentScreen instanceof HudEditorScreen) || nullCheck()) return;
+        if (OyVey.hudEditorScreen == null) return;
+
+        if (e.getAction() == 0) {
+            button = false;
+            dragging = false;
+            OyVey.hudEditorScreen.currentDragging = null;
+        }
+
+        if (e.getAction() == 1 && isHovering()) {
+            button = true;
+        }
+    }
+
+    protected void render(Render2DEvent e) {
         if (!(mc.currentScreen instanceof HudEditorScreen) || nullCheck() || OyVey.hudEditorScreen == null) return;
 
         float x = getX();
@@ -86,22 +106,6 @@ public abstract class HudModule extends Module {
         RenderUtil.rect(e.getContext(),
                 x - 1, y - 1, x + width + 1, y + height + 1,
                 OyVey.colorManager.getColor().getRGB(), 1.0f);
-    }
-
-    @Subscribe
-    public void onMouse(MouseEvent e) {
-        if (!(mc.currentScreen instanceof HudEditorScreen) || nullCheck()) return;
-        if (OyVey.hudEditorScreen == null) return;
-
-        if (e.getAction() == 0) {
-            button = false;
-            dragging = false;
-            OyVey.hudEditorScreen.currentDragging = null;
-        }
-
-        if (e.getAction() == 1 && isHovering()) {
-            button = true;
-        }
     }
 
     public int getMouseX() {

@@ -1,7 +1,6 @@
 package me.alpha432.oyvey.features.modules.hud;
 
 import me.alpha432.oyvey.event.impl.Render2DEvent;
-import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.modules.client.HudModule;
 import me.alpha432.oyvey.features.settings.Setting;
 
@@ -13,9 +12,8 @@ public class Coordinates extends HudModule {
     }
 
     @Override
-    @Subscribe
-    public void onRender2D(Render2DEvent e) {
-        super.onRender2DHud(e);
+    protected void render(Render2DEvent e) {
+        super.render(e);
 
         if (nullCheck()) return;
 

@@ -15,9 +15,8 @@ public class Watermark extends HudModule {
     }
 
     @Override
-    @Subscribe
-    public void onRender2D(Render2DEvent e) {
-        super.onRender2DHud(e);
+    protected void render(Render2DEvent e) {
+        super.render(e);
 
         e.getContext().drawTextWithShadow(mc.textRenderer,
                 TextUtil.text("{global} %s {} %s", text.getValue(), OyVey.VERSION),
