@@ -2,22 +2,28 @@ package me.alpha432.oyvey.features.modules;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.cattyn.catformat.fabric.FabricCatFormat;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.impl.ClientEvent;
 import me.alpha432.oyvey.event.impl.Render2DEvent;
 import me.alpha432.oyvey.event.impl.Render3DEvent;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
+import me.alpha432.oyvey.features.modules.client.Notifications;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.ConfigManager;
+import me.alpha432.oyvey.util.TextUtil;
+import me.alpha432.oyvey.util.player.ChatUtil;
 import me.alpha432.oyvey.util.traits.Jsonable;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.joml.Vector2f;
 
 public class Module extends Feature implements Jsonable {
     private final String description;
     private final Category category;
+    FabricCatFormat formatter = new FabricCatFormat();
 
     public final Setting<Boolean> enabled = bool("Enabled", false);
     public final Setting<Boolean> drawn = bool("Drawn", true);
@@ -89,6 +95,11 @@ public class Module extends Feature implements Jsonable {
         if (!event.isCancelled()) {
             this.setEnabled(!this.isEnabled());
         }
+        if(OyVey.moduleManager.getModuleByClass(Notifications.class).isEnabled()) sendToggleMsg();
+    }
+
+    private void sendToggleMsg() {
+        ChatUtil.sendMessage(formatter.format("{gray} "+this.getName()+".enabled = {} "+isEnabled()));
     }
 
     public String getDisplayName() {
