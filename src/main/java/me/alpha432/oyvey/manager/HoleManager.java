@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.manager;
 
-import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.event.impl.TickEvent;
+import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;

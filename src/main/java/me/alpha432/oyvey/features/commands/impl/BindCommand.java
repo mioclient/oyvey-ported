@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.features.commands.impl;
 
-import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.impl.KeyEvent;
+import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Bind;

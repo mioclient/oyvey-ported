@@ -1,6 +1,6 @@
 package me.alpha432.oyvey.util.traits;
 
-import com.google.common.eventbus.EventBus;
+import me.alpha432.oyvey.event.system.EventBus;
 import net.minecraft.client.MinecraftClient;
 
 public interface Util {

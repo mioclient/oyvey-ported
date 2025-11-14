@@ -1,9 +1,9 @@
 package me.alpha432.oyvey.manager;
 
-import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.Stage;
 import me.alpha432.oyvey.event.impl.*;
+import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
 import net.minecraft.entity.player.PlayerEntity;
