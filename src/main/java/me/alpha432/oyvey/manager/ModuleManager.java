@@ -7,6 +7,7 @@ import me.alpha432.oyvey.event.impl.Render3DEvent;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
+import me.alpha432.oyvey.features.modules.client.Notifications;
 import me.alpha432.oyvey.features.modules.hud.*;
 import me.alpha432.oyvey.features.modules.client.HudEditor;
 import me.alpha432.oyvey.features.modules.combat.Criticals;
@@ -32,6 +33,7 @@ public class ModuleManager implements Jsonable, Util {
         register(new Coordinates());
         register(new HudEditor());
         register(new ClickGui());
+        register(new Notifications());
         register(new Criticals());
         register(new MCF());
         register(new Step());
