@@ -32,7 +32,7 @@ public class EventBus {
     }
 
     private void register(Object host, Class<?> klass) {
-        for (Method method : host.getClass().getDeclaredMethods()) {
+        for (Method method : klass.getDeclaredMethods()) {
             Subscribe subscribe = method.getAnnotation(Subscribe.class);
             if (subscribe == null) continue;
 
