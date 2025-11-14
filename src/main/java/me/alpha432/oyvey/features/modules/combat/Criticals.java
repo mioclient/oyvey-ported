@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.features.modules.combat;
 
-import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.event.impl.PacketEvent;
+import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.modules.Module;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

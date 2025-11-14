@@ -1,9 +1,9 @@
 package me.alpha432.oyvey.features.modules.client;
 
-import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.impl.MouseEvent;
 import me.alpha432.oyvey.event.impl.Render2DEvent;
+import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.gui.HudEditorScreen;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;

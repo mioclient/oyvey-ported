@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.manager;
 
-import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.event.Stage;
 import me.alpha432.oyvey.event.impl.UpdateWalkingPlayerEvent;
+import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 

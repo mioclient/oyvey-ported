@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.features.modules.render;
 
-import com.google.common.eventbus.Subscribe;
 import me.alpha432.oyvey.event.impl.Render3DEvent;
+import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.render.RenderUtil;
