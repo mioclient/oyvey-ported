@@ -82,7 +82,7 @@ public class InteractionUtil implements Util {
         }
         BlockPos bp = airPlace ? pos : pos.offset(direction);
         ActionResult result = mc.interactionManager.interactBlock(mc.player, hand, new BlockHitResult(
-                airPlace ? Vec3d.ofCenter(pos) : Vec3d.ofCenter(pos).offset(direction.getOpposite(), 0.5),
+                airPlace ? Vec3d.ofCenter(pos) : Vec3d.ofCenter(bp).offset(direction.getOpposite(), 0.5),
                 airPlace ? direction : direction.getOpposite(), bp, false
         ));
         if (result instanceof ActionResult.Success success && success.swingSource() != ActionResult.SwingSource.NONE) {
