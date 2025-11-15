@@ -44,7 +44,7 @@ public class ColorButton extends Button {
         drawString(this.getName(), this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
 
         if (open) {
-            float yOffset = this.height;
+            float yOffset = this.height + 1;
             int availableWidth = this.width + 3;
             int pickerWidth = Math.min(pickerSize, availableWidth);
             float pickerX = this.x + 2.0f;
@@ -170,7 +170,7 @@ public class ColorButton extends Button {
     public int getHeight() {
         if (!open) return 14;
         int pickerWidth = Math.min(pickerSize, this.width + 3);
-        return 14 + pickerWidth + 8 + 8 + 14 + 10;
+        return 14 + pickerWidth + 8 + 8 + 14 + 8;
     }
 
     @Override
