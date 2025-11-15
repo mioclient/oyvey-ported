@@ -1,6 +1,5 @@
 package me.alpha432.oyvey.features.gui.items.buttons;
 
-import me.alpha432.oyvey.features.gui.Component;
 import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Bind;
@@ -58,13 +57,13 @@ public class ModuleButton
         super.drawScreen(context, mouseX, mouseY, partialTicks);
         if (!this.items.isEmpty()) {
             if (this.subOpen) {
-                float height = 14.0f;
+                float height = 16.0f;
                 for (Item item : this.items) {
                     if (!item.isHidden()) {
                         item.setLocation(this.x + 1.0f, this.y + height);
                         item.setWidth(this.width - 9);
                         item.drawScreen(context, mouseX, mouseY, partialTicks);
-                        height += item.getHeight() + 1;
+                        height += item.getHeight() + 1f;
                     }
                     item.update();
                 }
@@ -125,12 +124,12 @@ public class ModuleButton
     @Override
     public int getHeight() {
         if (this.subOpen) {
-            int height = 14;
+            int height = 16;
             for (Item item : this.items) {
                 if (item.isHidden()) continue;
                 height += item.getHeight() + 1;
             }
-            return height + 2;
+            return height;
         }
         return 14;
     }

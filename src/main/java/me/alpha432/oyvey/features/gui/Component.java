@@ -72,7 +72,7 @@ public class Component
                 if (item.isHovering(mouseX, mouseY)) {
                     ScissorUtil.enable(context);
                 }
-                y += (float) item.getHeight() + 1.5f;
+                y += (float) item.getHeight() + 2f;
             }
         }
 
@@ -183,7 +183,7 @@ public class Component
     private float getTotalItemHeight() {
         float height = 0.0f;
         for (Item item : this.getItems()) {
-            height += (float) item.getHeight() + 1.5f;
+            height += (float) item.getHeight() + 2;
         }
         return height;
     }

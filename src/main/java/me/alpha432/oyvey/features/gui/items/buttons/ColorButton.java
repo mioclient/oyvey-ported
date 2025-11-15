@@ -179,7 +179,7 @@ public class ColorButton extends Button {
             if (component.drag) return false;
         }
         return (float) mouseX >= this.getX() && (float) mouseX <= this.getX() + (float) this.getWidth() + 8.0f
-                && (float) mouseY >= this.getY() && (float) mouseY <= this.getY() + (float) this.height;
+                && (float) mouseY >= this.getY() && (float) mouseY < this.getY() + (float) this.height;
     }
 
     private boolean isHoveringArea(int mouseX, int mouseY, float left, float top, float right, float bottom) {
