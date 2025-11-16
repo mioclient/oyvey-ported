@@ -16,7 +16,6 @@ out
 # gradle
 build
 .gradle
-gradle/wrapper/gradle-wrapper.jar
 
 # other
 /runtime/
