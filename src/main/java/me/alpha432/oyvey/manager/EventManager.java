@@ -6,12 +6,12 @@ import me.alpha432.oyvey.event.impl.*;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.BrandCustomPayload;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
-import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
-import net.minecraft.util.Formatting;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.protocol.common.custom.BrandPayload;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
+import net.minecraft.ChatFormatting;
 
 public class EventManager extends Feature {
     public void init() {
@@ -27,7 +27,7 @@ public class EventManager extends Feature {
         if (nullCheck())
             return;
         OyVey.moduleManager.onTick();
-        for (PlayerEntity player : mc.world.getPlayers()) {
+        for (Player player : mc.level.players()) {
             if (player == null || player.getHealth() > 0.0F)
                 continue;
             EVENT_BUS.post(new DeathEvent(player));
@@ -52,10 +52,10 @@ public class EventManager extends Feature {
     @Subscribe
     public void onPacketReceive(PacketEvent.Receive event) {
         OyVey.serverManager.onPacketReceived();
-        if (event.getPacket() instanceof WorldTimeUpdateS2CPacket)
+        if (event.getPacket() instanceof ClientboundSetTimePacket)
             OyVey.serverManager.update();
-        if (event.getPacket() instanceof CustomPayloadS2CPacket(CustomPayload payload)
-                && payload instanceof BrandCustomPayload(String brand)) {
+        if (event.getPacket() instanceof ClientboundCustomPayloadPacket(CustomPacketPayload payload)
+                && payload instanceof BrandPayload(String brand)) {
             OyVey.serverManager.setServerBrand(brand);
         }
     }
@@ -71,7 +71,7 @@ public class EventManager extends Feature {
     }
 
     @Subscribe
-    public void onKeyInput(KeyEvent event) {
+    public void onKeyInput(KeyInputEvent event) {
         OyVey.moduleManager.onKeyPressed(event.getKey());
     }
 
@@ -87,7 +87,7 @@ public class EventManager extends Feature {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Command.sendMessage(Formatting.RED + "An error occurred while running this command. Check the log!");
+                Command.sendMessage(ChatFormatting.RED + "An error occurred while running this command. Check the log!");
             }
         }
     }

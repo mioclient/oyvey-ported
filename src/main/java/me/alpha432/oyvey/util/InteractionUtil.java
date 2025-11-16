@@ -1,123 +1,123 @@
 package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.util.traits.Util;
-import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ExperienceOrbEntity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.effect.StatusEffectUtil;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.thrown.ExperienceBottleEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrownExperienceBottle;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.protocol.game.ServerboundSwingPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
 
 public class InteractionUtil implements Util {
     public static boolean canBreak(BlockPos blockPos, BlockState state) {
-        if (!mc.player.isCreative() && state.getHardness(mc.world, blockPos) < 0) return false;
-        return state.getOutlineShape(mc.world, blockPos) != VoxelShapes.empty();
+        if (!mc.player.isCreative() && state.getDestroySpeed(mc.level, blockPos) < 0) return false;
+        return state.getShape(mc.level, blockPos) != Shapes.empty();
     }
 
     public static boolean isPlaceable(BlockPos pos, boolean entityCheck) {
-        if (!mc.world.getBlockState(pos).isReplaceable()) return false;
-        for (Entity e : mc.world.getEntitiesByClass(Entity.class, new Box(pos), e -> !(e instanceof ExperienceBottleEntity || e instanceof ItemEntity || e instanceof ExperienceOrbEntity))) {
-            if (e instanceof PlayerEntity) return false;
+        if (!mc.level.getBlockState(pos).canBeReplaced()) return false;
+        for (Entity e : mc.level.getEntitiesOfClass(Entity.class, new AABB(pos), e -> !(e instanceof ThrownExperienceBottle || e instanceof ItemEntity || e instanceof ExperienceOrb))) {
+            if (e instanceof Player) return false;
             return !entityCheck;
         }
         return true;
     }
 
     public static boolean breakBlock(BlockPos pos) {
-        if (!canBreak(pos, mc.world.getBlockState(pos))) return false;
-        BlockPos bp = pos instanceof BlockPos.Mutable ? new BlockPos(pos) : pos;
+        if (!canBreak(pos, mc.level.getBlockState(pos))) return false;
+        BlockPos bp = pos instanceof BlockPos.MutableBlockPos ? new BlockPos(pos) : pos;
 
-        mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, bp, Direction.UP));
-        mc.player.swingHand(Hand.MAIN_HAND);
-        mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, bp, Direction.UP));
+        mc.getConnection().send(new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK, bp, Direction.UP));
+        mc.player.swing(InteractionHand.MAIN_HAND);
+        mc.getConnection().send(new ServerboundPlayerActionPacket(ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, bp, Direction.UP));
 
-        mc.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
+        mc.getConnection().send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
 
         return true;
     }
 
     public static void useItem(BlockPos pos) {
-        useItem(pos, Hand.MAIN_HAND);
+        useItem(pos, InteractionHand.MAIN_HAND);
     }
 
-    public static void useItem(BlockPos pos, Hand hand) {
-        if (mc.world == null || mc.player == null || mc.interactionManager == null) return;
-        Direction direction = mc.crosshairTarget != null ? ((BlockHitResult) mc.crosshairTarget).getSide() : Direction.DOWN;
-        ActionResult result = mc.interactionManager.interactBlock(mc.player, hand, new BlockHitResult(
-                Vec3d.ofCenter(pos), direction, pos, false
+    public static void useItem(BlockPos pos, InteractionHand hand) {
+        if (mc.level == null || mc.player == null || mc.gameMode == null) return;
+        Direction direction = mc.hitResult != null ? ((BlockHitResult) mc.hitResult).getDirection() : Direction.DOWN;
+        InteractionResult result = mc.gameMode.useItemOn(mc.player, hand, new BlockHitResult(
+                Vec3.atCenterOf(pos), direction, pos, false
         ));
-        if (result instanceof ActionResult.Success success && success.swingSource() != ActionResult.SwingSource.NONE) {
-            mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
+        if (result instanceof InteractionResult.Success success && success.swingSource() != InteractionResult.SwingSource.NONE) {
+            mc.player.connection.send(new ServerboundSwingPacket(hand));
         }
     }
 
     public static boolean place(BlockPos pos, boolean airPlace) {
-        return place(pos, airPlace, Hand.MAIN_HAND);
+        return place(pos, airPlace, InteractionHand.MAIN_HAND);
     }
 
-    public static boolean place(BlockPos pos, boolean airPlace, Hand hand) {
-        if (mc.world == null || mc.player == null || mc.interactionManager == null) return false;
+    public static boolean place(BlockPos pos, boolean airPlace, InteractionHand hand) {
+        if (mc.level == null || mc.player == null || mc.gameMode == null) return false;
         if (!isPlaceable(pos, false)) return false;
         Direction direction = calcSide(pos);
         if (direction == null) {
             if (airPlace)
-                direction = mc.crosshairTarget != null ? ((BlockHitResult) mc.crosshairTarget).getSide() : Direction.DOWN;
+                direction = mc.hitResult != null ? ((BlockHitResult) mc.hitResult).getDirection() : Direction.DOWN;
             else return false;
         }
-        BlockPos bp = airPlace ? pos : pos.offset(direction);
-        ActionResult result = mc.interactionManager.interactBlock(mc.player, hand, new BlockHitResult(
-                airPlace ? Vec3d.ofCenter(pos) : Vec3d.ofCenter(bp).offset(direction.getOpposite(), 0.5),
+        BlockPos bp = airPlace ? pos : pos.relative(direction);
+        InteractionResult result = mc.gameMode.useItemOn(mc.player, hand, new BlockHitResult(
+                airPlace ? Vec3.atCenterOf(pos) : Vec3.atCenterOf(bp).relative(direction.getOpposite(), 0.5),
                 airPlace ? direction : direction.getOpposite(), bp, false
         ));
-        if (result instanceof ActionResult.Success success && success.swingSource() != ActionResult.SwingSource.NONE) {
-            mc.player.networkHandler.sendPacket(new HandSwingC2SPacket(hand));
+        if (result instanceof InteractionResult.Success success && success.swingSource() != InteractionResult.SwingSource.NONE) {
+            mc.player.connection.send(new ServerboundSwingPacket(hand));
         }
         return true;
     }
 
     public static Direction calcSide(BlockPos pos) {
         for (Direction d : Direction.values())
-            if (!mc.world.getBlockState(pos.add(d.getVector())).isReplaceable()) return d;
+            if (!mc.level.getBlockState(pos.offset(d.getUnitVec3i())).canBeReplaced()) return d;
         return null;
     }
 
     public static double getBlockBreakingSpeed(int slot, BlockPos pos) {
-        return getBlockBreakingSpeed(slot, mc.world.getBlockState(pos));
+        return getBlockBreakingSpeed(slot, mc.level.getBlockState(pos));
     }
 
     public static double getBlockBreakingSpeed(int slot, BlockState block) {
-        double speed = mc.player.getInventory().getMainStacks().get(slot).getMiningSpeedMultiplier(block);
+        double speed = mc.player.getInventory().getNonEquipmentItems().get(slot).getDestroySpeed(block);
 
         if (speed > 1) {
-            ItemStack tool = mc.player.getInventory().getStack(slot);
+            ItemStack tool = mc.player.getInventory().getItem(slot);
 
             int efficiency = EnchantmentUtil.getLevel(Enchantments.EFFICIENCY, tool);
 
             if (efficiency > 0 && !tool.isEmpty()) speed += efficiency * efficiency + 1;
         }
 
-        if (StatusEffectUtil.hasHaste(mc.player)) {
-            speed *= 1 + (StatusEffectUtil.getHasteAmplifier(mc.player) + 1) * 0.2F;
+        if (MobEffectUtil.hasDigSpeed(mc.player)) {
+            speed *= 1 + (MobEffectUtil.getDigSpeedAmplification(mc.player) + 1) * 0.2F;
         }
 
-        if (mc.player.hasStatusEffect(StatusEffects.MINING_FATIGUE)) {
-            float k = switch (mc.player.getStatusEffect(StatusEffects.MINING_FATIGUE).getAmplifier()) {
+        if (mc.player.hasEffect(MobEffects.MINING_FATIGUE)) {
+            float k = switch (mc.player.getEffect(MobEffects.MINING_FATIGUE).getAmplifier()) {
                 case 0 -> 0.3F;
                 case 1 -> 0.09F;
                 case 2 -> 0.0027F;
@@ -127,18 +127,18 @@ public class InteractionUtil implements Util {
             speed *= k;
         }
 
-        if (mc.player.isSubmergedIn(FluidTags.WATER) && EnchantmentUtil.has(Enchantments.AQUA_AFFINITY, EquipmentSlot.HEAD)) {
+        if (mc.player.isEyeInFluid(FluidTags.WATER) && EnchantmentUtil.has(Enchantments.AQUA_AFFINITY, EquipmentSlot.HEAD)) {
             speed /= 5.0F;
         }
 
-        if (!mc.player.isOnGround()) {
+        if (!mc.player.onGround()) {
             speed /= 5.0F;
         }
 
-        float hardness = block.getHardness(null, null);
+        float hardness = block.getDestroySpeed(null, null);
         if (hardness == -1) return 0;
 
-        speed /= hardness / (!block.isToolRequired() || mc.player.getInventory().getMainStacks().get(slot).isSuitableFor(block) ? 30 : 100);
+        speed /= hardness / (!block.requiresCorrectToolForDrops() || mc.player.getInventory().getNonEquipmentItems().get(slot).isCorrectToolForDrops(block) ? 30 : 100);
 
         float ticks = (float) (Math.floor(1.0f / speed) + 1.0f);
 

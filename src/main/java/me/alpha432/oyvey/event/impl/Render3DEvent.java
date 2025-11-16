@@ -1,18 +1,18 @@
 package me.alpha432.oyvey.event.impl;
 
 import me.alpha432.oyvey.event.Event;
-import net.minecraft.client.util.math.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 public class Render3DEvent extends Event {
-    private final MatrixStack matrix;
+    private final PoseStack matrix;
     private final float delta;
 
-    public Render3DEvent(MatrixStack matrix, float delta) {
+    public Render3DEvent(PoseStack matrix, float delta) {
         this.matrix = matrix;
         this.delta = delta;
     }
 
-    public MatrixStack getMatrix() {
+    public PoseStack getMatrix() {
         return matrix;
     }
 

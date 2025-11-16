@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.event.impl;
 
 import me.alpha432.oyvey.event.Event;
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.protocol.Packet;
 
 public abstract class PacketEvent extends Event {
 

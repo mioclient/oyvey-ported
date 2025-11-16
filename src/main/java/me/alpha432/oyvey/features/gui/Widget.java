@@ -7,17 +7,17 @@ import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.util.ColorUtil;
 import me.alpha432.oyvey.util.render.RenderUtil;
 import me.alpha432.oyvey.util.render.ScissorUtil;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Component
+public class Widget
         extends Feature {
-    protected DrawContext context;
+    protected GuiGraphics context;
     private final List<Item> items = new ArrayList<>();
     public boolean drag;
     private int x;
@@ -29,7 +29,7 @@ public class Component
     private boolean open;
     private boolean hidden = false;
 
-    public Component(String name, int x, int y, boolean open) {
+    public Widget(String name, int x, int y, boolean open) {
         super(name);
         this.x = x;
         this.y = y;
@@ -46,7 +46,7 @@ public class Component
         this.y = this.y2 + mouseY;
     }
 
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
         this.context = context;
         this.drag(mouseX, mouseY);
         float totalItemHeight = this.open ? this.getTotalItemHeight() - 2.0f : 0.0f;
@@ -56,7 +56,7 @@ public class Component
             RenderUtil.rect(context, this.x, (float) this.y + 12.5f, this.x + this.width, (float) (this.y + this.height) + totalItemHeight, 0x77000000);
         }
         drawString(this.getName(), (float) this.x + 3.0f, (float) this.y - 4.0f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
-        ScissorUtil.enable(context, x, 0, x + width, mc.getWindow().getScaledHeight());
+        ScissorUtil.enable(context, x, 0, x + width, mc.getWindow().getGuiScaledHeight());
 
         if (this.open) {
             float y = (float) (this.getY() + this.getHeight()) - 3.0f;
@@ -93,7 +93,7 @@ public class Component
         }
         if (mouseButton == 1 && this.isHovering(mouseX, mouseY)) {
             this.open = !this.open;
-            mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
+            mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
             return;
         }
         if (!this.open) {
@@ -193,6 +193,6 @@ public class Component
     }
 
     protected void drawString(String text, double x, double y, int color) {
-        context.drawTextWithShadow(mc.textRenderer, text, (int) x, (int) y, color);
+        context.drawString(mc.font, text, (int) x, (int) y, color);
     }
 }

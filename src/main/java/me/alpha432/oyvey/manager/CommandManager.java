@@ -6,7 +6,7 @@ import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.commands.impl.*;
 import me.alpha432.oyvey.util.traits.Jsonable;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -58,7 +58,7 @@ public class CommandManager
             c.execute(parts);
             return;
         }
-        Command.sendMessage(Formatting.GRAY + "Command not found, type 'help' for the commands list.");
+        Command.sendMessage(ChatFormatting.GRAY + "Command not found, type 'help' for the commands list.");
     }
 
     public Command getCommandByName(String name) {

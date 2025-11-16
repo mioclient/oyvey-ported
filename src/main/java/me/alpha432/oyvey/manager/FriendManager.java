@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.alpha432.oyvey.util.traits.Jsonable;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class FriendManager implements Jsonable {
         return this.friends.stream().anyMatch(friend -> friend.equalsIgnoreCase(name));
     }
 
-    public boolean isFriend(PlayerEntity player) {
+    public boolean isFriend(Player player) {
         return this.isFriend(player.getGameProfile().name());
     }
 

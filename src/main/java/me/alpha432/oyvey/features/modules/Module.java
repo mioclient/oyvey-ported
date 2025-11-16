@@ -16,8 +16,8 @@ import me.alpha432.oyvey.manager.ConfigManager;
 import me.alpha432.oyvey.util.TextUtil;
 import me.alpha432.oyvey.util.player.ChatUtil;
 import me.alpha432.oyvey.util.traits.Jsonable;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
 import org.joml.Vector2f;
 
 public class Module extends Feature implements Jsonable {
@@ -114,7 +114,7 @@ public class Module extends Feature implements Jsonable {
             this.displayName.setValue(name);
             return;
         }
-        Command.sendMessage(Formatting.RED + "A module of this name already exists.");
+        Command.sendMessage(ChatFormatting.RED + "A module of this name already exists.");
     }
 
     @Override
@@ -151,7 +151,7 @@ public class Module extends Feature implements Jsonable {
     }
 
     public String getFullArrayString() {
-        return this.getDisplayName() + Formatting.GRAY + (this.getDisplayInfo() != null ? " [" + Formatting.WHITE + this.getDisplayInfo() + Formatting.GRAY + "]" : "");
+        return this.getDisplayName() + ChatFormatting.GRAY + (this.getDisplayInfo() != null ? " [" + ChatFormatting.WHITE + this.getDisplayInfo() + ChatFormatting.GRAY + "]" : "");
     }
 
     @Override

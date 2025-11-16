@@ -23,20 +23,20 @@ public class Coordinates extends HudModule {
                 mc.player.getBlockZ());
 
         if (nether.getValue()) {
-            int netherX = mc.player.getEntityWorld().getRegistryKey().getValue().getPath().equals("the_nether")
+            int netherX = mc.player.level().dimension().location().getPath().equals("the_nether")
                     ? mc.player.getBlockX() * 8
                     : mc.player.getBlockX() / 8;
-            int netherZ = mc.player.getEntityWorld().getRegistryKey().getValue().getPath().equals("the_nether")
+            int netherZ = mc.player.level().dimension().location().getPath().equals("the_nether")
                     ? mc.player.getBlockZ() * 8
                     : mc.player.getBlockZ() / 8;
             coordsStr += String.format(" [%d, %d]", netherX, netherZ);
         }
 
-        e.getContext().drawTextWithShadow(mc.textRenderer, coordsStr,
+        e.getContext().drawString(mc.font, coordsStr,
                 (int) getX(), (int) getY(), -1);
 
-        setWidth(mc.textRenderer.getWidth(coordsStr));
-        setHeight(mc.textRenderer.fontHeight);
+        setWidth(mc.font.width(coordsStr));
+        setHeight(mc.font.lineHeight);
     }
 }
 

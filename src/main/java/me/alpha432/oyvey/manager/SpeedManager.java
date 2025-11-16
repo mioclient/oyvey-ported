@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.manager;
 
 import me.alpha432.oyvey.features.Feature;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,26 +20,26 @@ public class SpeedManager extends Feature {
         localSpeedNormal = localSpeed.stream().reduce(0f, Float::sum) / localSpeed.size();
     }
 
-    public double getSpeed(PlayerEntity player) {
+    public double getSpeed(Player player) {
         if (mc.player == player) return localSpeedNormal;
         return getCurrentSpeed(player);
     }
 
-    public double getSpeedBpS(PlayerEntity player) {
+    public double getSpeedBpS(Player player) {
         return getSpeed(player) * 20;
     }
 
-    public double getSpeedKmH(PlayerEntity player) {
+    public double getSpeedKmH(Player player) {
         return getSpeedBpS(player) * 3.6;
     }
 
     public float getCurrentSpeed(Entity entity) {
         Entity vehicle = entity.getVehicle();
-        double distTraveledX = entity.getX() - entity.lastX;
-        double distTraveledZ = entity.getZ() - entity.lastZ;
+        double distTraveledX = entity.getX() - entity.xo;
+        double distTraveledZ = entity.getZ() - entity.zo;
         if (vehicle != null) {
-            distTraveledX = vehicle.getX() - vehicle.lastX;
-            distTraveledZ = vehicle.getZ() - vehicle.lastZ;
+            distTraveledX = vehicle.getX() - vehicle.xo;
+            distTraveledZ = vehicle.getZ() - vehicle.zo;
         }
 
         return  (float) Math.hypot(distTraveledX, distTraveledZ);

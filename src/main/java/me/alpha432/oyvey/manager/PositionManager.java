@@ -4,7 +4,7 @@ import me.alpha432.oyvey.event.Stage;
 import me.alpha432.oyvey.event.impl.UpdateWalkingPlayerEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 
 public class PositionManager
         extends Feature {
@@ -22,8 +22,8 @@ public class PositionManager
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         if (event.getStage() == Stage.POST) return;
 
-        double diff = mc.player.lastY - mc.player.getY();
-        if (mc.player.isOnGround() || diff <= 0) {
+        double diff = mc.player.yo - mc.player.getY();
+        if (mc.player.onGround() || diff <= 0) {
             fallDistance = 0;
         } else {
             fallDistance += diff;
@@ -34,28 +34,28 @@ public class PositionManager
         this.x = mc.player.getX();
         this.y = mc.player.getY();
         this.z = mc.player.getZ();
-        this.onground = mc.player.isOnGround();
+        this.onground = mc.player.onGround();
     }
 
     public void restorePosition() {
-        mc.player.setPosition(x, y, z);
+        mc.player.setPos(x, y, z);
         mc.player.setOnGround(onground);
     }
 
     public void setPlayerPosition(double x, double y, double z) {
-        mc.player.setPosition(x, y, z);
+        mc.player.setPos(x, y, z);
     }
 
     public void setPlayerPosition(double x, double y, double z, boolean onground) {
-        mc.player.setPosition(x, y, z);
+        mc.player.setPos(x, y, z);
         mc.player.setOnGround(onground);
     }
 
     public void setPositionPacket(double x, double y, double z, boolean onGround, boolean setPos, boolean noLagBack) {
         boolean bl = mc.player.horizontalCollision;
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, onGround, bl));
+        mc.player.connection.send(new ServerboundMovePlayerPacket.Pos(x, y, z, onGround, bl));
         if (setPos) {
-            mc.player.setPosition(x, y, z);
+            mc.player.setPos(x, y, z);
             if (noLagBack) {
                 this.updatePosition();
             }

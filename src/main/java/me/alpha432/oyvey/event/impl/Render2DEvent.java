@@ -1,18 +1,18 @@
 package me.alpha432.oyvey.event.impl;
 
 import me.alpha432.oyvey.event.Event;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class Render2DEvent extends Event {
-    private final DrawContext context;
+    private final GuiGraphics context;
     private final float delta;
 
-    public Render2DEvent(DrawContext context, float delta) {
+    public Render2DEvent(GuiGraphics context, float delta) {
         this.context = context;
         this.delta = delta;
     }
 
-    public DrawContext getContext() {
+    public GuiGraphics getContext() {
         return context;
     }
 

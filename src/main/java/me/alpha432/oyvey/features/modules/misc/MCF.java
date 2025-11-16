@@ -3,8 +3,8 @@ package me.alpha432.oyvey.features.modules.misc;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.modules.Module;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import org.lwjgl.glfw.GLFW;
 
 public class MCF extends Module {
@@ -16,7 +16,7 @@ public class MCF extends Module {
 
     @Override
     public void onTick() {
-        if (GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), 2) == 1) {
+        if (GLFW.glfwGetMouseButton(mc.getWindow().handle(), 2) == 1) {
             if (!pressed) click();
             pressed = true;
         } else {
@@ -25,9 +25,9 @@ public class MCF extends Module {
     }
 
     private void click() {
-        Entity targetedEntity = mc.targetedEntity;
-        if (!(targetedEntity instanceof PlayerEntity)) return;
-        String name = ((PlayerEntity) targetedEntity).getGameProfile().name();
+        Entity targetedEntity = mc.crosshairPickEntity;
+        if (!(targetedEntity instanceof Player)) return;
+        String name = ((Player) targetedEntity).getGameProfile().name();
 
         if (OyVey.friendManager.isFriend(name)) {
             OyVey.friendManager.removeFriend(name);

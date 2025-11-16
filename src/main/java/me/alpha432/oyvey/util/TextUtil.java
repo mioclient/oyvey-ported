@@ -3,10 +3,10 @@ package me.alpha432.oyvey.util;
 import dev.cattyn.catformat.CatFormat;
 import dev.cattyn.catformat.fabric.FabricCatFormat;
 import me.alpha432.oyvey.OyVey;
-import net.minecraft.text.MutableText;
+import net.minecraft.network.chat.MutableComponent;
 
 public final class TextUtil {
-    private static CatFormat<MutableText> formatter;
+    private static CatFormat<MutableComponent> formatter;
 
     private TextUtil() {
         throw new AssertionError("Can't create an instance of utility class");
@@ -18,7 +18,7 @@ public final class TextUtil {
         initColors();
     }
 
-    public static MutableText text(String content, Object... obj) {
+    public static MutableComponent text(String content, Object... obj) {
         if (obj == null || obj.length == 0) {
             return formatter.format(content);
         }

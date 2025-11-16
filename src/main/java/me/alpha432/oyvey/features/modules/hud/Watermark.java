@@ -18,13 +18,13 @@ public class Watermark extends HudModule {
     protected void render(Render2DEvent e) {
         super.render(e);
 
-        e.getContext().drawTextWithShadow(mc.textRenderer,
+        e.getContext().drawString(mc.font,
                 TextUtil.text("{global} %s {} %s", text.getValue(), OyVey.VERSION),
                 (int) getX(), (int) getY(), -1);
 
         String watermarkString = text.getValue() + " " + OyVey.VERSION;
-        setWidth(mc.textRenderer.getWidth(watermarkString));
-        setHeight(mc.textRenderer.fontHeight);
+        setWidth(mc.font.width(watermarkString));
+        setHeight(mc.font.lineHeight);
     }
 }
 

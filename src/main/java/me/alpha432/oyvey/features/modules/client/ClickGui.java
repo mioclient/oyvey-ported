@@ -71,7 +71,7 @@ public class ClickGui
 
     @Override
     public void onTick() {
-        if (!(ClickGui.mc.currentScreen instanceof OyVeyGui)) {
+        if (!(ClickGui.mc.screen instanceof OyVeyGui)) {
             this.disable();
         }
     }

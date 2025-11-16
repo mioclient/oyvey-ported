@@ -20,7 +20,7 @@ public class Feature
     }
 
     public static boolean nullCheck() {
-        return Feature.mc.player == null || Feature.mc.world == null;
+        return Feature.mc.player == null || Feature.mc.level == null;
     }
 
     public String getName() {

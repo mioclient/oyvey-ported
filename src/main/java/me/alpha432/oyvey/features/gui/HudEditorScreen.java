@@ -5,28 +5,28 @@ import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.gui.items.buttons.ModuleButton;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.HudModule;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.input.CharInput;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.text.Text;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class HudEditorScreen extends Screen {
-    private final ArrayList<Component> components = new ArrayList<>();
+    private final ArrayList<Widget> components = new ArrayList<>();
     public HudModule currentDragging;
     public boolean anyHover;
 
     public HudEditorScreen() {
-        super(Text.literal("oyvey-hudeditor"));
+        super(Component.literal("oyvey-hudeditor"));
         load();
     }
 
     private void load() {
-        Component hud = new Component("Hud", 50, 50, true);
+        Widget hud = new Widget("Hud", 50, 50, true);
         OyVey.moduleManager.stream()
                 .filter(m -> m.getCategory() == Module.Category.HUD && !m.hidden)
                 .map(ModuleButton::new)
@@ -36,19 +36,19 @@ public class HudEditorScreen extends Screen {
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         anyHover = false;
         this.components.forEach(component -> component.drawScreen(context, mouseX, mouseY, delta));
     }
 
     @Override
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         this.components.forEach(component -> component.mouseClicked((int) click.x(), (int) click.y(), click.button()));
         return super.mouseClicked(click, doubled);
     }
 
     @Override
-    public boolean mouseReleased(Click click) {
+    public boolean mouseReleased(MouseButtonEvent click) {
         this.components.forEach(component -> component.mouseReleased((int) click.x(), (int) click.y(), click.button()));
         return super.mouseReleased(click);
     }
@@ -64,28 +64,28 @@ public class HudEditorScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(KeyInput input) {
-        this.components.forEach(component -> component.onKeyPressed(input.getKeycode()));
+    public boolean keyPressed(KeyEvent input) {
+        this.components.forEach(component -> component.onKeyPressed(input.input()));
         return super.keyPressed(input);
     }
 
     @Override
-    public boolean charTyped(CharInput input) {
-        this.components.forEach(component -> component.onKeyTyped(input.asString(), input.modifiers()));
+    public boolean charTyped(CharacterEvent input) {
+        this.components.forEach(component -> component.onKeyTyped(input.codepointAsString(), input.modifiers()));
         return super.charTyped(input);
     }
 
     @Override
-    public boolean shouldPause() {
+    public boolean isPauseScreen() {
         return false;
     }
 
     @Override // ignore 1.21.8 menu blur thing
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float delta) {
     }
 
 
-    public ArrayList<Component> getComponents() {
+    public ArrayList<Widget> getComponents() {
         return components;
     }
 }

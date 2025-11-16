@@ -1,13 +1,13 @@
 package me.alpha432.oyvey.features.commands.impl;
 
 import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.event.impl.KeyEvent;
+import me.alpha432.oyvey.event.impl.KeyInputEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.util.KeyboardUtil;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
 import org.lwjgl.glfw.GLFW;
 
 public class BindCommand
@@ -39,11 +39,11 @@ public class BindCommand
     }
 
     @Subscribe
-    private void onKey(KeyEvent event) {
+    private void onKey(KeyInputEvent event) {
         if (nullCheck() || !listening) return;
         listening = false;
         if (event.getKey() == GLFW.GLFW_KEY_ESCAPE) {
-            sendMessage(Formatting.GRAY + "Operation cancelled.");
+            sendMessage(ChatFormatting.GRAY + "Operation cancelled.");
             return;
         }
 

@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.util.render;
 
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderPhase;
-import net.minecraft.util.Util;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.Util;
 
 import java.util.OptionalDouble;
 import java.util.function.Function;
@@ -11,31 +11,31 @@ import static me.alpha432.oyvey.util.render.Pipelines.GLOBAL_LINES_PIPELINE;
 import static me.alpha432.oyvey.util.render.Pipelines.GLOBAL_QUADS_PIPELINE;
 
 public class Layers {
-    private static final RenderLayer GLOBAL_QUADS;
-    private static final Function<Double, RenderLayer> GLOBAL_LINES;
+    private static final RenderType GLOBAL_QUADS;
+    private static final Function<Double, RenderType> GLOBAL_LINES;
 
-    public static RenderLayer getGlobalLines(double width) {
+    public static RenderType getGlobalLines(double width) {
         return GLOBAL_LINES.apply(width);
     }
 
-    public static RenderLayer getGlobalQuads() {
+    public static RenderType getGlobalQuads() {
         return GLOBAL_QUADS;
     }
 
-    private static RenderLayer.MultiPhaseParameters.Builder builder() {
-        return RenderLayer.MultiPhaseParameters.builder();
+    private static RenderType.CompositeState.CompositeStateBuilder builder() {
+        return RenderType.CompositeState.builder();
     }
 
-    private static RenderLayer.MultiPhaseParameters empty() {
-        return builder().build(false);
+    private static RenderType.CompositeState empty() {
+        return builder().createCompositeState(false);
     }
 
     static {
-        GLOBAL_QUADS = RenderLayer.of("global_fill", 156, GLOBAL_QUADS_PIPELINE, empty());
+        GLOBAL_QUADS = RenderType.create("global_fill", 156, GLOBAL_QUADS_PIPELINE, empty());
 
         GLOBAL_LINES = Util.memoize(l -> {
-            RenderPhase.LineWidth width = new RenderPhase.LineWidth(OptionalDouble.of(l));
-            return RenderLayer.of("global_lines", 156, GLOBAL_LINES_PIPELINE, builder().lineWidth(width).build(false));
+            RenderStateShard.LineStateShard width = new RenderStateShard.LineStateShard(OptionalDouble.of(l));
+            return RenderType.create("global_lines", 156, GLOBAL_LINES_PIPELINE, builder().setLineState(width).createCompositeState(false));
         });
     }
 }

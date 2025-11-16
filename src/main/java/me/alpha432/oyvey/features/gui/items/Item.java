@@ -1,13 +1,13 @@
 package me.alpha432.oyvey.features.gui.items;
 
 import me.alpha432.oyvey.features.Feature;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 
 import java.awt.*;
 
 public class Item
         extends Feature {
-    public static DrawContext context;
+    public static GuiGraphics context;
     protected float x;
     protected float y;
     protected int width;
@@ -23,7 +23,7 @@ public class Item
         this.y = y;
     }
 
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
@@ -79,7 +79,7 @@ public class Item
     }
 
     protected void drawString(String text, double x, double y, int color) {
-        context.drawTextWithShadow(mc.textRenderer, text, (int) x, (int) y, color);
+        context.drawString(mc.font, text, (int) x, (int) y, color);
     }
 
     public boolean isHovering(int mouseX, int mouseY) {

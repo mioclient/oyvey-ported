@@ -6,7 +6,7 @@ import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.ConfigManager;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
 
 public class ModuleCommand
         extends Command {
@@ -22,7 +22,7 @@ public class ModuleCommand
             for (Module.Category category : OyVey.moduleManager.getCategories()) {
                 StringBuilder modules = new StringBuilder(category.getName() + ": ");
                 for (Module module : OyVey.moduleManager.getModulesByCategory(category)) {
-                    modules.append(module.isEnabled() ? Formatting.GREEN : Formatting.RED).append(module.getName()).append(Formatting.WHITE).append(", ");
+                    modules.append(module.isEnabled() ? ChatFormatting.GREEN : ChatFormatting.RED).append(module.getName()).append(ChatFormatting.WHITE).append(", ");
                 }
                 ModuleCommand.sendMessage(modules.toString());
             }

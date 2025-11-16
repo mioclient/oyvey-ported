@@ -1,15 +1,15 @@
 package me.alpha432.oyvey.features.gui.items.buttons;
 
 import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.features.gui.Component;
+import me.alpha432.oyvey.features.gui.Widget;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.render.RenderUtil;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 
 import java.awt.Color;
 
@@ -29,7 +29,7 @@ public class ColorButton extends Button {
     }
 
     @Override
-    public void drawScreen(DrawContext context, int mouseX, int mouseY, float partialTicks) {
+    public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
         Color currentColor = setting.getValue();
         Color outlineColor = Color.BLACK;
         Color realColor = Color.getHSBColor(hsb[0], 1, 1);
@@ -49,8 +49,8 @@ public class ColorButton extends Button {
             int pickerWidth = Math.min(pickerSize, availableWidth);
             float pickerX = this.x + 2.0f;
 
-            int dragX = MathHelper.clamp(mouseX - (int)pickerX, 0, pickerWidth);
-            int dragY = MathHelper.clamp(mouseY - (int)(getY() + yOffset), 0, pickerWidth);
+            int dragX = Mth.clamp(mouseX - (int)pickerX, 0, pickerWidth);
+            int dragY = Mth.clamp(mouseY - (int)(getY() + yOffset), 0, pickerWidth);
             float dragHue = Math.max(pickerWidth * hsb[0] - .5f, 1);
             float dragSaturation = Math.max(pickerWidth * hsb[1] - 1, 2);
             float dragBrightness = Math.max(pickerWidth * (1.0f - hsb[2]) - 1, 2);
@@ -118,12 +118,12 @@ public class ColorButton extends Button {
             int buttonWidth = availableWidth / 2;
             RenderUtil.rect(context, pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14,
                     hoveringCopy ? OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
-            drawString("Copy", pickerX + buttonWidth / 2 - mc.textRenderer.getWidth("Copy") / 2, this.y + yOffset + 3, -1);
+            drawString("Copy", pickerX + buttonWidth / 2 - mc.font.width("Copy") / 2, this.y + yOffset + 3, -1);
             hoveringCopy = isHoveringArea(mouseX, mouseY, pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14);
 
             RenderUtil.rect(context, pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14,
                     hoveringPaste ? OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
-            drawString("Paste", pickerX + buttonWidth + buttonWidth / 2 - mc.textRenderer.getWidth("Paste") / 2 + 1, this.y + yOffset + 3, -1);
+            drawString("Paste", pickerX + buttonWidth + buttonWidth / 2 - mc.font.width("Paste") / 2 + 1, this.y + yOffset + 3, -1);
             hoveringPaste = isHoveringArea(mouseX, mouseY, pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14);
         }
     }
@@ -132,7 +132,7 @@ public class ColorButton extends Button {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (this.isHovering(mouseX, mouseY) && mouseButton == 1) {
             open = !open;
-            mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
+            mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
         }
 
         if (mouseButton == 0) {
@@ -142,12 +142,12 @@ public class ColorButton extends Button {
 
             if (hoveringCopy) {
                 OyVeyGui.setColorClipboard(setting.getValue());
-                mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
+                mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
             }
             if (hoveringPaste && OyVeyGui.getColorClipboard() != null) {
                 setting.setValue(OyVeyGui.getColorClipboard());
                 hsb = Color.RGBtoHSB(setting.getValue().getRed(), setting.getValue().getGreen(), setting.getValue().getBlue(), null);
-                mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
+                mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
             }
         }
     }
@@ -175,16 +175,16 @@ public class ColorButton extends Button {
 
     @Override
     public boolean isHovering(int mouseX, int mouseY) {
-        for (Component component : OyVeyGui.getClickGui().getComponents()) {
-            if (component.drag) return false;
+        for (Widget widget : OyVeyGui.getClickGui().getComponents()) {
+            if (widget.drag) return false;
         }
         return (float) mouseX >= this.getX() && (float) mouseX <= this.getX() + (float) this.getWidth() + 8.0f
                 && (float) mouseY >= this.getY() && (float) mouseY < this.getY() + (float) this.height;
     }
 
     private boolean isHoveringArea(int mouseX, int mouseY, float left, float top, float right, float bottom) {
-        for (Component component : OyVeyGui.getClickGui().getComponents()) {
-            if (component.drag) return false;
+        for (Widget widget : OyVeyGui.getClickGui().getComponents()) {
+            if (widget.drag) return false;
         }
         return left <= mouseX && top <= mouseY && right > mouseX && bottom > mouseY;
     }

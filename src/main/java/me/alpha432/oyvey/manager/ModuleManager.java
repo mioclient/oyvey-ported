@@ -99,7 +99,7 @@ public class ModuleManager implements Jsonable, Util {
     }
 
     public void onKeyPressed(int key) {
-        if (key <= 0 || mc.currentScreen != null) return;
+        if (key <= 0 || mc.screen != null) return;
         stream().filter(module -> module.getBind().getKey() == key).forEach(Module::toggle);
     }
 

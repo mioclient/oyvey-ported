@@ -2,13 +2,13 @@ package me.alpha432.oyvey.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import me.alpha432.oyvey.event.impl.Render3DEvent;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.util.ObjectAllocator;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.profiler.Profiler;
+import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.renderer.LevelRenderer;
+import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.util.profiling.ProfilerFiller;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
@@ -20,23 +20,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 import static me.alpha432.oyvey.util.traits.Util.mc;
 
-@Mixin(WorldRenderer.class)
+@Mixin(LevelRenderer.class)
 public class MixinWorldRenderer {
-    @Inject(method = "render", at = @At("RETURN"))
-    private void render(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline,
+    @Inject(method = "renderLevel", at = @At("RETURN"))
+    private void render(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderBlockOutline,
                         Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix,
-                        GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci, @Local Profiler profiler) {
+                        GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci, @Local ProfilerFiller profiler) {
 
-        MatrixStack stack = new MatrixStack();
-        stack.push();
-        stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(mc.gameRenderer.getCamera().getPitch()));
-        stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(mc.gameRenderer.getCamera().getYaw() + 180f));
+        PoseStack stack = new PoseStack();
+        stack.pushPose();
+        stack.mulPose(Axis.XP.rotationDegrees(mc.gameRenderer.getMainCamera().getXRot()));
+        stack.mulPose(Axis.YP.rotationDegrees(mc.gameRenderer.getMainCamera().getYRot() + 180f));
 
         profiler.push("oyvey-render-3d");
 
-        Render3DEvent event = new Render3DEvent(stack, tickCounter.getTickProgress(true));
+        Render3DEvent event = new Render3DEvent(stack, tickCounter.getGameTimeDeltaPartialTick(true));
         EVENT_BUS.post(event);
-        stack.pop();
+        stack.popPose();
         profiler.pop();
     }
 }

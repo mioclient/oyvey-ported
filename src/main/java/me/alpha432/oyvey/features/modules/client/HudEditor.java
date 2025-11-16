@@ -29,7 +29,7 @@ public class HudEditor extends Module {
     @Subscribe
     public void onTick(TickEvent event) {
         if (nullCheck()) return;
-        if (!(mc.currentScreen instanceof HudEditorScreen)) {
+        if (!(mc.screen instanceof HudEditorScreen)) {
             disable();
         }
     }
