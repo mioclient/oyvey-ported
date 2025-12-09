@@ -1,13 +1,13 @@
 package me.alpha432.oyvey.features.gui.items.buttons;
 
 import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.features.gui.Widget;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
+import me.alpha432.oyvey.features.gui.Widget;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.render.RenderUtil;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 public class Slider

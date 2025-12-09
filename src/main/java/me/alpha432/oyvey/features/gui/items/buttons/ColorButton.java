@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.features.gui.items.buttons;
 
 import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.features.gui.Widget;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
+import me.alpha432.oyvey.features.gui.Widget;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.render.RenderUtil;
@@ -11,7 +11,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ColorButton extends Button {
     private final Setting<Color> setting;

@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.event.impl;
 
-import me.alpha432.oyvey.event.Event;
 import com.mojang.blaze3d.vertex.PoseStack;
+import me.alpha432.oyvey.event.Event;
 
 public class Render3DEvent extends Event {
     private final PoseStack matrix;

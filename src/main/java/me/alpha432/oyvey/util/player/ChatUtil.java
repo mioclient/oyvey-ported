@@ -2,10 +2,8 @@ package me.alpha432.oyvey.util.player;
 
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.commands.Command;
-import me.alpha432.oyvey.util.TextUtil;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.MutableComponent;
 
 import static me.alpha432.oyvey.util.traits.Util.mc;
 

@@ -2,7 +2,7 @@ package me.alpha432.oyvey.features.settings;
 
 import org.joml.Vector2f;
 
-import java.awt.Color;
+import java.awt.*;
 
 public interface SettingFactory {
     <T extends Setting<?>> T register(T setting);

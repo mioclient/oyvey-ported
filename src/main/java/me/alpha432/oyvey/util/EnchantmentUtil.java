@@ -2,12 +2,12 @@ package me.alpha432.oyvey.util;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import me.alpha432.oyvey.util.traits.Util;
-import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.core.Holder;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 public final class EnchantmentUtil implements Util {
     private EnchantmentUtil() {

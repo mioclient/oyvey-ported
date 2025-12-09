@@ -1,12 +1,12 @@
 package me.alpha432.oyvey.mixin;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import me.alpha432.oyvey.event.impl.PacketEvent;
 import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.PacketFlow;
-import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.PacketFlow;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -1,15 +1,13 @@
 package me.alpha432.oyvey.util.render;
 
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Axis;
 import me.alpha432.oyvey.util.traits.Util;
 import net.minecraft.client.Camera;
 import net.minecraft.client.gui.GuiGraphics;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
-import com.mojang.math.Axis;
 import net.minecraft.world.phys.Vec3;
 
 import java.awt.*;

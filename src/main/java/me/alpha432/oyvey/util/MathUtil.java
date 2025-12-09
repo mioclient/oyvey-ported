@@ -1,10 +1,10 @@
 package me.alpha432.oyvey.util;
 
 import me.alpha432.oyvey.util.traits.Util;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.math.BigDecimal;

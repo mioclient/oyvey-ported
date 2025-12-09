@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.features.gui.items.buttons;
 
 import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.features.gui.Widget;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
+import me.alpha432.oyvey.features.gui.Widget;
 import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.util.render.RenderUtil;

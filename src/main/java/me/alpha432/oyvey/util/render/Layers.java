@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.util.render;
 
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.Util;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
 
 import java.util.OptionalDouble;
 import java.util.function.Function;

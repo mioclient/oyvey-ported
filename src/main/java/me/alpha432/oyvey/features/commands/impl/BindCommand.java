@@ -7,7 +7,6 @@ import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.util.KeyboardUtil;
-import net.minecraft.ChatFormatting;
 import org.lwjgl.glfw.GLFW;
 
 public class BindCommand
@@ -43,7 +42,7 @@ public class BindCommand
         if (nullCheck() || !listening) return;
         listening = false;
         if (event.getKey() == GLFW.GLFW_KEY_ESCAPE) {
-            sendMessage(ChatFormatting.GRAY + "Operation cancelled.");
+            sendMessage("{gray} Operation cancelled.");
             return;
         }
 

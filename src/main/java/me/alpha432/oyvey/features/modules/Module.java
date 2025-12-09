@@ -13,10 +13,8 @@ import me.alpha432.oyvey.features.modules.client.Notifications;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.ConfigManager;
-import me.alpha432.oyvey.util.TextUtil;
 import me.alpha432.oyvey.util.player.ChatUtil;
 import me.alpha432.oyvey.util.traits.Jsonable;
-import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
 import org.joml.Vector2f;
 

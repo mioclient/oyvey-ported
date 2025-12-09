@@ -3,9 +3,9 @@ package me.alpha432.oyvey.features.settings;
 import com.google.common.base.Converter;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import com.mojang.blaze3d.platform.InputConstants;
 import me.alpha432.oyvey.util.traits.Util;
 import net.minecraft.client.input.KeyEvent;
-import com.mojang.blaze3d.platform.InputConstants;
 import org.lwjgl.glfw.GLFW;
 
 public class Bind implements Util {

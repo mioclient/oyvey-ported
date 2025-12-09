@@ -6,10 +6,10 @@ import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.render.RenderUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.ChatFormatting;
 
 public class EnumButton
         extends Button {

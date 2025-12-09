@@ -2,8 +2,8 @@ package me.alpha432.oyvey.manager;
 
 import me.alpha432.oyvey.util.MathUtil;
 import me.alpha432.oyvey.util.traits.Util;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 public class RotationManager implements Util {

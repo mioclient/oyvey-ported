@@ -13,7 +13,7 @@ import me.alpha432.oyvey.util.traits.Jsonable;
 import net.fabricmc.loader.api.FabricLoader;
 import org.joml.Vector2f;
 
-import java.awt.Color;
+import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
