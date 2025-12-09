@@ -25,6 +25,10 @@ public final class TextUtil {
         return formatter.format(content, obj);
     }
 
+    public static CatFormat<MutableComponent> getFormatter() {
+        return formatter;
+    }
+
     private static void initColors() {
         formatter.add("global", () -> OyVey.colorManager.getColorAsInt());
     }

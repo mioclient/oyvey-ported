@@ -16,6 +16,7 @@ public class ClientEvent extends Event {
 
     public ClientEvent(Setting<?> setting) {
         this.stage = 2;
+        this.feature = setting.getFeature();
         this.setting = setting;
     }
 
