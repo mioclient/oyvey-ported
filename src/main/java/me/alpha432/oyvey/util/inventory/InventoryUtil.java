@@ -1,14 +1,25 @@
 package me.alpha432.oyvey.util.inventory;
 
+import me.alpha432.oyvey.util.inventory.strategy.HoldingStrategy;
+import me.alpha432.oyvey.util.inventory.strategy.HotbarStrategy;
+import me.alpha432.oyvey.util.inventory.strategy.InventoryStrategy;
+import me.alpha432.oyvey.util.inventory.strategy.SwapStrategy;
 import me.alpha432.oyvey.util.traits.Util;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public final class InventoryUtil implements Util {
+    private static final List<SwapStrategy> STRATEGIES = List.of(
+            HoldingStrategy.INSTANCE,
+            HotbarStrategy.INSTANCE,
+            InventoryStrategy.INSTANCE
+    );
+
     public static final Result NONE = new Result(-1, ItemStack.EMPTY, ResultType.NONE);
 
     private InventoryUtil() {
@@ -32,6 +43,20 @@ public final class InventoryUtil implements Util {
         if (to < 0 || to > 8) return;
         mc.player.getInventory().setSelectedSlot(to);
         mc.gameMode.ensureHasSentCarriedItem();
+    }
+
+    public static void swap(Result result) {
+        for (SwapStrategy strategy : STRATEGIES) {
+            if (strategy.swap(result))
+                return;
+        }
+    }
+
+    public static void swapBack(int last, Result result) {
+        for (SwapStrategy strategy : STRATEGIES) {
+            if (strategy.swapBack(last, result))
+                return;
+        }
     }
 
     public static Result find(Predicate<ItemStack> predicate, ResultType... types) {
