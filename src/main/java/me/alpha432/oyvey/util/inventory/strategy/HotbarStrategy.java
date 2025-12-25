@@ -22,7 +22,7 @@ public final class HotbarStrategy implements SwapStrategy {
     @Override
     public boolean swapBack(int last, Result result) {
         if (result.type() == ResultType.HOTBAR) {
-            InventoryUtil.swap(result.slot());
+            InventoryUtil.swap(last);
             return true;
         }
         return false;
