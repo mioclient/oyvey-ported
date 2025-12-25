@@ -2,13 +2,17 @@ package me.alpha432.oyvey.util.render;
 
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import me.alpha432.oyvey.util.render.state.RectRenderState;
 import me.alpha432.oyvey.util.traits.Util;
 import net.minecraft.client.Camera;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix3x2f;
 
 import java.awt.*;
 
@@ -35,16 +39,8 @@ public class RenderUtil implements Util {
         int iy1 = Math.round(y1);
         int ix2 = Math.round(x2);
         int iy2 = Math.round(y2);
-        int width = Math.max(1, ix2 - ix1);
-        for (int i = 0; i < width; i++) {
-            float t = width == 1 ? 1f : (float) i / (float) (width - 1);
-            int r = (int) (left.getRed() + (right.getRed() - left.getRed()) * t);
-            int g = (int) (left.getGreen() + (right.getGreen() - left.getGreen()) * t);
-            int b = (int) (left.getBlue() + (right.getBlue() - left.getBlue()) * t);
-            int a = (int) (left.getAlpha() + (right.getAlpha() - left.getAlpha()) * t);
-            int argb = (a & 0xFF) << 24 | (r & 0xFF) << 16 | (g & 0xFF) << 8 | (b & 0xFF);
-            context.fill(ix1 + i, iy1, ix1 + i + 1, iy2, argb);
-        }
+
+        gradient(context, ix1, iy1, ix2, iy2, left.hashCode(), left.hashCode(), right.hashCode(), right.hashCode());
     }
 
     public static void verticalGradient(GuiGraphics context, float x1, float y1, float x2, float y2, Color top, Color bottom) {
@@ -52,16 +48,19 @@ public class RenderUtil implements Util {
         int iy1 = Math.round(y1);
         int ix2 = Math.round(x2);
         int iy2 = Math.round(y2);
-        int height = Math.max(1, iy2 - iy1);
-        for (int i = 0; i < height; i++) {
-            float t = height == 1 ? 1f : (float) i / (float) (height - 1);
-            int r = (int) (top.getRed() + (bottom.getRed() - top.getRed()) * t);
-            int g = (int) (top.getGreen() + (bottom.getGreen() - top.getGreen()) * t);
-            int b = (int) (top.getBlue() + (bottom.getBlue() - top.getBlue()) * t);
-            int a = (int) (top.getAlpha() + (bottom.getAlpha() - top.getAlpha()) * t);
-            int argb = (a & 0xFF) << 24 | (r & 0xFF) << 16 | (g & 0xFF) << 8 | (b & 0xFF);
-            context.fill(ix1, iy1 + i, ix2, iy1 + i + 1, argb);
-        }
+
+        gradient(context, ix1, iy1, ix2, iy2, top.hashCode(), bottom.hashCode(), bottom.hashCode(), top.hashCode());
+    }
+
+    public static void gradient(GuiGraphics graphics,
+                                int x1, int y1, int x2, int y2,
+                                int topLeft, int bottomLeft, int bottomRight, int topRight) {
+        graphics.guiRenderState.submitGuiElement(new RectRenderState(
+                RenderPipelines.GUI, TextureSetup.noTexture(), new Matrix3x2f(graphics.pose()),
+                x1, y1, x2, y2,
+                topLeft, bottomLeft, bottomRight, topRight,
+                graphics.scissorStack.peek()
+        ));
     }
 
     public static void rect(PoseStack stack, float x1, float y1, float x2, float y2, int color) {
