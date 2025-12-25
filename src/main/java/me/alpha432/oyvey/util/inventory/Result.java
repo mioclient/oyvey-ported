@@ -8,7 +8,7 @@ public record Result(int slot, ItemStack stack, ResultType type) {
         return new Result(-1, stack, ResultType.OFFHAND);
     }
 
-    public InteractionHand getHand() {
+    public InteractionHand hand() {
         return type == ResultType.OFFHAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
     }
 

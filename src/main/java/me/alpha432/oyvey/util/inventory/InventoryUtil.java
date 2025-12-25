@@ -6,10 +6,11 @@ import me.alpha432.oyvey.util.inventory.strategy.InventoryStrategy;
 import me.alpha432.oyvey.util.inventory.strategy.SwapStrategy;
 import me.alpha432.oyvey.util.traits.Util;
 import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -59,9 +60,12 @@ public final class InventoryUtil implements Util {
         }
     }
 
-    public static Result find(Predicate<ItemStack> predicate, ResultType... types) {
-        final Set<ResultType> set = Set.of(types);
-        return find((item, type) -> set.contains(type) && predicate.test(item));
+    public static Result find(Item target, EnumSet<ResultType> scopes) {
+        return find(stack -> stack.is(target), scopes);
+    }
+
+    public static Result find(Predicate<ItemStack> predicate, EnumSet<ResultType> scopes) {
+        return find((item, scope) -> scopes.contains(scope) && predicate.test(item));
     }
 
     public static Result find(BiPredicate<ItemStack, ResultType> predicate) {
