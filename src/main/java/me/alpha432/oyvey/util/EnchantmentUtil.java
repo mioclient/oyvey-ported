@@ -11,7 +11,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 public final class EnchantmentUtil implements Util {
     private EnchantmentUtil() {
-        throw new IllegalArgumentException("пошел нахуй");
+        throw new IllegalArgumentException();
     }
 
     public static int getLevel(ResourceKey<Enchantment> key, ItemStack stack) {

@@ -9,6 +9,7 @@ import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.modules.client.HudEditor;
 import me.alpha432.oyvey.features.modules.client.Notifications;
+import me.alpha432.oyvey.features.modules.combat.ClickPearl;
 import me.alpha432.oyvey.features.modules.combat.Criticals;
 import me.alpha432.oyvey.features.modules.hud.Coordinates;
 import me.alpha432.oyvey.features.modules.hud.Watermark;
@@ -43,6 +44,7 @@ public class ModuleManager implements Jsonable, Util {
         register(new Velocity());
         register(new BlockHighlight());
         register(new NoFall());
+        register(new ClickPearl());
     }
 
     public void register(Module module) {
