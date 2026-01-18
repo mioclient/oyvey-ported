@@ -22,13 +22,9 @@ public class KeyPearl extends Module {
 
         if (nullCheck()) return;
 
-        int last = InventoryUtil.selected();
         Result result = InventoryUtil.find(Items.ENDER_PEARL, inventory.getValue() ? FULL_SCOPE : HOTBAR_SCOPE);
-        if (!result.found())
-            return;
-
-        InventoryUtil.swap(result);
-        mc.gameMode.useItem(mc.player, result.hand());
-        InventoryUtil.swapBack(result, last);
+        InventoryUtil.withSwap(result, () -> {
+            mc.gameMode.useItem(mc.player, result.hand());
+        });
     }
 }
