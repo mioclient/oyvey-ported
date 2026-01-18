@@ -9,11 +9,11 @@ import net.minecraft.world.item.Items;
 import static me.alpha432.oyvey.util.inventory.InventoryUtil.FULL_SCOPE;
 import static me.alpha432.oyvey.util.inventory.InventoryUtil.HOTBAR_SCOPE;
 
-public class ClickPearl extends Module {
+public class KeyPearl extends Module {
     private final Setting<Boolean> inventory = bool("Inventory", false);
 
-    public ClickPearl() {
-        super("ClickPearl", "Throws a pearl when enabled.", Category.COMBAT);
+    public KeyPearl() {
+        super("KeyPearl", "Throws a pearl when enabled.", Category.COMBAT);
     }
 
     @Override
