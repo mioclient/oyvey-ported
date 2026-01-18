@@ -29,6 +29,6 @@ public class KeyPearl extends Module {
 
         InventoryUtil.swap(result);
         mc.gameMode.useItem(mc.player, result.hand());
-        InventoryUtil.swapBack(last, result);
+        InventoryUtil.swapBack(result, last);
     }
 }

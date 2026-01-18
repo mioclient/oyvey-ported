@@ -58,7 +58,7 @@ public final class InventoryUtil implements Util {
         }
     }
 
-    public static void swapBack(int last, Result result) {
+    public static void swapBack(Result result, int last) {
         for (SwapStrategy strategy : STRATEGIES) {
             if (strategy.swapBack(last, result))
                 return;
@@ -79,17 +79,11 @@ public final class InventoryUtil implements Util {
             return Result.fromOffhand(offhand);
         }
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 36; i++) {
             ItemStack item = mc.player.getInventory().getItem(i);
-            if (predicate.test(item, ResultType.HOTBAR)) {
-                return new Result(i, item, ResultType.HOTBAR);
-            }
-        }
-
-        for (int i = 9; i < 36; i++) {
-            ItemStack item = mc.player.getInventory().getItem(i);
-            if (predicate.test(item, ResultType.INVENTORY)) {
-                return new Result(i, item, ResultType.INVENTORY);
+            ResultType type = i < 9 ? ResultType.HOTBAR : ResultType.INVENTORY;
+            if (predicate.test(item, type)) {
+                return new Result(i, item, type);
             }
         }
 
