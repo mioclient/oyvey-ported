@@ -3,11 +3,9 @@
   "id": "oyvey",
   "version": "${version}",
   "name": "oyvey-ported",
-  "description": "free and opensource client base",
+  "description": "Epstein Client",
   "authors": [
-    "3arthqu4ke",
-    "alpha432",
-    "cattyn"
+    "HellDev"
   ],
   "contact": {
     "repo": "https://github.com/mioclient/oyvey-ported"
