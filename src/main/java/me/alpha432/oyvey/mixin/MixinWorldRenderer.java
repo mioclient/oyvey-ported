@@ -29,8 +29,8 @@ public class MixinWorldRenderer {
 
         PoseStack stack = new PoseStack();
         stack.pushPose();
-        stack.mulPose(Axis.XP.rotationDegrees(mc.gameRenderer.getMainCamera().getXRot()));
-        stack.mulPose(Axis.YP.rotationDegrees(mc.gameRenderer.getMainCamera().getYRot() + 180f));
+        stack.mulPose(Axis.XP.rotationDegrees(mc.gameRenderer.getMainCamera().xRot()));
+        stack.mulPose(Axis.YP.rotationDegrees(mc.gameRenderer.getMainCamera().yRot() + 180f));
 
         profiler.push("oyvey-render-3d");
 

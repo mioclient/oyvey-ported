@@ -8,7 +8,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -140,7 +139,7 @@ public class RenderUtil implements Util {
         bufferBuilder.addVertex(matrix.last().pose(), x2, y1, 0.0F).setColor(g, h, j, f);
         bufferBuilder.addVertex(matrix.last().pose(), x1, y1, 0.0F).setColor(g, h, j, f);
 
-        Layers.getGlobalQuads().draw(bufferBuilder.buildOrThrow());
+        Layers.quads().draw(bufferBuilder.buildOrThrow());
     }
 
     public static void horizontalGradient(PoseStack matrix, float x1, float y1, float x2, float y2, Color left, Color right) {
@@ -151,7 +150,7 @@ public class RenderUtil implements Util {
         bufferBuilder.addVertex(matrix.last().pose(), x2, y2, 0.0F).setColor(right.getRed() / 255.0F, right.getGreen() / 255.0F, right.getBlue() / 255.0F, right.getAlpha() / 255.0F);
         bufferBuilder.addVertex(matrix.last().pose(), x2, y1, 0.0F).setColor(right.getRed() / 255.0F, right.getGreen() / 255.0F, right.getBlue() / 255.0F, right.getAlpha() / 255.0F);
 
-        Layers.getGlobalQuads().draw(bufferBuilder.buildOrThrow());
+        Layers.quads().draw(bufferBuilder.buildOrThrow());
     }
 
     public static void verticalGradient(PoseStack matrix, float x1, float y1, float x2, float y2, Color top, Color bottom) {
@@ -162,17 +161,17 @@ public class RenderUtil implements Util {
         bufferBuilder.addVertex(matrix.last().pose(), x2, y2, 0.0F).setColor(bottom.getRed() / 255.0F, bottom.getGreen() / 255.0F, bottom.getBlue() / 255.0F, bottom.getAlpha() / 255.0F);
         bufferBuilder.addVertex(matrix.last().pose(), x2, y1, 0.0F).setColor(top.getRed() / 255.0F, top.getGreen() / 255.0F, top.getBlue() / 255.0F, top.getAlpha() / 255.0F);
 
-        Layers.getGlobalQuads().draw(bufferBuilder.buildOrThrow());
+        Layers.quads().draw(bufferBuilder.buildOrThrow());
     }
 
     // 3d
     public static void drawBoxFilled(PoseStack stack, AABB box, Color c) {
-        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPosition().x());
-        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getPosition().y());
-        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.getPosition().z());
-        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.getPosition().x());
-        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.getPosition().y());
-        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.getPosition().z());
+        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.position().x());
+        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.position().y());
+        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.position().z());
+        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.position().x());
+        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.position().y());
+        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.position().z());
 
         BufferBuilder bufferBuilder = Tesselator.getInstance()
                 .begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
@@ -206,7 +205,7 @@ public class RenderUtil implements Util {
         bufferBuilder.addVertex(stack.last().pose(), minX, maxY, maxZ).setColor(c.getRGB());
         bufferBuilder.addVertex(stack.last().pose(), minX, maxY, minZ).setColor(c.getRGB());
 
-        Layers.getGlobalQuads().draw(bufferBuilder.buildOrThrow());
+        Layers.quads().draw(bufferBuilder.buildOrThrow());
     }
 
     public static void drawBoxFilled(PoseStack stack, Vec3 vec, Color c) {
@@ -217,37 +216,63 @@ public class RenderUtil implements Util {
         drawBoxFilled(stack, new AABB(bp), c);
     }
 
-    public static void drawBox(PoseStack stack, AABB box, Color c, double lineWidth) {
-        float minX = (float) (box.minX - mc.getEntityRenderDispatcher().camera.getPosition().x());
-        float minY = (float) (box.minY - mc.getEntityRenderDispatcher().camera.getPosition().y());
-        float minZ = (float) (box.minZ - mc.getEntityRenderDispatcher().camera.getPosition().z());
-        float maxX = (float) (box.maxX - mc.getEntityRenderDispatcher().camera.getPosition().x());
-        float maxY = (float) (box.maxY - mc.getEntityRenderDispatcher().camera.getPosition().y());
-        float maxZ = (float) (box.maxZ - mc.getEntityRenderDispatcher().camera.getPosition().z());
+    public static void drawBox(PoseStack stack, AABB box, Color c, float lineWidth) {
+        Vec3 camera = mc.getEntityRenderDispatcher().camera.position();
+        float minX = (float) (box.minX - camera.x());
+        float minY = (float) (box.minY - camera.y());
+        float minZ = (float) (box.minZ - camera.z());
+        float maxX = (float) (box.maxX - camera.x());
+        float maxY = (float) (box.maxY - camera.y());
+        float maxZ = (float) (box.maxZ - camera.z());
 
         BufferBuilder bufferBuilder = Tesselator.getInstance()
-                .begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+                .begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_LINE_WIDTH);
+        PoseStack.Pose pose = stack.last();
+        int color = c.getRGB();
 
-        ShapeRenderer.renderLineBox(stack.last(), bufferBuilder, minX, minY, minZ, maxX, maxY, maxZ,
-                c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
+        // this was the "ShapeRenderer.renderLineBox" method, however it was removed in 1.21.11
+        bufferBuilder.addVertex(pose, minX, minY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, minY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, minY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, minY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, minY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, minY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, minX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
+        bufferBuilder.addVertex(pose, maxX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
 
-        Layers.getGlobalLines(lineWidth).draw(bufferBuilder.buildOrThrow());
+        Layers.lines().draw(bufferBuilder.buildOrThrow());
     }
 
-    public static void drawBox(PoseStack stack, Vec3 vec, Color c, double lineWidth) {
+    public static void drawBox(PoseStack stack, Vec3 vec, Color c, float lineWidth) {
         drawBox(stack, AABB.unitCubeFromLowerCorner(vec), c, lineWidth);
     }
 
-    public static void drawBox(PoseStack stack, BlockPos bp, Color c, double lineWidth) {
+    public static void drawBox(PoseStack stack, BlockPos bp, Color c, float lineWidth) {
         drawBox(stack, new AABB(bp), c, lineWidth);
     }
 
     public static PoseStack matrixFrom(Vec3 pos) {
         PoseStack matrices = new PoseStack();
         Camera camera = mc.gameRenderer.getMainCamera();
-        matrices.mulPose(Axis.XP.rotationDegrees(camera.getXRot()));
-        matrices.mulPose(Axis.YP.rotationDegrees(camera.getYRot() + 180.0F));
-        matrices.translate(pos.x() - camera.getPosition().x, pos.y() - camera.getPosition().y, pos.z() - camera.getPosition().z);
+        matrices.mulPose(Axis.XP.rotationDegrees(camera.xRot()));
+        matrices.mulPose(Axis.YP.rotationDegrees(camera.yRot() + 180.0F));
+        matrices.translate(pos.x() - camera.position().x, pos.y() - camera.position().y, pos.z() - camera.position().z);
         return matrices;
     }
 }

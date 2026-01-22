@@ -1,6 +1,7 @@
 package me.alpha432.oyvey.features.modules.render;
 
 import me.alpha432.oyvey.event.impl.Render3DEvent;
+import me.alpha432.oyvey.event.impl.RenderBlockOutlineEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
@@ -28,5 +29,10 @@ public class BlockHighlight extends Module {
             box = box.move(result.getBlockPos());
             RenderUtil.drawBox(event.getMatrix(), box, color.getValue(), lineWidth.getValue());
         }
+    }
+
+    @Subscribe
+    public void onRenderBlockOutline(RenderBlockOutlineEvent event) {
+        event.cancel();
     }
 }
