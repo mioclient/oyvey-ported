@@ -63,10 +63,17 @@ public class Module extends Feature implements Jsonable {
     }
 
     public void setEnabled(boolean enabled) {
+        if (this.isEnabled() == enabled) return;
+
+        ClientEvent event = new ClientEvent(enabled ? 1 : 0, this);
+        EVENT_BUS.post(event);
+
+        if (event.isCancelled()) return;
+
         if (enabled) {
-            this.enable();
+            enable();
         } else {
-            this.disable();
+            disable();
         }
     }
 
@@ -78,18 +85,14 @@ public class Module extends Feature implements Jsonable {
     }
 
     public void disable() {
-        EVENT_BUS.unregister(this);
         this.enabled.setValue(false);
         this.onToggle();
         this.onDisable();
+        EVENT_BUS.unregister(this);
     }
 
     public void toggle() {
-        ClientEvent event = new ClientEvent(!this.isEnabled() ? 1 : 0, this);
-        EVENT_BUS.post(event);
-        if (!event.isCancelled()) {
-            this.setEnabled(!this.isEnabled());
-        }
+        setEnabled(!isEnabled());
     }
 
     public String getDisplayName() {
