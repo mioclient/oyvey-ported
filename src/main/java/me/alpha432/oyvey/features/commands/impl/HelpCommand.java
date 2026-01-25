@@ -20,7 +20,10 @@ public class HelpCommand extends Command {
     @Override
     public void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder) {
         var defaultContext = (com.mojang.brigadier.Command<CommandManager>) (ctx) -> {
-            List<Command> commands = ctx.getSource().getCommands();
+            List<Command> commands = ctx.getSource().getCommands()
+                    .stream()
+                    .filter(Command::isShown)
+                    .toList();
             StringJoiner joiner = new StringJoiner(", ");
             for (Command executor : commands) {
                 joiner.add(executor.getAliases()[0]);

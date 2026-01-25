@@ -57,6 +57,10 @@ public abstract class Command extends Feature {
         return description;
     }
 
+    public boolean isShown() {
+        return true;
+    }
+
     public static void sendMessage(String message, Object... format) {
         if (message == null) {
             return;

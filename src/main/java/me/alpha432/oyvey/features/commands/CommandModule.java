@@ -102,4 +102,9 @@ public class CommandModule extends Command {
     private int settingChangeReturn(final Setting<?> setting) {
         return success("Set %s.%s to %s", module.getName(), setting.getName(), setting.getValue());
     }
+
+    @Override
+    public boolean isShown() {
+        return false;
+    }
 }
