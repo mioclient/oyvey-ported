@@ -21,8 +21,8 @@ public class CommandManager extends Feature implements Jsonable {
     private static final Logger LOGGER = LogManager.getLogger("Commands");
 
     private final CommandDispatcher<CommandManager> dispatcher = new CommandDispatcher<>();
-    private final Map<String, Command> executorAliasMap = new LinkedHashMap<>();
-    private final List<Command> executorList = new LinkedList<>();
+    private final Map<String, Command> commandAliasMap = new LinkedHashMap<>();
+    private final List<Command> commandList = new LinkedList<>();
 
     private String commandPrefix = ".";
 
@@ -53,9 +53,9 @@ public class CommandManager extends Feature implements Jsonable {
     }
 
     public void registerExecutor(Command executor) {
-        executorList.add(executor);
+        commandList.add(executor);
         for (String alias : executor.getAliases()) {
-            executorAliasMap.put(alias, executor);
+            commandAliasMap.put(alias, executor);
             LiteralArgumentBuilder<CommandManager> builder = Command.literal(alias);
             executor.createArgumentBuilder(builder);
             dispatcher.register(builder);
@@ -70,17 +70,16 @@ public class CommandManager extends Feature implements Jsonable {
         return commandPrefix;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Command> T getCommand(String alias) {
-        return (T) executorAliasMap.get(alias);
+    public Command getCommand(String alias) {
+        return commandAliasMap.get(alias);
     }
 
     public Set<String> getCommandAliases() {
-        return executorAliasMap.keySet();
+        return commandAliasMap.keySet();
     }
 
     public List<Command> getCommands() {
-        return executorList;
+        return commandList;
     }
 
     public CommandDispatcher<CommandManager> getDispatcher() {
