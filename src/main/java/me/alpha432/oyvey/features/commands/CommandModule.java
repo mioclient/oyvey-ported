@@ -52,7 +52,13 @@ public class CommandModule extends Command {
                 .then(argument("value", ColorArgumentType.color())
                         .executes((ctx) -> {
                             setting.setValue(getColor(ctx, "value"));
-                            return settingChangeReturn(setting);
+                            Color value = setting.getValue();
+                            return success("Set %s.%s to RGB(%s, %s, %s)",
+                                    module.getName(),
+                                    setting.getName(),
+                                    value.getRed(),
+                                    value.getGreen(),
+                                    value.getBlue());
                         })));
     }
 
