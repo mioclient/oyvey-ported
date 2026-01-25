@@ -73,7 +73,7 @@ public class ColorArgumentType implements ArgumentType<Color> {
         }
 
         int[] elements = new int[parts.length];
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < parts.length; ++i) {
             elements[i] = Integer.parseInt(parts[i]);
         }
         return elements;
