@@ -31,8 +31,7 @@ public class HelpCommand extends Command {
             return success("{gray} Commands (%s): {reset} %s", commands.size(), joiner);
         };
 
-        builder
-                .then(argument("command", command())
+        builder.then(argument("command", command())
                         .executes((ctx) -> {
                             Command command = getCommand(ctx, "command");
                             StringJoiner joiner = new StringJoiner(", ");
