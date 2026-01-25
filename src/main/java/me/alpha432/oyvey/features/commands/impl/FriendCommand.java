@@ -38,20 +38,20 @@ public class FriendCommand extends Command {
                                 .executes((ctx) -> {
                                     String username = getString(ctx, "username");
                                     if (OyVey.friendManager.isFriend(username)) {
-                                        return success("You already have {green} %s {reset} friended.", username);
+                                        return success("{green} %s {reset} is already on your friends list.", username);
                                     }
                                     OyVey.friendManager.addFriend(username);
-                                    return success("Added {green} %s {reset} as a friend", username);
+                                    return success("Added {green} %s {reset} to your friends list", username);
                                 })))
                 .then(literal("remove")
                         .then(argument("username", word())
                                 .executes((ctx) -> {
                                     String username = getString(ctx, "username");
                                     if (!OyVey.friendManager.isFriend(username)) {
-                                        return success("You do not have {green} %s {reset} friended.", username);
+                                        return success("{green} %s {reset} is not on your friends list.", username);
                                     }
                                     OyVey.friendManager.removeFriend(username);
-                                    return success("Removed {green} %s {reset} from your friends", username);
+                                    return success("Removed {green} %s {reset} from your friends list", username);
                                 })));
     }
 }
