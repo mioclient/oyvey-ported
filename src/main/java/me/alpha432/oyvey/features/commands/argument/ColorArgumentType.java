@@ -29,19 +29,19 @@ public class ColorArgumentType implements ArgumentType<Color> {
 
             int hue = elements[0];
             if (hue < 0 || hue > 360) {
-                throw CommandExceptions.invalidArgument("Hue must be between 0-360")
+                throw CommandExceptions.invalidArgument("Hue value must be between 0-360")
                         .createWithContext(reader);
             }
 
             int saturation = elements[1];
             if (saturation < 0 || saturation > 100) {
-                throw CommandExceptions.invalidArgument("Saturation must be between 0-100")
+                throw CommandExceptions.invalidArgument("Saturation value must be between 0-100")
                         .createWithContext(reader);
             }
 
             int brightness = elements[2];
             if (brightness < 0 || brightness > 100) {
-                throw CommandExceptions.invalidArgument("Brightness must be between 0-100")
+                throw CommandExceptions.invalidArgument("Brightness value must be between 0-100")
                         .createWithContext(reader);
             }
 
@@ -54,7 +54,7 @@ public class ColorArgumentType implements ArgumentType<Color> {
         for (int i = 0; i < elements.length; ++i) {
             int element = elements[i];
             if (element < 0 || element > 255) {
-                throw CommandExceptions.invalidArgument("%s must be between 0-255", RGBA_VALUES[i])
+                throw CommandExceptions.invalidArgument("%s value must be between 0-255", RGBA_VALUES[i])
                         .createWithContext(reader);
             }
         }

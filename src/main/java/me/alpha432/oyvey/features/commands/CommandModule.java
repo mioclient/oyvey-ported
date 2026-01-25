@@ -46,7 +46,8 @@ public class CommandModule extends Command {
         }
     }
 
-    private void registerColorArgument(LiteralArgumentBuilder<CommandManager> builder, Setting<Color> setting) {
+    private void registerColorArgument(LiteralArgumentBuilder<CommandManager> builder,
+                                       Setting<Color> setting) {
         builder.then(literal(setting.getName().toLowerCase())
                 .then(argument("value", ColorArgumentType.color())
                         .executes((ctx) -> {
