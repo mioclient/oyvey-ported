@@ -1,54 +1,52 @@
 package me.alpha432.oyvey.features.commands.impl;
 
-import me.alpha432.oyvey.OyVey;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.alpha432.oyvey.event.impl.KeyInputEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Bind;
+import me.alpha432.oyvey.manager.CommandManager;
 import me.alpha432.oyvey.util.KeyboardUtil;
-import org.lwjgl.glfw.GLFW;
 
-public class BindCommand
-        extends Command {
-    private boolean listening;
+import static me.alpha432.oyvey.features.commands.argument.ModuleArgumentType.getModule;
+import static me.alpha432.oyvey.features.commands.argument.ModuleArgumentType.module;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UNKNOWN;
+
+public class BindCommand extends Command {
     private Module module;
 
     public BindCommand() {
-        super("bind", new String[]{"<module>"});
+        super(new String[]{"bind", "setbind"}, "Sets a bind for a module");
         EVENT_BUS.register(this);
     }
 
     @Override
-    public void execute(String[] commands) {
-        if (commands.length == 1) {
-            sendMessage("Please specify a module.");
-            return;
-        }
-        String moduleName = commands[0];
-        Module module = OyVey.moduleManager.getModuleByName(moduleName);
-        if (module == null) {
-            sendMessage("Unknown module '%s'!", moduleName);
-            return;
-        }
-
-        sendMessage("{gray} Press a key.");
-        listening = true;
-        this.module = module;
+    public void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder) {
+        builder.then(argument("module", module(true))
+                .executes((ctx) -> {
+                    module = getModule(ctx, "module");
+                    return success("Press any key...");
+                }));
     }
 
     @Subscribe
-    private void onKey(KeyInputEvent event) {
-        if (nullCheck() || !listening) return;
-        listening = false;
-        if (event.getKey() == GLFW.GLFW_KEY_ESCAPE) {
-            sendMessage("{gray} Operation cancelled.");
+    public void onKey(final KeyInputEvent event) {
+        if (nullCheck() || module == null || event.getKey() == GLFW_KEY_UNKNOWN) {
             return;
         }
 
-        String key = KeyboardUtil.getKeyName(event.getKey());
-        sendMessage("Bind for {green} %s {} set to {gray} %s", module.getName(), key);
-        module.bind.setValue(new Bind(event.getKey()));
-    }
+        if (event.getKey() == GLFW_KEY_ESCAPE) {
+            module = null;
+            sendMessage("Operation canceled.");
+            return;
+        }
 
+        sendMessage("Bind for {green} %s {} set to {green} %s",
+                module.getName(),
+                KeyboardUtil.getKeyName(event.getKey()));
+        module.bind.setValue(new Bind(event.getKey()));
+        module = null;
+    }
 }

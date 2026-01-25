@@ -46,8 +46,8 @@ public class ClickGui
     public void onSettingChange(ClientEvent event) {
         if (event.getStage() == 2 && event.getSetting().getFeature().equals(this)) {
             if (event.getSetting().equals(this.prefix)) {
-                OyVey.commandManager.setPrefix(this.prefix.getPlannedValue());
-                Command.sendMessage("Prefix set to {global} %s", OyVey.commandManager.getPrefix());
+                OyVey.commandManager.setCommandPrefix(this.prefix.getPlannedValue());
+                Command.sendMessage("Prefix set to {global} %s", OyVey.commandManager.getCommandPrefix());
             }
             if (event.getSetting().equals(this.color)) {
                 OyVey.colorManager.setColor(this.color.getPlannedValue());
@@ -66,7 +66,7 @@ public class ClickGui
     @Override
     public void onLoad() {
         OyVey.colorManager.setColor(this.color.getValue());
-        OyVey.commandManager.setPrefix(this.prefix.getValue());
+        OyVey.commandManager.setCommandPrefix(this.prefix.getValue());
     }
 
     @Override

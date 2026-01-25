@@ -8,22 +8,22 @@ import me.alpha432.oyvey.manager.CommandManager;
 import static me.alpha432.oyvey.features.commands.argument.ModuleArgumentType.getModule;
 import static me.alpha432.oyvey.features.commands.argument.ModuleArgumentType.module;
 
-public class ToggleCommand extends Command {
-    public ToggleCommand() {
-        super(new String[]{"toggle", "t"}, "Toggles a module");
+public class DrawnCommand extends Command {
+    public DrawnCommand() {
+        super(new String[]{"drawn"}, "Sets a command to be drawn to the arraylist or not");
     }
 
     @Override
     public void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder) {
-        builder.then(argument("module", module(true))
+        builder.then(argument("module", module())
                 .executes((ctx) -> {
                     Module module = getModule(ctx, "module");
-                    module.toggle();
-                    boolean toggled = module.isEnabled();
+                    module.setDrawn(!module.isDrawn());
+                    boolean drawn = module.isDrawn();
                     return success("{gray} %s {reset} is now %s %s",
                             module.getDisplayName(),
-                            toggled ? "{green}" : "{red}",
-                            toggled ? "enabled" : "disabled");
+                            drawn ? "{green}" : "{red}",
+                            drawn ? "drawn" : "hidden");
                 }));
     }
 }

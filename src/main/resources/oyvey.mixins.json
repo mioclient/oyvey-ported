@@ -9,6 +9,7 @@
   "client": [
     "MixinClientPlayerEntity",
     "MixinClientPlayNetworkHandler",
+    "MixinCommandSuggestions",
     "MixinInGameHud",
     "MixinKeyboard",
     "MixinLevelRenderer",
