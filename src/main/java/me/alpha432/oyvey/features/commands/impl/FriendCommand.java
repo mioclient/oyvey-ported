@@ -22,7 +22,7 @@ public class FriendCommand extends Command {
                         .executes((ctx) -> {
                             List<String> friends = OyVey.friendManager.getFriends();
                             if (friends.isEmpty()) {
-                                return success("You have no friends");
+                                return success("You have no friends :(");
                             }
                             StringJoiner joiner = new StringJoiner(",");
                             friends.forEach(joiner::add);
