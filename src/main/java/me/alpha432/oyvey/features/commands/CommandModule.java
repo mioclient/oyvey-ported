@@ -21,8 +21,8 @@ public class CommandModule extends Command {
     private final Module module;
 
     public CommandModule(Module module) {
-        super(new String[]{module.getName().toLowerCase()},
-                "Command line configurator implementation for " + module.getName());
+        super(module.getName());
+        setDescription("Command line configuration implementation for \"" + module.getName() + "\"");
         this.module = module;
     }
 
