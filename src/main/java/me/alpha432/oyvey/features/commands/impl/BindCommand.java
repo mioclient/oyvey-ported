@@ -18,7 +18,8 @@ public class BindCommand extends Command {
     private Module module;
 
     public BindCommand() {
-        super(new String[]{"bind", "setbind"}, "Sets a bind for a module");
+        super("bind", "setbind");
+        setDescription("Sets a key bind for a module");
         EVENT_BUS.register(this);
     }
 

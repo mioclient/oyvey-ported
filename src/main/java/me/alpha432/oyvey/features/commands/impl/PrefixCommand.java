@@ -9,7 +9,8 @@ import static com.mojang.brigadier.arguments.StringArgumentType.word;
 
 public class PrefixCommand extends Command {
     public PrefixCommand() {
-        super(new String[]{"prefix", "setprefix"}, "Sets the command manager prefix");
+        super("prefix", "setprefix");
+        setDescription("Sets the command prefix");
     }
 
     @Override

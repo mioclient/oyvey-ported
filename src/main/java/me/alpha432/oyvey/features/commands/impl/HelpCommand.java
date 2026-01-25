@@ -20,8 +20,8 @@ public class HelpCommand extends Command {
     private static final int ITEMS_PER_PAGE = 5;
 
     public HelpCommand() {
-        super(new String[]{"help", "commands", "h", "cmds"},
-                "Displays all executable commands and additional information");
+        super("help", "commands", "h", "cmds");
+        setDescription("Displays all executable commands and additional information");
     }
 
     @Override

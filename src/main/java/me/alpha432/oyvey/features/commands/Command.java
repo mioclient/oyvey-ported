@@ -11,23 +11,14 @@ import me.alpha432.oyvey.util.player.ChatUtil;
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
 public abstract class Command extends Feature {
-    protected static final String DEFAULT_COMMAND_DESCRIPTION
-            = "No description was provided for this command.";
-
     public static final int NO_OP = -1;
     public static final int SINGLE_FAILURE = 0;
 
     private final String[] aliases;
-    private final String description;
+    private String description = "No description was provided for this command.";
 
-    public Command(String[] aliases, String description) {
-        super(aliases[0]);
+    public Command(String... aliases) {
         this.aliases = aliases;
-        this.description = description;
-    }
-
-    public Command(String[] aliases) {
-        this(aliases, DEFAULT_COMMAND_DESCRIPTION);
     }
 
     public abstract void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder);
@@ -52,6 +43,10 @@ public abstract class Command extends Feature {
 
     public String[] getAliases() {
         return aliases;
+    }
+
+    protected void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDescription() {

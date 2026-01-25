@@ -10,7 +10,8 @@ import static me.alpha432.oyvey.features.commands.argument.ModuleArgumentType.mo
 
 public class DrawnCommand extends Command {
     public DrawnCommand() {
-        super(new String[]{"drawn"}, "Sets a command to be drawn to the arraylist or not");
+        super("drawn");
+        setDescription("Sets a module to be drawn to the arraylist or not");
     }
 
     @Override

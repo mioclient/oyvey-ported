@@ -10,7 +10,8 @@ import static me.alpha432.oyvey.features.commands.argument.ModuleArgumentType.mo
 
 public class ToggleCommand extends Command {
     public ToggleCommand() {
-        super(new String[]{"toggle", "t"}, "Toggles a module");
+        super("toggle", "t");
+        setDescription("Toggles a module");
     }
 
     @Override

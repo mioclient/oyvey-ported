@@ -13,7 +13,8 @@ import static com.mojang.brigadier.arguments.StringArgumentType.word;
 
 public class FriendCommand extends Command {
     public FriendCommand() {
-        super(new String[]{"friend", "friends"}, "Adds or removes friends");
+        super("friend", "friends", "f");
+        setDescription("Manages your friends list");
     }
 
     @Override
