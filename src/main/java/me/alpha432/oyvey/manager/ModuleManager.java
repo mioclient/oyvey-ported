@@ -2,15 +2,17 @@ package me.alpha432.oyvey.manager;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.impl.Render2DEvent;
 import me.alpha432.oyvey.event.impl.Render3DEvent;
 import me.alpha432.oyvey.features.Feature;
+import me.alpha432.oyvey.features.commands.CommandModule;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.modules.client.HudEditor;
 import me.alpha432.oyvey.features.modules.client.Notifications;
-import me.alpha432.oyvey.features.modules.combat.KeyPearl;
 import me.alpha432.oyvey.features.modules.combat.Criticals;
+import me.alpha432.oyvey.features.modules.combat.KeyPearl;
 import me.alpha432.oyvey.features.modules.hud.Coordinates;
 import me.alpha432.oyvey.features.modules.hud.Watermark;
 import me.alpha432.oyvey.features.modules.misc.MCF;
@@ -45,6 +47,11 @@ public class ModuleManager implements Jsonable, Util {
         register(new BlockHighlight());
         register(new NoFall());
         register(new KeyPearl());
+
+        // Create a command for each module for modules to be configurable via command line
+        for (Module module : modules) {
+            OyVey.commandManager.registerExecutor(new CommandModule(module));
+        }
     }
 
     public void register(Module module) {
@@ -60,6 +67,7 @@ public class ModuleManager implements Jsonable, Util {
         return getModules().stream();
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Module> T getModuleByClass(Class<T> clazz) {
         return (T) fastRegistry.get(clazz);
     }

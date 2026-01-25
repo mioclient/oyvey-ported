@@ -5,8 +5,6 @@ import me.alpha432.oyvey.event.Stage;
 import me.alpha432.oyvey.event.impl.*;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
-import me.alpha432.oyvey.features.commands.Command;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.BrandPayload;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -77,18 +75,11 @@ public class EventManager extends Feature {
 
     @Subscribe
     public void onChatSent(ChatEvent event) {
-        if (event.getMessage().startsWith(Command.getCommandPrefix())) {
-            event.cancel();
-            try {
-                if (event.getMessage().length() > 1) {
-                    OyVey.commandManager.executeCommand(event.getMessage().substring(Command.getCommandPrefix().length() - 1));
-                } else {
-                    Command.sendMessage("Please enter a command.");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                Command.sendMessage(ChatFormatting.RED + "An error occurred while running this command. Check the log!");
-            }
+        String message = event.getMessage();
+        if (!message.startsWith(OyVey.commandManager.getCommandPrefix())) {
+            return;
         }
+        event.cancel();
+        OyVey.commandManager.onChatSent(message);
     }
 }

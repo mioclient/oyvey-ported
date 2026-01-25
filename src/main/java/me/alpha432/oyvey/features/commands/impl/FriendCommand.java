@@ -1,54 +1,58 @@
 package me.alpha432.oyvey.features.commands.impl;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.commands.Command;
+import me.alpha432.oyvey.manager.CommandManager;
 
-public class FriendCommand
-        extends Command {
+import java.util.List;
+import java.util.StringJoiner;
+
+import static com.mojang.brigadier.arguments.StringArgumentType.getString;
+import static com.mojang.brigadier.arguments.StringArgumentType.word;
+
+public class FriendCommand extends Command {
     public FriendCommand() {
-        super("friend", new String[]{"<add/del/name/clear>", "<name>"});
+        super("friend", "friends", "f");
+        setDescription("Manages your friends list");
     }
 
     @Override
-    public void execute(String[] commands) {
-        if (commands.length == 1) {
-            if (OyVey.friendManager.getFriends().isEmpty()) {
-                FriendCommand.sendMessage("Friend list empty D:.");
-            } else {
-                StringBuilder f = new StringBuilder("Friends: ");
-                for (String friend : OyVey.friendManager.getFriends()) {
-                    try {
-                        f.append(friend).append(", ");
-                    } catch (Exception exception) {
-                    }
-                }
-                FriendCommand.sendMessage(f.toString());
-            }
-            return;
-        }
-        if (commands.length == 2) {
-            if (commands[0].equals("reset")) {
-                OyVey.friendManager.getFriends().clear();
-                FriendCommand.sendMessage("Friends got reset.");
-                return;
-            }
-            FriendCommand.sendMessage(commands[0] + (OyVey.friendManager.isFriend(commands[0]) ? " is friended." : " isn't friended."));
-            return;
-        }
-        if (commands.length >= 2) {
-            switch (commands[0]) {
-                case "add" -> {
-                    OyVey.friendManager.addFriend(commands[1]);
-                    FriendCommand.sendMessage("{aqua} %s has been friended", commands[1]);
-                    return;
-                }
-                case "del", "remove" -> {
-                    OyVey.friendManager.removeFriend(commands[1]);
-                    FriendCommand.sendMessage("{red} %s has been unfriended", commands[1]);
-                    return;
-                }
-            }
-            FriendCommand.sendMessage("Unknown Command, try friend add/del (name)");
-        }
+    public void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder) {
+        builder.then(literal("list")
+                        .executes((ctx) -> {
+                            List<String> friends = OyVey.friendManager.getFriends();
+                            if (friends.isEmpty()) {
+                                return success("You have no friends :(");
+                            }
+                            StringJoiner joiner = new StringJoiner(",");
+                            friends.forEach(joiner::add);
+                            return success("Friends (%s): %s", friends.size(), joiner);
+                        }))
+                .then(literal("clear")
+                        .executes((ctx) -> {
+                            OyVey.friendManager.getFriends().clear();
+                            return success("Cleared friends list");
+                        }))
+                .then(literal("add")
+                        .then(argument("username", word())
+                                .executes((ctx) -> {
+                                    String username = getString(ctx, "username");
+                                    if (OyVey.friendManager.isFriend(username)) {
+                                        return success("{green} %s {reset} is already on your friends list.", username);
+                                    }
+                                    OyVey.friendManager.addFriend(username);
+                                    return success("Added {green} %s {reset} to your friends list", username);
+                                })))
+                .then(literal("remove")
+                        .then(argument("username", word())
+                                .executes((ctx) -> {
+                                    String username = getString(ctx, "username");
+                                    if (!OyVey.friendManager.isFriend(username)) {
+                                        return success("{green} %s {reset} is not on your friends list.", username);
+                                    }
+                                    OyVey.friendManager.removeFriend(username);
+                                    return success("Removed {green} %s {reset} from your friends list", username);
+                                })));
     }
 }

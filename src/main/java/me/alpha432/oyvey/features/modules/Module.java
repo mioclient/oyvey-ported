@@ -2,7 +2,6 @@ package me.alpha432.oyvey.features.modules;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dev.cattyn.catformat.fabric.FabricCatFormat;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.impl.ClientEvent;
 import me.alpha432.oyvey.event.impl.Render2DEvent;
@@ -104,7 +103,7 @@ public class Module extends Feature implements Jsonable {
             this.displayName.setValue(name);
             return;
         }
-        Command.sendMessage(ChatFormatting.RED + "A module of this name already exists.");
+        Command.sendMessage("{red} A module of this name already exists.");
     }
 
     @Override
