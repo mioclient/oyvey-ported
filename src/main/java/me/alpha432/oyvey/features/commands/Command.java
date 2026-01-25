@@ -18,6 +18,7 @@ public abstract class Command extends Feature {
     private String description = "No description was provided for this command.";
 
     public Command(String... aliases) {
+        super(aliases[0]);
         this.aliases = aliases;
     }
 
