@@ -68,7 +68,7 @@ public class ColorArgumentType implements ArgumentType<Color> {
     private int[] parseColorElements(StringReader reader, String value) throws CommandSyntaxException {
         String[] parts = value.split(",");
         if (parts.length < 3) {
-            throw CommandExceptions.invalidArgument("Color element must have three values, either RGB or hsb:HSB")
+            throw CommandExceptions.invalidArgument("Color element must have three values (with optional alpha value), either RGB(A) or hsb:HSB")
                     .createWithContext(reader);
         }
 
