@@ -29,7 +29,7 @@ public class CommandArgumentType implements ArgumentType<Command>, CommandExcept
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        String input = builder.getInput().substring(builder.getStart()).toLowerCase();
+        String input = builder.getRemainingLowerCase();
 
         for (String alias : OyVey.commandManager.getCommandAliases()) {
             String name = alias.toLowerCase();

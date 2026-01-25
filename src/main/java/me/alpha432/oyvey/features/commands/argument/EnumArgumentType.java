@@ -42,7 +42,7 @@ public class EnumArgumentType<T extends Enum<?>> implements ArgumentType<T> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        String input = builder.getInput().substring(builder.getStart()).toLowerCase();
+        String input = builder.getRemainingLowerCase();
         for (String key : enumNameMap.keySet()) {
             String name = key.toLowerCase();
             if (name.contains(input)) {

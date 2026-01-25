@@ -34,7 +34,7 @@ public class ModuleArgumentType implements ArgumentType<Module> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        String input = builder.getInput().substring(builder.getStart()).toLowerCase();
+        String input = builder.getRemainingLowerCase();
 
         for (Module module : OyVey.moduleManager.getModules()) {
             String name = module.getName().toLowerCase();
