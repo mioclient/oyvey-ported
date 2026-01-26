@@ -23,7 +23,7 @@ public class ColorUtil {
 
     public static Color rainbow(int delay) {
         double rainbowState = Math.ceil((double) (System.currentTimeMillis() + (long) delay) / 20.0);
-        return Color.getHSBColor((float) ((rainbowState %= 360.0) / 360.0), ClickGui.getInstance().rainbowSaturation.getValue().floatValue() / 255.0f, ClickGui.getInstance().rainbowBrightness.getValue().floatValue() / 255.0f);
+        return Color.getHSBColor((float) ((rainbowState % 360.0) / 360.0), ClickGui.getInstance().rainbowSaturation.getValue() / 255.0f, ClickGui.getInstance().rainbowBrightness.getValue() / 255.0f);
     }
 
     public static int toRGBA(float[] colors) {

@@ -14,11 +14,12 @@ import net.minecraft.util.Mth;
 import java.awt.*;
 
 public class ColorButton extends Button {
+    private static final int PICKER_SIZE = 84;
+
     private final Setting<Color> setting;
     private boolean open = false;
     private boolean hoveringHue = false, hoveringColor = false, hoveringAlpha = false, hoveringCopy = false, hoveringPaste = false;
     private boolean draggingHue = false, draggingColor = false, draggingAlpha = false;
-    private int pickerSize = 84;
     private float[] hsb;
 
     public ColorButton(Setting<Color> setting) {
@@ -46,11 +47,11 @@ public class ColorButton extends Button {
         if (open) {
             float yOffset = this.height + 1;
             int availableWidth = this.width + 3;
-            int pickerWidth = Math.min(pickerSize, availableWidth);
+            int pickerWidth = Math.min(PICKER_SIZE, availableWidth);
             float pickerX = this.x + 2.0f;
 
-            int dragX = Mth.clamp(mouseX - (int)pickerX, 0, pickerWidth);
-            int dragY = Mth.clamp(mouseY - (int)(getY() + yOffset), 0, pickerWidth);
+            int dragX = Mth.clamp(mouseX - (int) pickerX, 0, pickerWidth);
+            int dragY = Mth.clamp(mouseY - (int) (getY() + yOffset), 0, pickerWidth);
             float dragHue = Math.max(pickerWidth * hsb[0] - .5f, 1);
             float dragSaturation = Math.max(pickerWidth * hsb[1] - 1, 2);
             float dragBrightness = Math.max(pickerWidth * (1.0f - hsb[2]) - 1, 2);
@@ -118,12 +119,12 @@ public class ColorButton extends Button {
             int buttonWidth = availableWidth / 2;
             RenderUtil.rect(context, pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14,
                     hoveringCopy ? OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
-            drawString("Copy", pickerX + buttonWidth / 2 - mc.font.width("Copy") / 2, this.y + yOffset + 3, -1);
+            drawString("Copy", pickerX + buttonWidth / 2.0 - mc.font.width("Copy") / 2.0, this.y + yOffset + 3, -1);
             hoveringCopy = isHoveringArea(mouseX, mouseY, pickerX, this.y + yOffset, pickerX + buttonWidth, this.y + yOffset + 14);
 
             RenderUtil.rect(context, pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14,
                     hoveringPaste ? OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().topColor.getValue().getAlpha()) : 0x11555555);
-            drawString("Paste", pickerX + buttonWidth + buttonWidth / 2 - mc.font.width("Paste") / 2 + 1, this.y + yOffset + 3, -1);
+            drawString("Paste", pickerX + buttonWidth + buttonWidth / 2.0 - mc.font.width("Paste") / 2.0 + 1, this.y + yOffset + 3, -1);
             hoveringPaste = isHoveringArea(mouseX, mouseY, pickerX + buttonWidth + 1, this.y + yOffset, pickerX + buttonWidth * 2 + 1, this.y + yOffset + 14);
         }
     }
@@ -169,7 +170,7 @@ public class ColorButton extends Button {
     @Override
     public int getHeight() {
         if (!open) return 14;
-        int pickerWidth = Math.min(pickerSize, this.width + 3);
+        int pickerWidth = Math.min(PICKER_SIZE, this.width + 3);
         return 14 + pickerWidth + 8 + 8 + 14 + 8;
     }
 

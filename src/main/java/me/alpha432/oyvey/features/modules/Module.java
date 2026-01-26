@@ -142,8 +142,8 @@ public class Module extends Feature implements Jsonable, Toggleable {
         JsonObject object = new JsonObject();
         for (Setting<?> setting : getSettings()) {
             try {
-                if (setting.getValue() instanceof Bind bind) {
-                    object.addProperty(setting.getName(), bind.getKey());
+                if (setting.getValue() instanceof Bind keyBind) {
+                    object.addProperty(setting.getName(), keyBind.getKey());
                 } else if (setting.getValue() instanceof java.awt.Color color) {
                     object.addProperty(setting.getName(), color.getRed() + "," + color.getGreen() + "," + color.getBlue() + "," + color.getAlpha());
                 } else if (setting.getValue() instanceof Vector2f pos) {
@@ -152,6 +152,7 @@ public class Module extends Feature implements Jsonable, Toggleable {
                     object.addProperty(setting.getName(), setting.getValueAsString());
                 }
             } catch (Throwable e) {
+                OyVey.LOGGER.error("Failed to create JSON field", e);
             }
         }
         return object;
@@ -172,7 +173,7 @@ public class Module extends Feature implements Jsonable, Toggleable {
                     ConfigManager.setValueFromJson(this, setting, settingElement);
                 }
             } catch (Throwable throwable) {
-                throwable.printStackTrace();
+                OyVey.LOGGER.error("Failed to load from JSON", throwable);
             }
         }
     }

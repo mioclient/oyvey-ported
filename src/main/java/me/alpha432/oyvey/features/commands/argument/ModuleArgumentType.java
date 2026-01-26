@@ -12,13 +12,7 @@ import me.alpha432.oyvey.features.modules.Module;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModuleArgumentType implements ArgumentType<Module> {
-    private boolean fullName;
-
-    public ModuleArgumentType(boolean fullName) {
-        this.fullName = fullName;
-    }
-
+public record ModuleArgumentType(boolean fullName) implements ArgumentType<Module> {
     @Override
     public Module parse(StringReader reader) throws CommandSyntaxException {
         String value = reader.readString().toLowerCase();

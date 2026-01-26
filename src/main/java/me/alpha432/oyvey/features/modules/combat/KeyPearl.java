@@ -23,8 +23,6 @@ public class KeyPearl extends Module {
         if (nullCheck()) return;
 
         Result result = InventoryUtil.find(Items.ENDER_PEARL, inventory.getValue() ? FULL_SCOPE : HOTBAR_SCOPE);
-        InventoryUtil.withSwap(result, () -> {
-            mc.gameMode.useItem(mc.player, result.hand());
-        });
+        InventoryUtil.withSwap(result, () -> mc.gameMode.useItem(mc.player, result.hand()));
     }
 }

@@ -33,7 +33,7 @@ public class MixinClientConnection {
                 EVENT_BUS.post(event);
                 if (event.isCancelled())
                     ci.cancel();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
     }
@@ -45,7 +45,7 @@ public class MixinClientConnection {
             PacketEvent.Send event = new PacketEvent.Send(packet);
             EVENT_BUS.post(event);
             if (event.isCancelled()) ci.cancel();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
