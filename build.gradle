@@ -16,13 +16,8 @@ buildConfig {
     buildConfigField(String, "VERSION", project.mod_version)
     buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
     buildConfigField(Boolean, "USING_GIT", USING_GIT)
-
-    if (USING_GIT) {
-        println "This build uses git, adding properties to build config"
-
-        buildConfigField(String, "HASH", "${execute("git rev-parse --short HEAD")}")
-        buildConfigField(String, "BRANCH", "${execute("git branch --show-current")}")
-    }
+    buildConfigField(String, "HASH", "${execute("git rev-parse --short HEAD")}")
+    buildConfigField(String, "BRANCH", "${execute("git branch --show-current")}")
 
     packageName "${project.group}.util"
     useJavaOutput()
@@ -104,6 +99,6 @@ def execute(String cmd) {
         commandLine cmd.split(" ")
         ignoreExitValue = true
     }
-    return output.standardOutput.getAsText().getOrElse("none")
+    return output.standardOutput.getAsText().getOrElse("")
             .replaceAll("\n", "");
 }
