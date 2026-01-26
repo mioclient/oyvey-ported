@@ -12,10 +12,11 @@ import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.ConfigManager;
 import me.alpha432.oyvey.util.traits.Jsonable;
+import me.alpha432.oyvey.util.traits.Toggleable;
 import net.minecraft.ChatFormatting;
 import org.joml.Vector2f;
 
-public class Module extends Feature implements Jsonable {
+public class Module extends Feature implements Jsonable, Toggleable {
     private final String description;
     private final Category category;
 
@@ -61,14 +62,6 @@ public class Module extends Feature implements Jsonable {
         return null;
     }
 
-    public void setEnabled(boolean enabled) {
-        if (enabled) {
-            this.enable();
-        } else {
-            this.disable();
-        }
-    }
-
     public void enable() {
         this.enabled.setValue(true);
         EVENT_BUS.register(this);
@@ -83,10 +76,6 @@ public class Module extends Feature implements Jsonable {
         EVENT_BUS.post(new ClientEvent(ClientEvent.Type.TOGGLE_MODULE, this));
         this.onToggle();
         this.onDisable();
-    }
-
-    public void toggle() {
-        this.setEnabled(!this.isEnabled());
     }
 
     public String getDisplayName() {
@@ -107,6 +96,11 @@ public class Module extends Feature implements Jsonable {
     @Override
     public boolean isEnabled() {
         return enabled.getValue();
+    }
+
+    @Override
+    public boolean isToggled() {
+        return isEnabled();
     }
 
     public String getDescription() {
