@@ -3,7 +3,7 @@ package me.alpha432.oyvey.mixin.network;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import me.alpha432.oyvey.event.impl.PacketEvent;
+import me.alpha432.oyvey.event.impl.network.PacketEvent;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;

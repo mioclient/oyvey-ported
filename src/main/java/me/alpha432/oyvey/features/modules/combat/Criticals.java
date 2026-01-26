@@ -1,6 +1,6 @@
 package me.alpha432.oyvey.features.modules.combat;
 
-import me.alpha432.oyvey.event.impl.PacketEvent;
+import me.alpha432.oyvey.event.impl.network.PacketEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.modules.Module;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;

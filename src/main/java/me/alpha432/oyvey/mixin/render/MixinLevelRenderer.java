@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.mixin.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import me.alpha432.oyvey.event.impl.RenderBlockOutlineEvent;
+import me.alpha432.oyvey.event.impl.render.RenderBlockOutlineEvent;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.state.LevelRenderState;

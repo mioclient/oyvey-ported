@@ -1,6 +1,6 @@
 package me.alpha432.oyvey.manager;
 
-import me.alpha432.oyvey.event.impl.TickEvent;
+import me.alpha432.oyvey.event.impl.entity.player.TickEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
 import net.minecraft.core.BlockPos;

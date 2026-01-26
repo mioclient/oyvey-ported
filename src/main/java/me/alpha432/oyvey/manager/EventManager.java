@@ -2,7 +2,14 @@ package me.alpha432.oyvey.manager;
 
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.Stage;
-import me.alpha432.oyvey.event.impl.*;
+import me.alpha432.oyvey.event.impl.entity.DeathEvent;
+import me.alpha432.oyvey.event.impl.entity.player.TickEvent;
+import me.alpha432.oyvey.event.impl.entity.player.UpdateWalkingPlayerEvent;
+import me.alpha432.oyvey.event.impl.input.KeyInputEvent;
+import me.alpha432.oyvey.event.impl.network.ChatEvent;
+import me.alpha432.oyvey.event.impl.network.PacketEvent;
+import me.alpha432.oyvey.event.impl.render.Render2DEvent;
+import me.alpha432.oyvey.event.impl.render.Render3DEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;

@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.features.modules.client;
 
 import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.event.impl.MouseEvent;
-import me.alpha432.oyvey.event.impl.Render2DEvent;
+import me.alpha432.oyvey.event.impl.input.MouseInputEvent;
+import me.alpha432.oyvey.event.impl.render.Render2DEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.gui.HudEditorScreen;
 import me.alpha432.oyvey.features.modules.Module;
@@ -44,7 +44,7 @@ public abstract class HudModule extends Module {
     }
 
     @Subscribe
-    public void onMouse(MouseEvent e) {
+    public void onMouse(MouseInputEvent e) {
         if (!(mc.screen instanceof HudEditorScreen) || nullCheck()) return;
 
         if (e.getAction() == 0) {

@@ -1,6 +1,6 @@
 package me.alpha432.oyvey.mixin.network;
 
-import me.alpha432.oyvey.event.impl.ChatEvent;
+import me.alpha432.oyvey.event.impl.network.ChatEvent;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

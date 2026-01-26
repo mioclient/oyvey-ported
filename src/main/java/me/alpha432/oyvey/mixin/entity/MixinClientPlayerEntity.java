@@ -1,8 +1,8 @@
 package me.alpha432.oyvey.mixin.entity;
 
 import me.alpha432.oyvey.event.Stage;
-import me.alpha432.oyvey.event.impl.TickEvent;
-import me.alpha432.oyvey.event.impl.UpdateWalkingPlayerEvent;
+import me.alpha432.oyvey.event.impl.entity.player.TickEvent;
+import me.alpha432.oyvey.event.impl.entity.player.UpdateWalkingPlayerEvent;
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.features.modules.render;
 
-import me.alpha432.oyvey.event.impl.Render3DEvent;
-import me.alpha432.oyvey.event.impl.RenderBlockOutlineEvent;
+import me.alpha432.oyvey.event.impl.render.Render3DEvent;
+import me.alpha432.oyvey.event.impl.render.RenderBlockOutlineEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;

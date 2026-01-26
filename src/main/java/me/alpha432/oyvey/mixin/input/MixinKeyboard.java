@@ -1,6 +1,6 @@
 package me.alpha432.oyvey.mixin.input;
 
-import me.alpha432.oyvey.event.impl.KeyInputEvent;
+import me.alpha432.oyvey.event.impl.input.KeyInputEvent;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.input.KeyEvent;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.event.impl;
+package me.alpha432.oyvey.event.impl.render;
 
 import me.alpha432.oyvey.event.Event;
 

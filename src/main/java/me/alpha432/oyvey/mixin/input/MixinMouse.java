@@ -1,6 +1,6 @@
 package me.alpha432.oyvey.mixin.input;
 
-import me.alpha432.oyvey.event.impl.MouseEvent;
+import me.alpha432.oyvey.event.impl.input.MouseInputEvent;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.input.MouseButtonInfo;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +14,7 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 public class MixinMouse {
     @Inject(method = "onButton", at = @At("HEAD"), cancellable = true)
     private void onMouseButton(long window, MouseButtonInfo input, int action, CallbackInfo ci) {
-        if (EVENT_BUS.post(new MouseEvent(input.button(), action))) {
+        if (EVENT_BUS.post(new MouseInputEvent(input.button(), action))) {
             ci.cancel();
         }
     }
