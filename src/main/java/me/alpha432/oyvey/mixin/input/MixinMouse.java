@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.mixin;
+package me.alpha432.oyvey.mixin.input;
 
 import me.alpha432.oyvey.event.impl.MouseEvent;
 import net.minecraft.client.MouseHandler;

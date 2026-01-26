@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.mixin;
+package me.alpha432.oyvey.mixin.render.gui;
 
 import me.alpha432.oyvey.event.impl.Render2DEvent;
 import net.minecraft.client.DeltaTracker;

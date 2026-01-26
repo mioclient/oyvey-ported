@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.mixin;
+package me.alpha432.oyvey.mixin.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.alpha432.oyvey.event.impl.RenderBlockOutlineEvent;

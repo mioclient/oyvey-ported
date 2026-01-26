@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.mixin;
+package me.alpha432.oyvey.mixin.network;
 
 import me.alpha432.oyvey.event.impl.ChatEvent;
 import net.minecraft.client.multiplayer.ClientPacketListener;

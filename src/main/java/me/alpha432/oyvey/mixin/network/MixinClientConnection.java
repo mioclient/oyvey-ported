@@ -1,4 +1,4 @@
-package me.alpha432.oyvey.mixin;
+package me.alpha432.oyvey.mixin.network;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
