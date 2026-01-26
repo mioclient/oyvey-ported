@@ -18,11 +18,9 @@ public class Notifications extends Module {
 
     @Subscribe
     public void onClient(ClientEvent event) {
-        if (!moduleToggle.getValue() || event.getType() != ClientEvent.Type.TOGGLE_MODULE) {
-            return;
-        }
-
-        if (event.getFeature() instanceof ClickGui) {
+        if (!moduleToggle.getValue()
+                || event.getType() != ClientEvent.Type.TOGGLE_MODULE
+                || event.getFeature() instanceof ClickGui) {
             return;
         }
 
