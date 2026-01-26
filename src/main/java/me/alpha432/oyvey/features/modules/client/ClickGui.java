@@ -44,7 +44,7 @@ public class ClickGui
 
     @Subscribe
     public void onSettingChange(ClientEvent event) {
-        if (event.getStage() == 2 && event.getSetting().getFeature().equals(this)) {
+        if (event.getType() == ClientEvent.Type.SETTING_UPDATE && event.getSetting().getFeature().equals(this)) {
             if (event.getSetting().equals(this.prefix)) {
                 OyVey.commandManager.setCommandPrefix(this.prefix.getPlannedValue());
                 Command.sendMessage("Prefix set to {global} %s", OyVey.commandManager.getCommandPrefix());
