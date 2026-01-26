@@ -29,10 +29,9 @@ public class MixinClientConnection {
     public void channelRead0(ChannelHandlerContext chc, Packet<?> packet, CallbackInfo ci) {
         if (this.channel.isOpen() && packet != null) {
             try {
-                PacketEvent.Receive event = new PacketEvent.Receive(packet);
-                EVENT_BUS.post(event);
-                if (event.isCancelled())
+                if (EVENT_BUS.post(new PacketEvent.Receive(packet))) {
                     ci.cancel();
+                }
             } catch (Exception ignored) {
             }
         }
@@ -42,9 +41,9 @@ public class MixinClientConnection {
     private void sendImmediately(Packet<?> packet, ChannelFutureListener callbacks, boolean flush, CallbackInfo ci) {
         if (this.receiving != PacketFlow.CLIENTBOUND) return;
         try {
-            PacketEvent.Send event = new PacketEvent.Send(packet);
-            EVENT_BUS.post(event);
-            if (event.isCancelled()) ci.cancel();
+            if (EVENT_BUS.post(new PacketEvent.Send(packet))) {
+                ci.cancel();
+            }
         } catch (Exception ignored) {
         }
     }

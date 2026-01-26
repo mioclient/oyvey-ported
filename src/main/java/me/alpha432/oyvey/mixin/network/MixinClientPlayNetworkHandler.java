@@ -13,8 +13,8 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 public class MixinClientPlayNetworkHandler {
     @Inject(method = "sendChat", at = @At("HEAD"), cancellable = true)
     private void sendChatMessageHook(String content, CallbackInfo ci) {
-        ChatEvent event = new ChatEvent(content);
-        EVENT_BUS.post(event);
-        if (event.isCancelled()) ci.cancel();
+        if (EVENT_BUS.post(new ChatEvent(content))) {
+            ci.cancel();
+        }
     }
 }

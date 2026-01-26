@@ -14,9 +14,7 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 public class MixinMouse {
     @Inject(method = "onButton", at = @At("HEAD"), cancellable = true)
     private void onMouseButton(long window, MouseButtonInfo input, int action, CallbackInfo ci) {
-        MouseEvent event = new MouseEvent(input.button(), action);
-        EVENT_BUS.post(event);
-        if (event.isCancelled()) {
+        if (EVENT_BUS.post(new MouseEvent(input.button(), action))) {
             ci.cancel();
         }
     }

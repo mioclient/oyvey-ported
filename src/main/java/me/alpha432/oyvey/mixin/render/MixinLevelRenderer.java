@@ -16,9 +16,7 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 public class MixinLevelRenderer {
     @Inject(method = "renderBlockOutline", at = @At("HEAD"), cancellable = true)
     public void renderBlockOutline(MultiBufferSource.BufferSource bufferSource, PoseStack poseStack, boolean bl, LevelRenderState levelRenderState, CallbackInfo ci) {
-        RenderBlockOutlineEvent event = new RenderBlockOutlineEvent();
-        EVENT_BUS.post(event);
-        if (event.isCancelled()) {
+        if (EVENT_BUS.post(new RenderBlockOutlineEvent())) {
             ci.cancel();
         }
     }

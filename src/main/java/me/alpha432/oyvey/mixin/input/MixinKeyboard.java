@@ -14,9 +14,12 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 public class MixinKeyboard {
     @Inject(method = "keyPress", at = @At("TAIL"), cancellable = true)
     private void onKey(long window, int action, KeyEvent input, CallbackInfo ci) {
-        if (action != 1) return;
-        KeyInputEvent event = new KeyInputEvent(input.key());
-        EVENT_BUS.post(event);
-        if (event.isCancelled()) ci.cancel();
+        if (action != 1) {
+            return;
+        }
+
+        if (EVENT_BUS.post(new KeyInputEvent(input.key()))) {
+            ci.cancel();
+        }
     }
 }
