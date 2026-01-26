@@ -26,8 +26,7 @@ public class Notifications extends Module {
             return;
         }
 
-        // we want to get the previous state
-        boolean moduleState = !event.getFeature().isEnabled();
+        boolean moduleState = event.getFeature().isEnabled();
         ChatUtil.sendMessage(TextUtil.text(MODULE_FORMAT,
                 event.getFeature().getName(),
                 moduleState ? "{green}" : "{red}",
