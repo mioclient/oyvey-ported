@@ -5,19 +5,22 @@ import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.settings.Setting;
 
 public class ClientEvent extends Event {
-    private Feature feature;
+    private final Type type;
+    private final Feature feature;
     private Setting<?> setting;
-    private int stage;
 
-    public ClientEvent(int stage, Feature feature) {
-        this.stage = stage;
+    public ClientEvent(Type type, Feature feature) {
+        this.type = type;
         this.feature = feature;
     }
 
     public ClientEvent(Setting<?> setting) {
-        this.stage = 2;
-        this.feature = setting.getFeature();
+        this(Type.SETTING_UPDATE, setting.getFeature());
         this.setting = setting;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public Feature getFeature() {
@@ -28,7 +31,8 @@ public class ClientEvent extends Event {
         return this.setting;
     }
 
-    public int getStage() {
-        return stage;
+    public enum Type {
+        TOGGLE_MODULE,
+        SETTING_UPDATE
     }
 }
