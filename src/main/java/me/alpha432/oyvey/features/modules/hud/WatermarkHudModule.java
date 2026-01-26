@@ -6,11 +6,11 @@ import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.BuildConfig;
 import me.alpha432.oyvey.util.TextUtil;
 
-public class Watermark extends HudModule {
+public class WatermarkHudModule extends HudModule {
     public Setting<String> text = str("Text", BuildConfig.NAME);
     public Setting<Boolean> fullVersion = new Setting<>("FullVersion", false);
 
-    public Watermark() {
+    public WatermarkHudModule() {
         super("Watermark", "Display watermark", 100, 10);
         if (BuildConfig.USING_GIT) {
             register(fullVersion);

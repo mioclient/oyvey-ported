@@ -1,6 +1,6 @@
 package me.alpha432.oyvey.manager;
 
-import me.alpha432.oyvey.features.modules.client.ClickGui;
+import me.alpha432.oyvey.features.modules.client.ClickGuiModule;
 import me.alpha432.oyvey.util.ColorUtil;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ public class ColorManager {
     private Color color = new Color(0, 0, 255, 180);
 
     public void init() {
-        ClickGui ui = ClickGui.getInstance();
+        ClickGuiModule ui = ClickGuiModule.getInstance();
         setColor(ui.color.getValue());
     }
 
@@ -30,8 +30,8 @@ public class ColorManager {
     }
 
     public int getColorWithAlpha(float offset, int alpha) {
-        if (ClickGui.getInstance().rainbow.getValue()) {
-            return ColorUtil.rainbow((int) (offset / 10f * ClickGui.getInstance().rainbowHue.getValue())).getRGB();
+        if (ClickGuiModule.getInstance().rainbow.getValue()) {
+            return ColorUtil.rainbow((int) (offset / 10f * ClickGuiModule.getInstance().rainbowHue.getValue())).getRGB();
         }
         return new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), alpha).getRGB();
     }

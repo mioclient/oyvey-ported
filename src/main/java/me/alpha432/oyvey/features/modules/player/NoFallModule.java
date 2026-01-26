@@ -4,8 +4,8 @@ import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.modules.Module;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 
-public class NoFall extends Module {
-    public NoFall() {
+public class NoFallModule extends Module {
+    public NoFallModule() {
         super("NoFall", "Removes fall damage", Category.PLAYER);
     }
 

@@ -17,10 +17,10 @@ import static me.alpha432.oyvey.features.commands.argument.EnumArgumentType._enu
 import static me.alpha432.oyvey.features.commands.argument.EnumArgumentType.getEnum;
 import static me.alpha432.oyvey.features.commands.argument.NumberArgumentType.*;
 
-public class CommandModule extends Command {
+public class ModuleCommand extends Command {
     private final Module module;
 
-    public CommandModule(Module module) {
+    public ModuleCommand(Module module) {
         super(module.getName().toLowerCase());
         setDescription("Command line configuration implementation for \"" + module.getName() + "\"");
         this.module = module;

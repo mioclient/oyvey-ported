@@ -12,11 +12,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.awt.*;
 
-public class BlockHighlight extends Module {
+public class BlockHighlightModule extends Module {
     public Setting<Color> color = color("Color", 255, 0, 0, 255);
     public Setting<Float> lineWidth = num("LineWidth", 1.0f, 0.1f, 5.0f);
 
-    public BlockHighlight() {
+    public BlockHighlightModule() {
         super("BlockHighlight", "Draws box at the block that you are looking at", Category.RENDER);
     }
 

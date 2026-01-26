@@ -6,8 +6,8 @@ import me.alpha432.oyvey.features.modules.Module;
 import net.minecraft.network.protocol.game.ClientboundExplodePacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 
-public class Velocity extends Module {
-    public Velocity() {
+public class VelocityModule extends Module {
+    public VelocityModule() {
         super("Velocity", "Removes velocity from explosions and entities", Category.PLAYER);
     }
 

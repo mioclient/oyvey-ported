@@ -7,10 +7,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.lwjgl.glfw.GLFW;
 
-public class MCF extends Module {
+public class MCFModule extends Module {
     private boolean pressed;
 
-    public MCF() {
+    public MCFModule() {
         super("MCF", "Middle click friend", Category.MISC);
     }
 

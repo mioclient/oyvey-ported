@@ -4,10 +4,10 @@ import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public class Step extends Module {
+public class StepModule extends Module {
     private final Setting<Float> height = num("Height", 2f, 1f, 3f);
 
-    public Step() {
+    public StepModule() {
         super("Step", "step..", Category.MOVEMENT);
     }
 

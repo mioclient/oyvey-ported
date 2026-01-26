@@ -4,10 +4,10 @@ import me.alpha432.oyvey.event.impl.render.Render2DEvent;
 import me.alpha432.oyvey.features.modules.client.HudModule;
 import me.alpha432.oyvey.features.settings.Setting;
 
-public class Coordinates extends HudModule {
+public class CoordinatesHudModule extends HudModule {
     public Setting<Boolean> nether = bool("Nether", false);
 
-    public Coordinates() {
+    public CoordinatesHudModule() {
         super("Coordinates", "Display coordinates", 150, 20);
     }
 
