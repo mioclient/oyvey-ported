@@ -11,9 +11,9 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
-public class ClickGuiModule
-        extends Module {
-    private static ClickGuiModule INSTANCE = new ClickGuiModule();
+public class ClickGuiModule extends Module {
+    private static ClickGuiModule INSTANCE;
+
     public Setting<String> prefix = str("Prefix", ".");
     public Setting<Color> color = color("Color", 0, 0, 255, 180);
     public Setting<Color> topColor = color("TopColor", 0, 0, 150, 240);
@@ -28,17 +28,6 @@ public class ClickGuiModule
         rainbowHue.setVisibility(v -> rainbow.getValue());
         rainbowBrightness.setVisibility(v -> rainbow.getValue());
         rainbowSaturation.setVisibility(v -> rainbow.getValue());
-        this.setInstance();
-    }
-
-    public static ClickGuiModule getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ClickGuiModule();
-        }
-        return INSTANCE;
-    }
-
-    private void setInstance() {
         INSTANCE = this;
     }
 
@@ -74,5 +63,9 @@ public class ClickGuiModule
         if (!(ClickGuiModule.mc.screen instanceof OyVeyGui)) {
             this.disable();
         }
+    }
+
+    public static ClickGuiModule getInstance() {
+        return INSTANCE;
     }
 }
