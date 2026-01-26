@@ -32,8 +32,7 @@ public class ClientEvent extends Event {
     }
 
     public enum Type {
-        ENABLE_MODULE,
-        DISABLE_MODULE,
+        TOGGLE_MODULE,
         SETTING_UPDATE
     }
 }

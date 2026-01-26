@@ -84,9 +84,7 @@ public class Module extends Feature implements Jsonable {
     }
 
     public void toggle() {
-        ClientEvent event = new ClientEvent(!this.isEnabled()
-                ? ClientEvent.Type.ENABLE_MODULE
-                : ClientEvent.Type.DISABLE_MODULE, this);
+        ClientEvent event = new ClientEvent(ClientEvent.Type.TOGGLE_MODULE, this);
         EVENT_BUS.post(event);
         if (!event.isCancelled()) {
             this.setEnabled(!this.isEnabled());

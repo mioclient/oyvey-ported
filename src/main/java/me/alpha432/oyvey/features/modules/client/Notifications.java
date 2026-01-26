@@ -18,8 +18,7 @@ public class Notifications extends Module {
 
     @Subscribe
     public void onClient(ClientEvent event) {
-        if (!moduleToggle.getValue() || (event.getType() != ClientEvent.Type.ENABLE_MODULE
-                && event.getType() != ClientEvent.Type.DISABLE_MODULE)) {
+        if (!moduleToggle.getValue() || event.getType() != ClientEvent.Type.TOGGLE_MODULE) {
             return;
         }
 
@@ -27,7 +26,8 @@ public class Notifications extends Module {
             return;
         }
 
-        boolean moduleState = event.getType() == ClientEvent.Type.ENABLE_MODULE;
+        // we want to get the previous state
+        boolean moduleState = !event.getFeature().isEnabled();
         ChatUtil.sendMessage(TextUtil.text(MODULE_FORMAT,
                 event.getFeature().getName(),
                 moduleState ? "{green}" : "{red}",
