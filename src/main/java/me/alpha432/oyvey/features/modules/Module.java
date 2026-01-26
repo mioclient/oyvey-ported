@@ -16,13 +16,15 @@ import me.alpha432.oyvey.util.traits.Toggleable;
 import net.minecraft.ChatFormatting;
 import org.joml.Vector2f;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UNKNOWN;
+
 public class Module extends Feature implements Jsonable, Toggleable {
     private final String description;
     private final Category category;
 
     public final Setting<Boolean> enabled = bool("Enabled", false);
     public final Setting<Boolean> drawn = bool("Drawn", true);
-    public final Setting<Bind> bind = key("Keybind", new Bind(-1));
+    public final Setting<Bind> bind = key("Keybind", new Bind(GLFW_KEY_UNKNOWN));
     public final Setting<String> displayName;
 
     public boolean hidden;
