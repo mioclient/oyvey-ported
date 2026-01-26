@@ -30,6 +30,7 @@ public class OyVey implements ModInitializer, ClientModInitializer {
     public void onInitialize() {
         LOGGER.info("Pre-initializing {} v{}",
                 BuildConfig.NAME, BuildConfig.VERSION);
+        configManager = new ConfigManager();
         eventManager = new EventManager();
         serverManager = new ServerManager();
         rotationManager = new RotationManager();
@@ -51,10 +52,11 @@ public class OyVey implements ModInitializer, ClientModInitializer {
         long startTime = System.nanoTime();
 
         eventManager.init();
+        commandManager.init();
         moduleManager.init();
+        friendManager.init();
         hudEditorScreen = new HudEditorScreen();
 
-        configManager = new ConfigManager();
         configManager.load();
         colorManager.init();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> configManager.save()));

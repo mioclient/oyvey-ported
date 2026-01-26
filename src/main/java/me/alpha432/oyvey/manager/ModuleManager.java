@@ -58,6 +58,8 @@ public class ModuleManager implements Jsonable, Util {
         for (Module module : modules) {
             OyVey.commandManager.registerExecutor(new CommandModule(module));
         }
+
+        OyVey.configManager.addConfig(this);
     }
 
     public void register(Module module) {

@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.EnumConverter;
@@ -18,15 +17,52 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ConfigManager {
     private static final Logger LOGGER = LoggerFactory.getLogger("ConfigManager");
     private static final Path OYVEY_PATH = FabricLoader.getInstance().getGameDir().resolve("oyvey");
-    private static final Gson gson = new GsonBuilder()
-            .setPrettyPrinting()
-            .create();
-    private final List<Jsonable> jsonables = List.of(OyVey.friendManager, OyVey.moduleManager, OyVey.commandManager);
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    private final List<Jsonable> jsonables = new LinkedList<>();
+
+    public void addConfig(Jsonable jsonable) {
+        jsonables.add(jsonable);
+    }
+
+    public void load() {
+        mkdirs();
+        for (Jsonable jsonable : jsonables) {
+            try {
+                String read = Files.readString(OYVEY_PATH.resolve(jsonable.getFileName()));
+                jsonable.fromJson(JsonParser.parseString(read));
+            } catch (Throwable e) {
+                LOGGER.error("Failed to load", e);
+            }
+        }
+    }
+
+    public void save() {
+        mkdirs();
+        for (Jsonable jsonable : jsonables) {
+            try {
+                JsonElement json = jsonable.toJson();
+                Files.writeString(OYVEY_PATH.resolve(jsonable.getFileName()), GSON.toJson(json));
+            } catch (Throwable e) {
+                LOGGER.error("Failed to write to file", e);
+            }
+        }
+    }
+
+    private void mkdirs() {
+        if (!OYVEY_PATH.toFile().exists()) {
+            boolean success = OYVEY_PATH.toFile().mkdirs();
+            if (!success) {
+                throw new RuntimeException("Failed to create needed directories!");
+            }
+        }
+    }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void setValueFromJson(Feature feature, Setting setting, JsonElement element) {
@@ -76,39 +112,6 @@ public class ConfigManager {
                 }
             }
             default -> LOGGER.error("Unknown Setting type for: {} : {}", feature.getName(), setting.getName());
-        }
-    }
-
-    public void load() {
-        mkdirs();
-        for (Jsonable jsonable : jsonables) {
-            try {
-                String read = Files.readString(OYVEY_PATH.resolve(jsonable.getFileName()));
-                jsonable.fromJson(JsonParser.parseString(read));
-            } catch (Throwable e) {
-                LOGGER.error("Failed to load", e);
-            }
-        }
-    }
-
-    public void save() {
-        mkdirs();
-        for (Jsonable jsonable : jsonables) {
-            try {
-                JsonElement json = jsonable.toJson();
-                Files.writeString(OYVEY_PATH.resolve(jsonable.getFileName()), gson.toJson(json));
-            } catch (Throwable e) {
-                LOGGER.error("Failed to write to file", e);
-            }
-        }
-    }
-
-    private void mkdirs() {
-        if (!OYVEY_PATH.toFile().exists()) {
-            boolean success = OYVEY_PATH.toFile().mkdirs();
-            if (!success) {
-                throw new RuntimeException("Failed to create needed directories!");
-            }
         }
     }
 }

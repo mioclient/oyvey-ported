@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.commands.impl.*;
@@ -28,7 +29,9 @@ public class CommandManager extends Feature implements Jsonable {
 
     public CommandManager() {
         super("Commands");
+    }
 
+    public void init() {
         registerExecutor(new BindCommand());
         registerExecutor(new DrawnCommand());
         registerExecutor(new FriendCommand());
@@ -37,6 +40,7 @@ public class CommandManager extends Feature implements Jsonable {
         registerExecutor(new ToggleCommand());
 
         LOGGER.info("Registered {} commands", commandList.size());
+        OyVey.configManager.addConfig(this);
     }
 
     public void onChatSent(String message) {
