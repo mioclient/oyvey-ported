@@ -56,7 +56,7 @@ public class ModuleManager implements Jsonable, Util {
 
         // Create a command for each module for modules to be configurable via command line
         for (Module module : modules) {
-            OyVey.commandManager.registerExecutor(new ModuleCommand(module));
+            OyVey.commandManager.register(new ModuleCommand(module));
         }
 
         OyVey.configManager.addConfig(this);
