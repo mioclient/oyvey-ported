@@ -35,6 +35,8 @@ public class CommandManager extends Feature implements Jsonable {
         registerExecutor(new HelpCommand());
         registerExecutor(new PrefixCommand());
         registerExecutor(new ToggleCommand());
+
+        LOGGER.info("Registered {} commands", commandList.size());
     }
 
     public void onChatSent(String message) {

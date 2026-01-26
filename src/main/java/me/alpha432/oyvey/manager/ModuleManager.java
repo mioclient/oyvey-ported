@@ -24,11 +24,15 @@ import me.alpha432.oyvey.features.modules.player.Velocity;
 import me.alpha432.oyvey.features.modules.render.BlockHighlight;
 import me.alpha432.oyvey.util.traits.Jsonable;
 import me.alpha432.oyvey.util.traits.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Stream;
 
 public class ModuleManager implements Jsonable, Util {
+    private static final Logger LOGGER = LoggerFactory.getLogger("ModuleManager");
+
     private final Map<Class<? extends Module>, Module> fastRegistry = new HashMap<>();
     private final List<Module> modules = new ArrayList<>();
 
@@ -47,6 +51,8 @@ public class ModuleManager implements Jsonable, Util {
         register(new BlockHighlight());
         register(new NoFall());
         register(new KeyPearl());
+
+        LOGGER.info("Registered {} modules", modules.size());
 
         // Create a command for each module for modules to be configurable via command line
         for (Module module : modules) {
