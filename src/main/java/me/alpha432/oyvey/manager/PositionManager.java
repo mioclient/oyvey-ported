@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.manager;
 
 import me.alpha432.oyvey.event.Stage;
-import me.alpha432.oyvey.event.impl.UpdateWalkingPlayerEvent;
+import me.alpha432.oyvey.event.impl.entity.player.UpdateWalkingPlayerEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;

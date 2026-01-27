@@ -3,7 +3,7 @@ package me.alpha432.oyvey.features.gui.items.buttons;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.gui.Widget;
-import me.alpha432.oyvey.features.modules.client.ClickGui;
+import me.alpha432.oyvey.features.modules.client.ClickGuiModule;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.render.RenderUtil;
 import net.minecraft.ChatFormatting;
@@ -30,7 +30,7 @@ public class Slider
     public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
         this.dragSetting(mouseX, mouseY);
         RenderUtil.rect(context, this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515);
-        RenderUtil.rect(context, this.x, this.y, (this.setting.getValue()).floatValue() <= this.min.floatValue() ? this.x : this.x + ((float) this.width + 7.4f) * this.partialMultiplier(), this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().color.getValue().getAlpha()) : OyVey.colorManager.getColorWithAlpha(y, ClickGui.getInstance().topColor.getValue().getAlpha()));
+        RenderUtil.rect(context, this.x, this.y, (this.setting.getValue()).floatValue() <= this.min.floatValue() ? this.x : this.x + ((float) this.width + 7.4f) * this.partialMultiplier(), this.y + (float) this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? OyVey.colorManager.getColorWithAlpha(y, ClickGuiModule.getInstance().color.getValue().getAlpha()) : OyVey.colorManager.getColorWithAlpha(y, ClickGuiModule.getInstance().topColor.getValue().getAlpha()));
         drawString(this.getName() + " " + ChatFormatting.GRAY + (this.setting.getValue() instanceof Float ? this.setting.getValue() : Double.valueOf((this.setting.getValue()).doubleValue())), this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
     }
 
@@ -68,8 +68,8 @@ public class Slider
             double result = (Double) this.setting.getMin() + (double) ((float) this.difference * percent);
             this.setting.setValue((double) Math.round(10.0 * result) / 10.0);
         } else if (this.setting.getValue() instanceof Float) {
-            float result = ((Float) this.setting.getMin()).floatValue() + (float) this.difference * percent;
-            this.setting.setValue(Float.valueOf((float) Math.round(10.0f * result) / 10.0f));
+            float result = this.setting.getMin().floatValue() + (float) this.difference * percent;
+            this.setting.setValue((float) Math.round(10.0f * result) / 10.0f);
         } else if (this.setting.getValue() instanceof Integer) {
             this.setting.setValue((Integer) this.setting.getMin() + (int) ((float) this.difference * percent));
         }

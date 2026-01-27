@@ -112,7 +112,7 @@ public class MathUtil
 
     public static String getTimeOfDay() {
         Calendar c = Calendar.getInstance();
-        int timeOfDay = c.get(11);
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
         if (timeOfDay < 12) {
             return "Good Morning ";
         }

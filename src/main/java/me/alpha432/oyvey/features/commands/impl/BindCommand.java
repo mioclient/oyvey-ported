@@ -1,7 +1,7 @@
 package me.alpha432.oyvey.features.commands.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import me.alpha432.oyvey.event.impl.KeyInputEvent;
+import me.alpha432.oyvey.event.impl.input.KeyInputEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.modules.Module;

@@ -16,11 +16,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class HudEditorScreen extends Screen {
+    private static HudEditorScreen INSTANCE;
+
     private final ArrayList<Widget> components = new ArrayList<>();
     public HudModule currentDragging;
     public boolean anyHover;
 
-    public HudEditorScreen() {
+    private HudEditorScreen() {
         super(Component.literal("oyvey-hudeditor"));
         load();
     }
@@ -84,9 +86,15 @@ public class HudEditorScreen extends Screen {
     public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float delta) {
     }
 
-
     public ArrayList<Widget> getComponents() {
         return components;
+    }
+
+    public static HudEditorScreen getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new HudEditorScreen();
+        }
+        return INSTANCE;
     }
 }
 

@@ -23,6 +23,7 @@ public class ModuleButton
         this.initSettings();
     }
 
+    @SuppressWarnings("unchecked")
     public void initSettings() {
         ArrayList<Item> newItems = new ArrayList<>();
         if (!this.module.getSettings().isEmpty()) {

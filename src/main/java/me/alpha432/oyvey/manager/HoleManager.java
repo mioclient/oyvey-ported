@@ -1,6 +1,6 @@
 package me.alpha432.oyvey.manager;
 
-import me.alpha432.oyvey.event.impl.TickEvent;
+import me.alpha432.oyvey.event.impl.entity.player.TickEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.Feature;
 import net.minecraft.core.BlockPos;
@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HoleManager extends Feature {
-    private final int range = 8;
+    private static final int RANGE = 8;
+
     private final List<Hole> holes = new ArrayList<>();
     private final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
@@ -24,9 +25,9 @@ public class HoleManager extends Feature {
     @Subscribe
     private void onTick(TickEvent event) {
         holes.clear();
-        for (int x = -range; x < range; x++) {
-            for (int y = -range; y < range; y++) {
-                for (int z = -range; z < range; z++) {
+        for (int x = -RANGE; x < RANGE; x++) {
+            for (int y = -RANGE; y < RANGE; y++) {
+                for (int z = -RANGE; z < RANGE; z++) {
                     pos.set(mc.player.getX() + x, mc.player.getY() + y, mc.player.getZ() + z);
                     Hole hole = getHole(pos);
                     if (hole == null) continue;
@@ -62,6 +63,6 @@ public class HoleManager extends Feature {
 
     private enum HoleType {
         BEDROCK,
-        UNSAFE;
+        UNSAFE
     }
 }

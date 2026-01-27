@@ -4,18 +4,18 @@
   "package": "me.alpha432.oyvey.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "MixinClientConnection"
+    "network.MixinClientConnection"
   ],
   "client": [
-    "MixinClientPlayerEntity",
-    "MixinClientPlayNetworkHandler",
-    "MixinCommandSuggestions",
-    "MixinInGameHud",
-    "MixinKeyboard",
-    "MixinLevelRenderer",
-    "MixinMouse",
-    "MixinRenderTickCounter",
-    "MixinWorldRenderer"
+    "entity.MixinClientPlayerEntity",
+    "input.MixinKeyboard",
+    "input.MixinMouse",
+    "network.MixinClientPlayNetworkHandler",
+    "render.MixinLevelRenderer",
+    "render.MixinRenderTickCounter",
+    "render.MixinWorldRenderer",
+    "render.gui.MixinCommandSuggestions",
+    "render.gui.MixinInGameHud"
   ],
   "injectors": {
     "defaultRequire": 1

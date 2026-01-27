@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.commands.impl.*;
@@ -28,13 +29,18 @@ public class CommandManager extends Feature implements Jsonable {
 
     public CommandManager() {
         super("Commands");
+    }
 
-        registerExecutor(new BindCommand());
-        registerExecutor(new DrawnCommand());
-        registerExecutor(new FriendCommand());
-        registerExecutor(new HelpCommand());
-        registerExecutor(new PrefixCommand());
-        registerExecutor(new ToggleCommand());
+    public void init() {
+        register(new BindCommand());
+        register(new DrawnCommand());
+        register(new FriendCommand());
+        register(new HelpCommand());
+        register(new PrefixCommand());
+        register(new ToggleCommand());
+
+        LOGGER.info("Registered {} commands", commandList.size());
+        OyVey.configManager.addConfig(this);
     }
 
     public void onChatSent(String message) {
@@ -52,12 +58,12 @@ public class CommandManager extends Feature implements Jsonable {
         }
     }
 
-    public void registerExecutor(Command executor) {
-        commandList.add(executor);
-        for (String alias : executor.getAliases()) {
-            commandAliasMap.put(alias, executor);
+    public void register(Command command) {
+        commandList.add(command);
+        for (String alias : command.getAliases()) {
+            commandAliasMap.put(alias, command);
             LiteralArgumentBuilder<CommandManager> builder = Command.literal(alias);
-            executor.createArgumentBuilder(builder);
+            command.createArgumentBuilder(builder);
             dispatcher.register(builder);
         }
     }

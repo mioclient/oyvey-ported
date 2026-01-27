@@ -1,14 +1,40 @@
+import java.nio.file.Paths
+
 plugins {
     id 'fabric-loom' version "$loom_version"
-    id 'maven-publish'
+    id 'com.github.gmazzo.buildconfig' version "$buildconfig_version"
 }
 
-version = project.minecraft_version
+var USING_GIT = Paths.get(System.getProperty("user.dir")).resolve(".git").toFile().exists()
+
+version = project.mod_version
 group = project.maven_group
+
+buildConfig {
+    buildConfigField(String, "NAME", project.mod_name)
+    buildConfigField(String, "GROUP", project.group)
+    buildConfigField(String, "VERSION", project.mod_version)
+    buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
+    buildConfigField(Boolean, "USING_GIT", USING_GIT)
+    buildConfigField(String, "HASH", "${execute("git rev-parse --short HEAD")}")
+    buildConfigField(String, "BRANCH", "${execute("git branch --show-current")}")
+
+    packageName "${project.group}.util"
+    useJavaOutput()
+    generateAtSync = true
+}
+
+sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
+
+base {
+    archivesName = project.archives_base_name
+}
 
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 loom {
@@ -58,24 +84,21 @@ java {
     withSourcesJar()
 }
 
-base {
-    archivesName = project.archives_base_name
-}
-
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archives_base_name}" }
     }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
+tasks.withType(JavaCompile).configureEach {
+    dependsOn(generateBuildConfig)
+}
 
-    repositories {
-        // Add publish targets here if needed
+def execute(String cmd) {
+    var output = providers.exec {
+        commandLine cmd.split(" ")
+        ignoreExitValue = true
     }
+    return output.standardOutput.getAsText().getOrElse("")
+            .replaceAll("\n", "");
 }
