@@ -6,6 +6,7 @@ plugins {
 }
 
 var USING_GIT = Paths.get(System.getProperty("user.dir")).resolve(".git").toFile().exists()
+var GIT_HASH = execute("git rev-parse --short HEAD")
 
 version = project.mod_version
 group = project.maven_group
@@ -16,7 +17,7 @@ buildConfig {
     buildConfigField(String, "VERSION", project.mod_version)
     buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
     buildConfigField(Boolean, "USING_GIT", USING_GIT)
-    buildConfigField(String, "HASH", "${execute("git rev-parse --short HEAD")}")
+    buildConfigField(String, "HASH", GIT_HASH)
     buildConfigField(String, "BRANCH", "${execute("git branch --show-current")}")
 
     packageName "${project.group}.util"
@@ -27,7 +28,7 @@ buildConfig {
 sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
 
 base {
-    archivesName = project.archives_base_name
+    archivesName = "${project.archives_base_name}-${GIT_HASH}"
 }
 
 repositories {
@@ -90,7 +91,7 @@ sourcesJar {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archives_base_name}" }
+        rename { "${it}_${archives_base_name}" }
     }
 }
 
@@ -103,6 +104,6 @@ def execute(String cmd) {
         commandLine cmd.split(" ")
         ignoreExitValue = true
     }
-    return output.standardOutput.getAsText().getOrElse("")
+    return output.standardOutput.getAsText().getOrElse("nogit")
             .replaceAll("\n", "");
 }
