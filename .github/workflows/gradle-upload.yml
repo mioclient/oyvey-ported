@@ -4,26 +4,35 @@ on: push
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+      - uses: actions/checkout@v4
+      - uses: gradle/wrapper-validation-action@v1
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+          overwrite-settings: true
 
-    - name: Build with Gradle Wrapper
-      run: |
-          chmod +x gradlew
-          ./gradlew build
+      - name: Grant execute permission for gradlew.
+        run: chmod +x gradlew
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: my-artifact
-        path: |
-          build/libs/
+      - uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: oyvey
+          path: build/libs/
+          if-no-files-found: error
+          retention-days: 30
