@@ -49,7 +49,7 @@ public record NumberArgumentType<T extends Number>(Class<T> type, Constraint<T> 
         };
     }
 
-    public static <T extends Number> T getNumber(Class<T> type, CommandContext<?> ctx, String name) {
+    public static <T extends Number> T get(Class<T> type, CommandContext<?> ctx, String name) {
         return ctx.getArgument(name, type);
     }
 

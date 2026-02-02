@@ -91,7 +91,7 @@ public class CommandModule extends Command {
         builder.then(literal(setting.getName().toLowerCase())
                 .then(argument("value", number(type, minMax(setting.getMin(), setting.getMax())))
                         .executes((ctx) -> {
-                            setting.setValue(getNumber(type, ctx, "value"));
+                            setting.setValue(get(type, ctx, "value"));
                             return settingChangeReturn(setting);
                         })));
     }
