@@ -17,6 +17,7 @@ public record Listener(Object host, int priority, Consumer<Object> consumer) {
         return host;
     }
 
+    @SuppressWarnings("unchecked")
     private static Consumer<Object> buildLambdaMetafactory(Object host, Method method) {
         try {
             MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(host.getClass(), MethodHandles.lookup());

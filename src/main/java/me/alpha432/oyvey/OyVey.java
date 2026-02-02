@@ -1,17 +1,14 @@
 package me.alpha432.oyvey;
 
-import me.alpha432.oyvey.features.gui.HudEditorScreen;
 import me.alpha432.oyvey.manager.*;
+import me.alpha432.oyvey.util.BuildConfig;
 import me.alpha432.oyvey.util.TextUtil;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.SharedConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class OyVey implements ModInitializer, ClientModInitializer {
-    public static final String NAME = "OyVey";
-    public static final String VERSION = SharedConstants.getCurrentVersion().name();
     public static float TIMER = 1f;
 
     public static final Logger LOGGER = LogManager.getLogger("OyVey");
@@ -26,10 +23,12 @@ public class OyVey implements ModInitializer, ClientModInitializer {
     public static FriendManager friendManager;
     public static ModuleManager moduleManager;
     public static ConfigManager configManager;
-    public static HudEditorScreen hudEditorScreen;
 
     @Override
     public void onInitialize() {
+        LOGGER.info("Pre-initializing {} v{}",
+                BuildConfig.NAME, BuildConfig.VERSION);
+        configManager = new ConfigManager();
         eventManager = new EventManager();
         serverManager = new ServerManager();
         rotationManager = new RotationManager();
@@ -46,13 +45,22 @@ public class OyVey implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        eventManager.init();
-        moduleManager.init();
-        hudEditorScreen = new HudEditorScreen();
+        LOGGER.info("Initializing {}", BuildConfig.NAME);
 
-        configManager = new ConfigManager();
+        long startTime = System.nanoTime();
+
+        eventManager.init();
+        commandManager.init();
+        moduleManager.init();
+        friendManager.init();
+
         configManager.load();
         colorManager.init();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> configManager.save()));
+
+        long endTime = System.nanoTime();
+
+        LOGGER.info("Initialized {} in {}ms",
+                BuildConfig.NAME, (endTime - startTime) / 1000000.0);
     }
 }

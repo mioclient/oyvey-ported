@@ -21,14 +21,18 @@ public class EventBus {
         }
     }
 
-    public void post(Event event) {
+    public boolean post(Event event) {
         List<Listener> list = listeners.get(event.getClass());
-        if (list == null) return;
+        if (list == null) return false;
 
         for (Listener listener : list) {
-            if (event.isCancelled()) return;
+            if (event.isCancelled()) {
+                return true;
+            }
             listener.invoke(event);
         }
+
+        return false;
     }
 
     private void register(Object host, Class<?> klass) {

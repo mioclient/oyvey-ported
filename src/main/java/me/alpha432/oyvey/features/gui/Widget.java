@@ -3,7 +3,7 @@ package me.alpha432.oyvey.features.gui;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.gui.items.buttons.Button;
-import me.alpha432.oyvey.features.modules.client.ClickGui;
+import me.alpha432.oyvey.features.modules.client.ClickGuiModule;
 import me.alpha432.oyvey.util.ColorUtil;
 import me.alpha432.oyvey.util.render.RenderUtil;
 import me.alpha432.oyvey.util.render.ScissorUtil;
@@ -50,8 +50,8 @@ public class Widget
         this.context = context;
         this.drag(mouseX, mouseY);
         float totalItemHeight = this.open ? this.getTotalItemHeight() - 2.0f : 0.0f;
-        int color = ClickGui.getInstance().topColor.getValue().getRGB();
-        context.fill(this.x, this.y - 1, this.x + this.width, this.y + this.height - 6, ClickGui.getInstance().rainbow.getValue() ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB() : color);
+        int color = ClickGuiModule.getInstance().topColor.getValue().getRGB();
+        context.fill(this.x, this.y - 1, this.x + this.width, this.y + this.height - 6, ClickGuiModule.getInstance().rainbow.getValue() ? ColorUtil.rainbow(ClickGuiModule.getInstance().rainbowHue.getValue()).getRGB() : color);
         if (this.open) {
             RenderUtil.rect(context, this.x, (float) this.y + 12.5f, this.x + this.width, (float) (this.y + this.height) + totalItemHeight, 0x77000000);
         }

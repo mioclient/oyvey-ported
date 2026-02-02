@@ -4,8 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.impl.ClientEvent;
-import me.alpha432.oyvey.event.impl.Render2DEvent;
-import me.alpha432.oyvey.event.impl.Render3DEvent;
+import me.alpha432.oyvey.event.impl.render.Render2DEvent;
+import me.alpha432.oyvey.event.impl.render.Render3DEvent;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
 import me.alpha432.oyvey.features.settings.Bind;
@@ -16,13 +16,15 @@ import me.alpha432.oyvey.util.traits.Toggleable;
 import net.minecraft.ChatFormatting;
 import org.joml.Vector2f;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UNKNOWN;
+
 public class Module extends Feature implements Jsonable, Toggleable {
     private final String description;
     private final Category category;
 
     public final Setting<Boolean> enabled = bool("Enabled", false);
     public final Setting<Boolean> drawn = bool("Drawn", true);
-    public final Setting<Bind> bind = key("Keybind", new Bind(-1));
+    public final Setting<Bind> bind = key("Keybind", new Bind(GLFW_KEY_UNKNOWN));
     public final Setting<String> displayName;
 
     public boolean hidden;
@@ -140,8 +142,8 @@ public class Module extends Feature implements Jsonable, Toggleable {
         JsonObject object = new JsonObject();
         for (Setting<?> setting : getSettings()) {
             try {
-                if (setting.getValue() instanceof Bind bind) {
-                    object.addProperty(setting.getName(), bind.getKey());
+                if (setting.getValue() instanceof Bind keyBind) {
+                    object.addProperty(setting.getName(), keyBind.getKey());
                 } else if (setting.getValue() instanceof java.awt.Color color) {
                     object.addProperty(setting.getName(), color.getRed() + "," + color.getGreen() + "," + color.getBlue() + "," + color.getAlpha());
                 } else if (setting.getValue() instanceof Vector2f pos) {
@@ -150,6 +152,7 @@ public class Module extends Feature implements Jsonable, Toggleable {
                     object.addProperty(setting.getName(), setting.getValueAsString());
                 }
             } catch (Throwable e) {
+                OyVey.LOGGER.error("Failed to create JSON field", e);
             }
         }
         return object;
@@ -170,7 +173,7 @@ public class Module extends Feature implements Jsonable, Toggleable {
                     ConfigManager.setValueFromJson(this, setting, settingElement);
                 }
             } catch (Throwable throwable) {
-                throwable.printStackTrace();
+                OyVey.LOGGER.error("Failed to load from JSON", throwable);
             }
         }
     }
