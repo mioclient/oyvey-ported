@@ -28,7 +28,7 @@ public class EventManager extends Feature {
     }
 
     @Subscribe
-    public void onTick(TickEvent event) {
+    public void onTick(TickEvent.Post event) {
         if (nullCheck())
             return;
         OyVey.moduleManager.onTick();
@@ -36,21 +36,6 @@ public class EventManager extends Feature {
             if (player == null || player.getHealth() > 0.0F)
                 continue;
             EVENT_BUS.post(new DeathEvent(player));
-        }
-    }
-
-    @Subscribe
-    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
-        if (nullCheck())
-            return;
-        if (event.getStage() == Stage.PRE) {
-            OyVey.speedManager.update();
-            OyVey.rotationManager.updateRotations();
-            OyVey.positionManager.updatePosition();
-        }
-        if (event.getStage() == Stage.POST) {
-            OyVey.rotationManager.restoreRotations();
-            OyVey.positionManager.restorePosition();
         }
     }
 

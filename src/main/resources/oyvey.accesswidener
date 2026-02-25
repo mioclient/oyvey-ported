@@ -1,8 +1,11 @@
 accessWidener v2 named
 
-accessible field net/minecraft/client/Minecraft rightClickDelay I
-accessible field net/minecraft/network/protocol/game/ServerboundInteractPacket entityId I
-accessible method net/minecraft/network/protocol/game/ServerboundInteractPacket$Action getType ()Lnet/minecraft/network/protocol/game/ServerboundInteractPacket$ActionType;
 accessible class net/minecraft/network/protocol/game/ServerboundInteractPacket$ActionType
+
+accessible field net/minecraft/client/Minecraft rightClickDelay I
+accessible field net/minecraft/client/player/LocalPlayer positionReminder I
 accessible field net/minecraft/network/protocol/game/ServerboundInteractPacket action Lnet/minecraft/network/protocol/game/ServerboundInteractPacket$Action;
+accessible field net/minecraft/network/protocol/game/ServerboundInteractPacket entityId I
+
 accessible method net/minecraft/client/multiplayer/MultiPlayerGameMode ensureHasSentCarriedItem ()V
+accessible method net/minecraft/network/protocol/game/ServerboundInteractPacket$Action getType ()Lnet/minecraft/network/protocol/game/ServerboundInteractPacket$ActionType;
