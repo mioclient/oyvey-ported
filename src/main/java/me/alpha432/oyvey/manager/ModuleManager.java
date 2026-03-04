@@ -13,6 +13,7 @@ import me.alpha432.oyvey.features.modules.client.HudEditorModule;
 import me.alpha432.oyvey.features.modules.client.NotificationsModule;
 import me.alpha432.oyvey.features.modules.combat.CriticalsModule;
 import me.alpha432.oyvey.features.modules.combat.KeyPearlModule;
+import me.alpha432.oyvey.features.modules.combat.StunSlammingModule; // <-- IMPORT HINZUGEFÜGT!
 import me.alpha432.oyvey.features.modules.hud.CoordinatesHudModule;
 import me.alpha432.oyvey.features.modules.hud.WatermarkHudModule;
 import me.alpha432.oyvey.features.modules.misc.MCFModule;
@@ -51,6 +52,7 @@ public class ModuleManager implements Jsonable, Util {
         register(new BlockHighlightModule());
         register(new NoFallModule());
         register(new KeyPearlModule());
+        register(new StunSlammingModule()); // <-- DEIN MODUL HIER REGISTRIERT!
 
         LOGGER.info("Registered {} modules", modules.size());
 
