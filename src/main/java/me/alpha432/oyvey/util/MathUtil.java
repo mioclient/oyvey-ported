@@ -204,4 +204,12 @@ public class MathUtil
         double dist = Math.sqrt(difX * difX + difZ * difZ);
         return new float[]{(float) Mth.wrapDegrees(Math.toDegrees(Math.atan2(difZ, difX)) - 90.0), (float) Mth.wrapDegrees(Math.toDegrees(Math.atan2(difY, dist)))};
     }
+
+    public static Vec3 clamp(Vec3 vec3d, AABB aabb) {
+        return new Vec3(
+                clamp(vec3d.x, aabb.minX, aabb.maxX),
+                clamp(vec3d.y, aabb.minY, aabb.maxY),
+                clamp(vec3d.z, aabb.minZ, aabb.maxZ)
+        );
+    }
 }

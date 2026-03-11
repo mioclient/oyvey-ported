@@ -13,9 +13,14 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 
 @Mixin(LocalPlayer.class)
 public class MixinClientPlayerEntity {
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void tickPreHook(CallbackInfo ci) {
+        EVENT_BUS.post(new TickEvent.Pre());
+    }
+
     @Inject(method = "tick", at = @At("TAIL"))
     private void tickHook(CallbackInfo ci) {
-        EVENT_BUS.post(new TickEvent());
+        EVENT_BUS.post(new TickEvent.Post());
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;tick()V", shift = At.Shift.AFTER))
