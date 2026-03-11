@@ -72,6 +72,8 @@ public class RotationManager implements Util {
 
     public void silent(float yaw, float pitch) {
         mc.player.positionReminder = 20;
+        mc.player.yRotLast = yaw;
+        mc.player.xRotLast = pitch;
         mc.player.connection.send(new ServerboundMovePlayerPacket.PosRot(
                 mc.player.getX(), mc.player.getY(), mc.player.getZ(),
                 yaw, pitch,
