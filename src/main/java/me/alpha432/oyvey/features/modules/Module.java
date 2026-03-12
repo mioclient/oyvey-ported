@@ -88,11 +88,11 @@ public class Module extends Feature implements Jsonable, Toggleable {
         Module module = OyVey.moduleManager.getModuleByDisplayName(name);
         Module originalModule = OyVey.moduleManager.getModuleByName(name);
         if (module == null && originalModule == null) {
-            Command.sendMessage(this.getDisplayName() + ", name: " + this.getName() + ", has been renamed to: " + name);
+            Command.sendMessage(this.getDisplayName() + ", name: " + this.getName() + ", has been renamed to: " + name, "general");
             this.displayName.setValue(name);
             return;
         }
-        Command.sendMessage("{red} A module of this name already exists.");
+        Command.sendMessage("{red} A module of this name already exists.", "general");
     }
 
     @Override

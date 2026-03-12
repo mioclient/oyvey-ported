@@ -28,6 +28,6 @@ public class NotificationsModule extends Module {
         ChatUtil.sendMessage(TextUtil.text(MODULE_FORMAT,
                 event.getFeature().getName(),
                 moduleState ? "{green}" : "{red}",
-                moduleState ? "on" : "off"));
+                moduleState ? "on" : "off"), event.getFeature().getName());
     }
 }

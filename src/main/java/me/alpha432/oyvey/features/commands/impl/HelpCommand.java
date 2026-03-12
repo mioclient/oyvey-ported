@@ -66,7 +66,7 @@ public class HelpCommand extends Command {
         List<Command> paginated = commands.subList((pageIndex - 1) * ITEMS_PER_PAGE,
                 Math.min(commands.size(), pageIndex * ITEMS_PER_PAGE));
 
-        sendMessage("Commands (%s):", commands.size());
+        sendMessage("Commands (%s):", "general", commands.size());
 
         for (Command command : paginated) {
             StringJoiner joiner = new StringJoiner(", ");
@@ -74,7 +74,7 @@ public class HelpCommand extends Command {
                 joiner.add(alias);
             }
 
-            sendMessage("{dark_gray} %s: {reset}\n   %s",
+            sendMessage("{dark_gray} %s: {reset}\n   %s", "general",
                     joiner, command.getDescription());
         }
 

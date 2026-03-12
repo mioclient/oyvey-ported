@@ -25,7 +25,7 @@ public abstract class Command extends Feature {
     public abstract void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder);
 
     protected int success(String message, Object... format) {
-        sendMessage(message, format);
+        sendMessage(message, "success", format);
         return NO_OP;
     }
 
@@ -34,7 +34,7 @@ public abstract class Command extends Feature {
     }
 
     protected int fail(String message, Object... format) {
-        sendMessage("{red} " + message, format);
+        sendMessage("{red} " + format, "fail");
         return NO_OP;
     }
 
@@ -58,11 +58,18 @@ public abstract class Command extends Feature {
         return true;
     }
 
-    public static void sendMessage(String message, Object... format) {
+    public static void sendMessage(String message, String identifier) {
         if (message == null) {
             return;
         }
-        ChatUtil.sendMessage(TextUtil.text(message, format));
+        ChatUtil.sendMessage(TextUtil.text(message), identifier);
+    }
+
+    public static void sendMessage(String message, String identifier, Object... format) {
+        if (message == null) {
+            return;
+        }
+        ChatUtil.sendMessage(TextUtil.text(message, format), identifier);
     }
 
     public static LiteralArgumentBuilder<CommandManager> literal(String literal) {

@@ -48,9 +48,9 @@ public class CommandManager extends Feature implements Jsonable {
             int result = dispatcher.execute(message.substring(
                     commandPrefix.length()).trim(), this);
             if (result == SINGLE_SUCCESS) {
-                Command.sendMessage("{green} Command executed successfully");
+                Command.sendMessage("{green} Command executed successfully", "general");
             } else if (result == SINGLE_FAILURE) {
-                Command.sendMessage("{red} Failed to execute command");
+                Command.sendMessage("{red} Failed to execute command", "general");
             }
         } catch (CommandSyntaxException e) {
             LOGGER.error("Failed to execute command", e);
