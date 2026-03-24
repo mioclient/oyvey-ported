@@ -9,6 +9,7 @@ import me.alpha432.oyvey.util.TextUtil;
 import me.alpha432.oyvey.util.player.ChatUtil;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
+import static me.alpha432.oyvey.features.commands.MessageIdentifiers.*;
 
 public abstract class Command extends Feature {
     public static final int NO_OP = -1;
@@ -25,7 +26,7 @@ public abstract class Command extends Feature {
     public abstract void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder);
 
     protected int success(String message, Object... format) {
-        sendMessage(message, format);
+        sendMessage(message, SUCCESS, format);
         return NO_OP;
     }
 
@@ -34,7 +35,7 @@ public abstract class Command extends Feature {
     }
 
     protected int fail(String message, Object... format) {
-        sendMessage("{red} " + message, format);
+        sendMessage("{red} " + message, FAIL, format);
         return NO_OP;
     }
 
@@ -58,11 +59,14 @@ public abstract class Command extends Feature {
         return true;
     }
 
-    public static void sendMessage(String message, Object... format) {
-        if (message == null) {
-            return;
-        }
-        ChatUtil.sendMessage(TextUtil.text(message, format));
+    public static void sendMessage(String message, String identifier) {
+        if (message == null) return;
+        ChatUtil.sendMessage(TextUtil.text(message), identifier);
+    }
+
+    public static void sendMessage(String message, String identifier, Object... format) {
+        if (message == null) return;
+        ChatUtil.sendMessage(TextUtil.text(message, format), identifier);
     }
 
     public static LiteralArgumentBuilder<CommandManager> literal(String literal) {

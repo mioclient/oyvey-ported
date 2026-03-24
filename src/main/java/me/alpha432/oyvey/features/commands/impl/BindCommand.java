@@ -40,7 +40,7 @@ public class BindCommand extends Command {
 
         if (event.getKey() == GLFW_KEY_ESCAPE) {
             module = null;
-            sendMessage("Operation canceled.");
+            sendMessage("Operation canceled.", "fail");
             return;
         }
 
