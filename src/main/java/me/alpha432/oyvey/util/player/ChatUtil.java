@@ -15,13 +15,6 @@ import java.nio.charset.StandardCharsets;
 import static me.alpha432.oyvey.util.traits.Util.mc;
 
 public class ChatUtil {
-    private static final GuiMessageTag MESSAGE_TAG = new GuiMessageTag(
-            OyVey.colorManager.getColorAsInt(),
-            null,
-            null,
-            null
-    );
-
     public static void sendMessage(Component message, String identifier) {
         sendClientSideMessage(Component.empty()
                 .setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY))
@@ -33,17 +26,20 @@ public class ChatUtil {
     }
 
     public static void sendClientSideMessage(Component message, String identifier) {
-        if (Command.nullCheck()) {
-            return;
-        }
+        if (Command.nullCheck()) return;
+
         IChatComponent chat = (IChatComponent) mc.gui.getChat();
         MessageSignature signature = new MessageSignature(get256Bytes(identifier));
         chat.oyvey$removeMessage(signature);
-        chat.oyvey$addMessage(new GuiMessage(mc.gui.getGuiTicks(), message, signature, MESSAGE_TAG));
+        chat.oyvey$addMessage(new GuiMessage(mc.gui.getGuiTicks(), message, signature, getMessageTag()));
     }
 
     public static Component getClientNameComponent() {
         return Component.empty().withColor(OyVey.colorManager.getColorAsInt()).append("OyVey");
+    }
+
+    private static GuiMessageTag getMessageTag() {
+        return new GuiMessageTag(OyVey.colorManager.getColorAsInt(), null, null, null);
     }
 
     private static byte[] get256Bytes(String identifier) {
