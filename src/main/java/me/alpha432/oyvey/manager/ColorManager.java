@@ -22,11 +22,11 @@ public class ColorManager {
     }
 
     public int getColorAsInt() {
-        return ColorUtil.toRGBA(this.color);
+        return this.color.getRGB();
     }
 
     public int getColorAsIntFullAlpha() {
-        return ColorUtil.toRGBA(new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 255));
+        return new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), 255).getRGB();
     }
 
     public int getColorWithAlpha(float offset, int alpha) {
