@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 
 @Mixin(Gui.class)
-public class MixinInGameHud {
+public class MixinGui {
 
     @Inject(method = "render", at = @At("RETURN"))
     public void render(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {

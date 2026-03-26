@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 
 @Mixin(Connection.class)
-public class MixinClientConnection {
+public class MixinConnection {
 
     @Shadow
     private Channel channel;
@@ -38,7 +38,7 @@ public class MixinClientConnection {
     }
 
     @Inject(method = "sendPacket", at = @At("HEAD"), cancellable = true)
-    private void sendImmediately(Packet<?> packet, ChannelFutureListener callbacks, boolean flush, CallbackInfo ci) {
+    private void sendPacket(Packet<?> packet, ChannelFutureListener callbacks, boolean flush, CallbackInfo ci) {
         if (this.receiving != PacketFlow.CLIENTBOUND) return;
         try {
             if (EVENT_BUS.post(new PacketEvent.Send(packet))) {
