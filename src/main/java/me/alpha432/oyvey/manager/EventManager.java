@@ -6,6 +6,7 @@ import me.alpha432.oyvey.event.impl.entity.DeathEvent;
 import me.alpha432.oyvey.event.impl.entity.player.TickEvent;
 import me.alpha432.oyvey.event.impl.entity.player.UpdateWalkingPlayerEvent;
 import me.alpha432.oyvey.event.impl.input.KeyInputEvent;
+import me.alpha432.oyvey.event.impl.input.MouseInputEvent;
 import me.alpha432.oyvey.event.impl.network.ChatEvent;
 import me.alpha432.oyvey.event.impl.network.PacketEvent;
 import me.alpha432.oyvey.event.impl.render.Render2DEvent;
@@ -78,6 +79,13 @@ public class EventManager extends Feature {
     @Subscribe
     public void onKeyInput(KeyInputEvent event) {
         OyVey.moduleManager.onKeyPressed(event.getKey());
+    }
+
+    @Subscribe
+    public void onMouseInput(MouseInputEvent event) {
+        if (event.getAction() == 1) {
+            OyVey.moduleManager.onMouseClicked(event.getButton());
+        }
     }
 
     @Subscribe
