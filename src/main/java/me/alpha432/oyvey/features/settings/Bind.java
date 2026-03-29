@@ -28,17 +28,19 @@ public class Bind implements Util {
     }
 
     public boolean isEmpty() {
-        return this.key < 0;
+        return this.key == -1;
     }
 
     public String toString() {
-        return this.isEmpty() ? "None" : (this.key < 0
-                ? "None"
-                : this.capitalise(InputConstants.getKey(new KeyEvent(this.key, 0, 0)).getName()));
+        if (this.isEmpty()) return "None";
+        if (this.key < -1) return "Mouse " + (-this.key - 1);
+        return this.capitalise(InputConstants.getKey(new KeyEvent(this.key, 0, 0)).getName());
     }
 
     public boolean isDown() {
-        return !this.isEmpty() && GLFW.glfwGetKey(mc.getWindow().handle(), this.getKey()) == 1;
+        if (this.isEmpty()) return false;
+        if (this.key < -1) return GLFW.glfwGetMouseButton(mc.getWindow().handle(), -this.key - 2) == 1;
+        return GLFW.glfwGetKey(mc.getWindow().handle(), this.getKey()) == 1;
     }
 
     private String capitalise(String str) {
@@ -56,18 +58,19 @@ public class Bind implements Util {
 
         public Bind doBackward(JsonElement jsonElement) {
             String s = jsonElement.getAsString();
-            if (s.equalsIgnoreCase("None")) {
-                return Bind.none();
+            if (s.equalsIgnoreCase("None")) return Bind.none();
+            if (s.toLowerCase().startsWith("mouse ")) {
+                try {
+                    return new Bind(-Integer.parseInt(s.substring(6)) - 1);
+                } catch (Exception e) {
+                }
             }
             int key = -1;
             try {
                 key = InputConstants.getKey(s.toUpperCase()).getValue();
-            } catch (Exception exception) {
-                // empty catch block
+            } catch (Exception e) {
             }
-            if (key == 0) {
-                return Bind.none();
-            }
+            if (key == 0) return Bind.none();
             return new Bind(key);
         }
     }
