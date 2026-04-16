@@ -44,7 +44,12 @@ public class BindButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        if (this.isHovering(mouseX, mouseY)) {
+        if (this.isListening) {
+            if (mouseButton != 0 && mouseButton != 1) {
+                this.setting.setValue(new Bind(-mouseButton - 2));
+                this.onMouseClick();
+            }
+        } else if (this.isHovering(mouseX, mouseY)) {
             mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
         }
     }
