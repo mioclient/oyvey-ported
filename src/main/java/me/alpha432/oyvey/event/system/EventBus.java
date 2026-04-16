@@ -26,10 +26,10 @@ public class EventBus {
         if (list == null) return false;
 
         for (Listener listener : list) {
-            if (event.isCancelled()) {
-                return true;
-            }
             listener.invoke(event);
+
+            if (event.isCancelled())
+                return true;
         }
 
         return false;
