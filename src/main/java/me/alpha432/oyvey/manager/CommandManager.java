@@ -15,9 +15,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static me.alpha432.oyvey.features.commands.Command.SINGLE_FAILURE;
-import static me.alpha432.oyvey.features.commands.MessageIdentifiers.GENERAL;
+import static me.alpha432.oyvey.features.commands.MessageSignatures.GENERAL;
+import static me.alpha432.oyvey.features.commands.MessageSignatures.SUCCESS;
 
 public class CommandManager extends Feature implements Jsonable {
     private static final Logger LOGGER = LogManager.getLogger("Commands");
@@ -48,10 +48,8 @@ public class CommandManager extends Feature implements Jsonable {
         try {
             int result = dispatcher.execute(message.substring(commandPrefix.length()).trim(), this);
 
-            if (result == SINGLE_SUCCESS) {
-                Command.sendMessage("{green} Command executed successfully", GENERAL);
-            } else if (result == SINGLE_FAILURE) {
-                Command.sendMessage("{red} Failed to execute command", GENERAL);
+            if (result == SINGLE_FAILURE) {
+                Command.sendMessage("{red} Failed to execute command", SUCCESS);
             }
         } catch (CommandSyntaxException e) {
             LOGGER.error("Failed to execute command", e);

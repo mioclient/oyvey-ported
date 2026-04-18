@@ -40,13 +40,15 @@ public class BindCommand extends Command {
 
         if (event.getKey() == GLFW_KEY_ESCAPE) {
             module = null;
-            sendMessage("Operation canceled.", "fail");
+            fail("Operation canceled.");
             return;
         }
 
-        sendMessage("Bind for {green} %s {} set to {green} %s",
+        success("Bind for {green} %s {} set to {green} %s",
                 module.getName(),
-                KeyboardUtil.getKeyName(event.getKey()));
+                KeyboardUtil.getKeyName(event.getKey())
+        );
+
         module.bind.setValue(new Bind(event.getKey()));
         module = null;
     }

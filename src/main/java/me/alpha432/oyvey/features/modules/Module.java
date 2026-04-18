@@ -8,9 +8,11 @@ import me.alpha432.oyvey.event.impl.render.Render2DEvent;
 import me.alpha432.oyvey.event.impl.render.Render3DEvent;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.Command;
+import me.alpha432.oyvey.features.commands.MessageSignatures;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.ConfigManager;
+import me.alpha432.oyvey.util.chat.ChatUtil;
 import me.alpha432.oyvey.util.traits.Jsonable;
 import me.alpha432.oyvey.util.traits.Toggleable;
 import net.minecraft.ChatFormatting;
@@ -88,11 +90,13 @@ public class Module extends Feature implements Jsonable, Toggleable {
         Module module = OyVey.moduleManager.getModuleByDisplayName(name);
         Module originalModule = OyVey.moduleManager.getModuleByName(name);
         if (module == null && originalModule == null) {
-            Command.sendMessage(this.getDisplayName() + ", name: " + this.getName() + ", has been renamed to: " + name, "general");
+            Command.sendMessage("%, name: %s, has been renamed to: %s", MessageSignatures.GENERAL,
+                    getDisplayName(), getName(), name);
             this.displayName.setValue(name);
             return;
         }
-        Command.sendMessage("{red} A module of this name already exists.", "general");
+
+        Command.sendMessage("{red} A module of this name already exists.", MessageSignatures.GENERAL);
     }
 
     @Override

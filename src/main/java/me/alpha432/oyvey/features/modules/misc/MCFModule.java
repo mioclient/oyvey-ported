@@ -7,6 +7,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.lwjgl.glfw.GLFW;
 
+import static me.alpha432.oyvey.util.chat.SimpleSignature.from;
+
 public class MCFModule extends Module {
     private boolean pressed;
 
@@ -32,10 +34,10 @@ public class MCFModule extends Module {
         if (OyVey.friendManager.isFriend(name)) {
             OyVey.friendManager.removeFriend(name);
 
-            Command.sendMessage("{red} %s has been unfriended.", name);
+            Command.sendMessage("{red} %s has been unfriended.", from(getName()), name);
         } else {
             OyVey.friendManager.addFriend(name);
-            Command.sendMessage("{aqua} %s has been friended.", name);
+            Command.sendMessage("{aqua} %s has been friended.", from(getName()), name);
         }
     }
 }

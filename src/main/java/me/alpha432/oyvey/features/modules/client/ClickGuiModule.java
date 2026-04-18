@@ -4,12 +4,15 @@ import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.impl.ClientEvent;
 import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.commands.Command;
+import me.alpha432.oyvey.features.commands.MessageSignatures;
 import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
+
+import static me.alpha432.oyvey.features.commands.MessageSignatures.GENERAL;
 
 public class ClickGuiModule extends Module {
     private static ClickGuiModule INSTANCE;
@@ -36,7 +39,7 @@ public class ClickGuiModule extends Module {
         if (event.getType() == ClientEvent.Type.SETTING_UPDATE && event.getSetting().getFeature().equals(this)) {
             if (event.getSetting().equals(this.prefix)) {
                 OyVey.commandManager.setCommandPrefix(this.prefix.getPlannedValue());
-                Command.sendMessage("Prefix set to {global} %s", OyVey.commandManager.getCommandPrefix());
+                Command.sendMessage("Prefix set to {global} %s", GENERAL, OyVey.commandManager.getCommandPrefix());
             }
             if (event.getSetting().equals(this.color)) {
                 OyVey.colorManager.setColor(this.color.getPlannedValue());

@@ -5,7 +5,9 @@ import me.alpha432.oyvey.event.system.Subscribe;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.TextUtil;
-import me.alpha432.oyvey.util.player.ChatUtil;
+import me.alpha432.oyvey.util.chat.ChatUtil;
+
+import static me.alpha432.oyvey.util.chat.SimpleSignature.from;
 
 public class NotificationsModule extends Module {
     private static final String MODULE_FORMAT = "Toggled %s %s %s";
@@ -28,6 +30,6 @@ public class NotificationsModule extends Module {
         ChatUtil.sendMessage(TextUtil.text(MODULE_FORMAT,
                 event.getFeature().getName(),
                 moduleState ? "{green}" : "{red}",
-                moduleState ? "on" : "off"), event.getFeature().getName());
+                moduleState ? "on" : "off"), from(event.getFeature().getName()));
     }
 }

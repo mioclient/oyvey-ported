@@ -16,6 +16,7 @@ import static me.alpha432.oyvey.features.commands.argument.CommandArgumentType.c
 import static me.alpha432.oyvey.features.commands.argument.CommandArgumentType.getCommand;
 import static me.alpha432.oyvey.features.commands.argument.NumberArgumentType.get;
 import static me.alpha432.oyvey.features.commands.argument.NumberArgumentType.number;
+import static me.alpha432.oyvey.util.chat.SimpleSignature.fromInt;
 
 public class HelpCommand extends Command {
     private static final int ITEMS_PER_PAGE = 5;
@@ -35,8 +36,9 @@ public class HelpCommand extends Command {
     }
 
     private int helpSpecific(CommandContext<CommandManager> ctx) {
+        int index = 0;
         Command command = getCommand(ctx, "command_name");
-        sendMessage("Usages for %s:", command.getName());
+        sendMessage("Usages for %s:", fromInt(index++), command.getName());
 
         ParseResults<CommandManager> results = ctx.getSource().getDispatcher()
                 .parse(command.getName(), ctx.getSource());
@@ -47,13 +49,14 @@ public class HelpCommand extends Command {
         Map<CommandNode<CommandManager>, String> smartUsages = ctx.getSource().getDispatcher().getSmartUsage(
                 Iterables.getLast(results.getContext().getNodes()).getNode(), ctx.getSource());
         for (String usage : smartUsages.values()) {
-            sendMessage(".%s %s", results.getReader().getString(), usage);
+            sendMessage(".%s %s", fromInt(index++), results.getReader().getString(), usage);
         }
 
         return success();
     }
 
     private int helpCommands(CommandContext<CommandManager> ctx, int page) {
+        int index = 0;
         List<Command> commands = ctx.getSource().getCommands()
                 .stream().filter(Command::isShown).toList();
 
@@ -66,7 +69,7 @@ public class HelpCommand extends Command {
         List<Command> paginated = commands.subList((pageIndex - 1) * ITEMS_PER_PAGE,
                 Math.min(commands.size(), pageIndex * ITEMS_PER_PAGE));
 
-        sendMessage("Commands (%s):", "general", commands.size());
+        sendMessage("Commands (%s):", fromInt(index++), commands.size());
 
         for (Command command : paginated) {
             StringJoiner joiner = new StringJoiner(", ");
@@ -74,7 +77,7 @@ public class HelpCommand extends Command {
                 joiner.add(alias);
             }
 
-            sendMessage("{dark_gray} %s: {reset}\n   %s", "general",
+            sendMessage("{dark_gray} %s: {reset}\n   %s", fromInt(index++),
                     joiner, command.getDescription());
         }
 
