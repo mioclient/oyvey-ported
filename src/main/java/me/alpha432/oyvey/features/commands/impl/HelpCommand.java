@@ -29,10 +29,10 @@ public class HelpCommand extends Command {
     @Override
     public void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder) {
         builder.then(argument("page", number(Integer.class))
-                        .executes((ctx) -> helpCommands(ctx, get(Integer.class, ctx, "page")))
+                        .executes((ctx) -> helpCommands(ctx, get(Integer.class, ctx, "page"))))
                 .then(argument("command_name", command())
                         .executes(this::helpSpecific))
-                .executes((ctx) -> helpCommands(ctx, 1)));
+                .executes((ctx) -> helpCommands(ctx, 1));
     }
 
     private int helpSpecific(CommandContext<CommandManager> ctx) {
