@@ -5,6 +5,7 @@ import me.alpha432.oyvey.features.gui.OyVeyGui;
 import me.alpha432.oyvey.features.modules.client.ClickGuiModule;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.Setting;
+import me.alpha432.oyvey.util.KeyboardUtil;
 import me.alpha432.oyvey.util.render.RenderUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,8 +31,7 @@ public class BindButton
         if (this.isListening) {
             drawString("Press a Key...", this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), -1);
         } else {
-            String str = this.setting.getValue().toString().toUpperCase();
-            str = str.replace("KEY.KEYBOARD", "").replace(".", " ");
+            String str = KeyboardUtil.getKeyName(setting.getValue());
             drawString(this.setting.getName() + " " + ChatFormatting.GRAY + str, this.x + 2.3f, this.y - 1.7f - (float) OyVeyGui.getClickGui().getTextOffset(), this.getState() ? -1 : -5592406);
         }
     }

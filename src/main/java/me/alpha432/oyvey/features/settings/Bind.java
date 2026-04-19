@@ -15,6 +15,14 @@ public class Bind implements Util {
         this.key = key;
     }
 
+    public static Bind keyboard(int key) {
+        return new Bind(key);
+    }
+
+    public static Bind mouse(int key) {
+        return new Bind(-key - 2);
+    }
+
     public static Bind none() {
         return new Bind(-1);
     }
@@ -29,6 +37,10 @@ public class Bind implements Util {
 
     public boolean isEmpty() {
         return this.key == -1;
+    }
+
+    public boolean isMouse() {
+        return key < -1;
     }
 
     public String toString() {
