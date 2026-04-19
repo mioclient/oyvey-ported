@@ -12,7 +12,6 @@ import me.alpha432.oyvey.features.commands.MessageSignatures;
 import me.alpha432.oyvey.features.settings.Bind;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.ConfigManager;
-import me.alpha432.oyvey.util.chat.ChatUtil;
 import me.alpha432.oyvey.util.traits.Jsonable;
 import me.alpha432.oyvey.util.traits.Toggleable;
 import net.minecraft.ChatFormatting;

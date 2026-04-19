@@ -7,8 +7,8 @@ import me.alpha432.oyvey.util.BuildConfig;
 import me.alpha432.oyvey.util.TextUtil;
 
 public class WatermarkHudModule extends HudModule {
-    public Setting<String> text = str("Text", BuildConfig.NAME);
-    public Setting<Boolean> fullVersion = new Setting<>("FullVersion", false);
+    public final Setting<String> text = str("Text", BuildConfig.NAME);
+    public final Setting<Boolean> fullVersion = new Setting<>("FullVersion", false);
 
     public WatermarkHudModule() {
         super("Watermark", "Display watermark", 100, 10);

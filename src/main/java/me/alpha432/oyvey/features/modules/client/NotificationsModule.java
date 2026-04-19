@@ -12,7 +12,7 @@ import static me.alpha432.oyvey.util.chat.SimpleSignature.from;
 public class NotificationsModule extends Module {
     private static final String MODULE_FORMAT = "Toggled %s %s %s";
 
-    public Setting<Boolean> moduleToggle = bool("Module Toggle", true);
+    public final Setting<Boolean> moduleToggle = bool("ModuleToggle", true);
 
     public NotificationsModule() {
         super("Notifications", "Displays notifications for various client events", Category.CLIENT);

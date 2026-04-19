@@ -10,7 +10,8 @@ import me.alpha432.oyvey.util.chat.ChatUtil;
 import me.alpha432.oyvey.util.chat.Signature;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static me.alpha432.oyvey.features.commands.MessageSignatures.*;
+import static me.alpha432.oyvey.features.commands.MessageSignatures.FAIL;
+import static me.alpha432.oyvey.features.commands.MessageSignatures.SUCCESS;
 
 public abstract class Command extends Feature {
     public static final int NO_OP = -1;

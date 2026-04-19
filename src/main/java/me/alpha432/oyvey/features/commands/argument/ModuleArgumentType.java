@@ -12,7 +12,6 @@ import me.alpha432.oyvey.features.commands.CommandExceptions;
 import me.alpha432.oyvey.features.modules.Module;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Stream;
 
 import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
 

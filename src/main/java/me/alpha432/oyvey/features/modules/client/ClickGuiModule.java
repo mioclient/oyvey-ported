@@ -16,13 +16,13 @@ import static me.alpha432.oyvey.features.commands.MessageSignatures.GENERAL;
 public class ClickGuiModule extends Module {
     private static ClickGuiModule INSTANCE;
 
-    public Setting<String> prefix = str("Prefix", ".");
-    public Setting<Color> color = color("Color", 0, 0, 255, 180);
-    public Setting<Color> topColor = color("TopColor", 0, 0, 150, 240);
-    public Setting<Boolean> rainbow = bool("Rainbow", false);
-    public Setting<Integer> rainbowHue = num("Delay", 240, 0, 600);
-    public Setting<Float> rainbowBrightness = num("Brightness", 150.0f, 1.0f, 255.0f);
-    public Setting<Float> rainbowSaturation = num("Saturation", 150.0f, 1.0f, 255.0f);
+    public final Setting<String> prefix = str("Prefix", ".");
+    public final Setting<Color> color = color("Color", 0, 0, 255, 180);
+    public final Setting<Color> topColor = color("TopColor", 0, 0, 150, 240);
+    public final Setting<Boolean> rainbow = bool("Rainbow", false);
+    public final Setting<Integer> rainbowHue = num("Delay", 240, 0, 600);
+    public final Setting<Float> rainbowBrightness = num("Brightness", 150.0f, 1.0f, 255.0f);
+    public final Setting<Float> rainbowSaturation = num("Saturation", 150.0f, 1.0f, 255.0f);
 
     public ClickGuiModule() {
         super("ClickGui", "Opens the ClickGui", Module.Category.CLIENT);
