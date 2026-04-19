@@ -10,9 +10,12 @@ import me.alpha432.oyvey.features.commands.CommandExceptions;
 import net.minecraft.ChatFormatting;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
 
 public class ColorArgumentType implements ArgumentType<Color> {
     private static final List<String> EXAMPLES = List.of("hsb:55,100,100", "255,0,255", "0,255,255,80");
@@ -98,12 +101,9 @@ public class ColorArgumentType implements ArgumentType<Color> {
             if (input.startsWith("hsb:")) builder.suggest(input);
             else builder.suggest("hsb:");
         } else if (!Character.isDigit(input.charAt(0))){
-            for (ChatFormatting format : ChatFormatting.values()) {
-                if (!format.isColor()) continue;
-                if (format.getName().contains(input) || format.getName().equalsIgnoreCase(input)) {
-                    builder.suggest(format.getName());
-                }
-            }
+            return suggest(Arrays.stream(ChatFormatting.values())
+                    .filter(ChatFormatting::isColor)
+                    .map(ChatFormatting::getName), builder);
         }
 
         return builder.buildFuture();
