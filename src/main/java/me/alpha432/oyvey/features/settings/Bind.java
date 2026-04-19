@@ -34,7 +34,7 @@ public class Bind implements Util {
     public String toString() {
         if (this.isEmpty()) return "None";
         if (this.key < -1) return "Mouse " + (-this.key - 1);
-        return this.capitalise(InputConstants.getKey(new KeyEvent(this.key, 0, 0)).getName());
+        return this.capitalise(InputConstants.getKey(new KeyEvent(this.key, 0, 0)).getName().replace("key.keyboard.", ""));
     }
 
     public boolean isDown() {
@@ -67,7 +67,7 @@ public class Bind implements Util {
             }
             int key = -1;
             try {
-                key = InputConstants.getKey(s.toUpperCase()).getValue();
+                key = InputConstants.getKey("key.keyboard" + s).getValue();
             } catch (Exception e) {
             }
             if (key == 0) return Bind.none();
