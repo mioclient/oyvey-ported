@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
 
-public class EnumArgumentType<T extends Enum<?>> implements ArgumentType<T> {
+public final class EnumArgumentType<T extends Enum<?>> implements ArgumentType<T> {
     private final Map<String, T> enumNameMap = new HashMap<>();
     private final T defaultValue;
 

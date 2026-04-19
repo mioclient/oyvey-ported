@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
 
-public class KeybindArgumentType implements ArgumentType<Bind> {
+public final class KeybindArgumentType implements ArgumentType<Bind> {
     private static final List<String> EXAMPLES = List.of("A", "RIGHT_SHIFT", "MOUSE0");
 
     @Override

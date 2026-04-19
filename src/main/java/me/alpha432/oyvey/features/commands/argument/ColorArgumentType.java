@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
 
-public class ColorArgumentType implements ArgumentType<Color> {
+public final class ColorArgumentType implements ArgumentType<Color> {
     private static final List<String> EXAMPLES = List.of("hsb:55,100,100", "255,0,255", "0,255,255,80");
     private static final String[] RGBA_VALUES = {"Red", "Green", "Blue", "Alpha"};
 

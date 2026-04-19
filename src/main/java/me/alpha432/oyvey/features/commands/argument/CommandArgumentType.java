@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
 
-public class CommandArgumentType implements ArgumentType<Command>, CommandExceptionType {
+public final class CommandArgumentType implements ArgumentType<Command>, CommandExceptionType {
     @Override
     public Command parse(StringReader reader) throws CommandSyntaxException {
         String value = reader.readString().toLowerCase();
