@@ -10,7 +10,7 @@ import me.alpha432.oyvey.util.chat.ChatUtil;
 import static me.alpha432.oyvey.util.chat.SimpleSignature.from;
 
 public class NotificationsModule extends Module {
-    private static final String MODULE_FORMAT = "Toggled %s %s %s";
+    private static final String MODULE_FORMAT = "{gray} %s %s%s";
 
     public final Setting<Boolean> moduleToggle = bool("ModuleToggle", true);
 
