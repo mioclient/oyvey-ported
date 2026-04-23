@@ -7,10 +7,13 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import me.alpha432.oyvey.OyVey;
+import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.CommandExceptions;
 import me.alpha432.oyvey.features.modules.Module;
 
 import java.util.concurrent.CompletableFuture;
+
+import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
 
 public record ModuleArgumentType(boolean fullName) implements ArgumentType<Module> {
     @Override
@@ -28,17 +31,7 @@ public record ModuleArgumentType(boolean fullName) implements ArgumentType<Modul
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        String input = builder.getRemainingLowerCase();
-
-        for (Module module : OyVey.moduleManager.getModules()) {
-            String name = module.getName().toLowerCase();
-            String displayName = module.getDisplayName().toLowerCase();
-            if (name.contains(input) || displayName.contains(input)) {
-                builder.suggest(name);
-            }
-        }
-
-        return builder.buildFuture();
+        return suggest(OyVey.moduleManager.getModules(), Feature::getName, builder);
     }
 
     public static ModuleArgumentType module() {

@@ -15,6 +15,14 @@ public class Bind implements Util {
         this.key = key;
     }
 
+    public static Bind keyboard(int key) {
+        return new Bind(key);
+    }
+
+    public static Bind mouse(int key) {
+        return new Bind(-key - 2);
+    }
+
     public static Bind none() {
         return new Bind(-1);
     }
@@ -31,10 +39,14 @@ public class Bind implements Util {
         return this.key == -1;
     }
 
+    public boolean isMouse() {
+        return key < -1;
+    }
+
     public String toString() {
         if (this.isEmpty()) return "None";
         if (this.key < -1) return "Mouse " + (-this.key - 1);
-        return this.capitalise(InputConstants.getKey(new KeyEvent(this.key, 0, 0)).getName());
+        return this.capitalise(InputConstants.getKey(new KeyEvent(this.key, 0, 0)).getName().replace("key.keyboard.", ""));
     }
 
     public boolean isDown() {
@@ -67,7 +79,7 @@ public class Bind implements Util {
             }
             int key = -1;
             try {
-                key = InputConstants.getKey(s.toUpperCase()).getValue();
+                key = InputConstants.getKey("key.keyboard" + s).getValue();
             } catch (Exception e) {
             }
             if (key == 0) return Bind.none();

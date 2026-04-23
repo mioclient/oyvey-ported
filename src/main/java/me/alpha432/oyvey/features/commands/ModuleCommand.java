@@ -2,10 +2,16 @@ package me.alpha432.oyvey.features.commands;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.commands.argument.ColorArgumentType;
 import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.manager.CommandManager;
+import me.alpha432.oyvey.util.chat.ChatUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 
 import java.awt.*;
 
@@ -29,6 +35,7 @@ public class ModuleCommand extends Command {
     @SuppressWarnings("unchecked")
     @Override
     public void createArgumentBuilder(LiteralArgumentBuilder<CommandManager> builder) {
+        registerDefault(builder);
         for (Setting<?> setting : module.getSettings()) {
             Class<?> type = setting.getDefaultValue().getClass();
 
@@ -44,6 +51,29 @@ public class ModuleCommand extends Command {
                 registerColorArgument(builder, (Setting<Color>) setting);
             }
         }
+    }
+
+    private void registerDefault(LiteralArgumentBuilder<CommandManager> builder) {
+        builder.executes(ctx -> {
+            var message = Component.empty();
+
+            message.append("[ ");
+            message.append(Component.literal(module.getName())
+                    .withStyle(s -> s.withColor(module.isToggled() ? ChatFormatting.GREEN : ChatFormatting.RED))
+                    .withStyle(s -> s.withClickEvent(suggestCommand("toggle " + module.getName())))
+            );
+            message.append(" ]");
+
+            for (Setting<?> setting : module.getSettings()) {
+                message.append("\n");
+                message.append(Component.literal(setting.getName() + ": ").withStyle(ChatFormatting.GRAY));
+                message.append(Component.literal(setting.getValueAsString()).withStyle(s -> styledValue(setting, s)));
+            }
+
+            ChatUtil.sendMessage(message, MessageSignatures.SUCCESS);
+
+            return success();
+        });
     }
 
     private void registerColorArgument(LiteralArgumentBuilder<CommandManager> builder,
@@ -108,6 +138,19 @@ public class ModuleCommand extends Command {
 
     private int settingChangeReturn(final Setting<?> setting) {
         return success("Set %s.%s to %s", module.getName(), setting.getName(), setting.getValue());
+    }
+
+    private static ClickEvent suggestCommand(String command) {
+        return new ClickEvent.SuggestCommand(OyVey.commandManager.getCommandPrefix() + command);
+    }
+
+    private static Style styledValue(Setting<?> setting, Style style) {
+        return switch (setting.getValue()) {
+            case Boolean value -> style.withColor(value ? ChatFormatting.GREEN : ChatFormatting.RED);
+            case Color value -> style.withColor(value.getRGB());
+            case Enum<?> ignored -> style.withColor(ChatFormatting.YELLOW);
+            default -> style.withColor(ChatFormatting.WHITE);
+        };
     }
 
     @Override

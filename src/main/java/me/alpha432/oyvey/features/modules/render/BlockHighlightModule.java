@@ -14,8 +14,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.awt.*;
 
 public class BlockHighlightModule extends Module {
-    public Setting<Color> color = color("Color", 255, 0, 0, 255);
-    public Setting<Float> lineWidth = num("LineWidth", 1.0f, 0.1f, 5.0f);
+    public final Setting<Color> color = color("Color", 255, 0, 0, 255);
+    public final Setting<Float> lineWidth = num("LineWidth", 1.0f, 0.1f, 5.0f);
 
     public BlockHighlightModule() {
         super("BlockHighlight", "Draws box at the block that you are looking at", Category.RENDER);
@@ -26,9 +26,9 @@ public class BlockHighlightModule extends Module {
         if (mc.hitResult instanceof BlockHitResult result) {
             VoxelShape shape = mc.level.getBlockState(result.getBlockPos()).getShape(mc.level, result.getBlockPos());
             if (shape.isEmpty() || result.getType() == HitResult.Type.MISS) return;
-            AABB box = shape.bounds();
-            box = box.move(result.getBlockPos());
-            RenderUtil.drawBox(event.getMatrix(), box, color.getValue(), lineWidth.getValue());
+            AABB aabb = shape.bounds();
+            aabb = aabb.move(result.getBlockPos());
+            RenderUtil.drawBox(event.getMatrix(), aabb, color.getValue(), lineWidth.getValue());
         }
     }
 
