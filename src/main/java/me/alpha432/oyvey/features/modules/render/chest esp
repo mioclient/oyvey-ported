@@ -1,0 +1,122 @@
+package com.example.client.modules.render;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+public class ChestESP {
+
+    private final Minecraft mc = Minecraft.getMinecraft();
+    private boolean enabled = false;
+
+    private KeyBinding toggleKey = new KeyBinding("ChestESP Toggle", Keyboard.KEY_C, "Client");
+
+    public ChestESP() {
+        ClientRegistry.registerKeyBinding(toggleKey);
+    }
+
+    // 🔑 Toggle Key
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if (toggleKey.isPressed()) {
+            enabled = !enabled;
+            System.out.println("ChestESP: " + (enabled ? "ON" : "OFF"));
+        }
+    }
+
+    // 🎨 Render Event
+    @SubscribeEvent
+    public void onRenderWorld(RenderWorldLastEvent event) {
+        if (!enabled || mc.world == null || mc.player == null) return;
+
+        double renderPosX = mc.getRenderManager().viewerPosX;
+        double renderPosY = mc.getRenderManager().viewerPosY;
+        double renderPosZ = mc.getRenderManager().viewerPosZ;
+
+        GlStateManager.pushMatrix();
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableDepth();
+        GlStateManager.glLineWidth(2.0F);
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        // 🔴 Farbe (Rot)
+        GL11.glColor4f(1f, 0f, 0f, 0.5f);
+
+        for (TileEntity tile : mc.world.loadedTileEntityList) {
+            if (tile instanceof TileEntityChest) {
+
+                AxisAlignedBB bb = new AxisAlignedBB(
+                        tile.getPos().getX() - renderPosX,
+                        tile.getPos().getY() - renderPosY,
+                        tile.getPos().getZ() - renderPosZ,
+                        tile.getPos().getX() + 1 - renderPosX,
+                        tile.getPos().getY() + 1 - renderPosY,
+                        tile.getPos().getZ() + 1 - renderPosZ
+                );
+
+                drawBoundingBox(bb);
+            }
+        }
+
+        GlStateManager.enableDepth();
+        GlStateManager.enableTexture2D();
+        GlStateManager.popMatrix();
+    }
+
+    // 📦 Box Zeichnen
+    private void drawBoundingBox(AxisAlignedBB bb) {
+        GL11.glBegin(GL11.GL_LINES);
+
+        // Bottom square
+        GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+        GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+
+        GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+        GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+
+        GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+        GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+
+        GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+        GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+
+        // Top square
+        GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+        GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+
+        GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+        GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+
+        GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+        GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+
+        GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+        GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+
+        // Vertical lines
+        GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
+        GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
+
+        GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
+        GL11.glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+
+        GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+        GL11.glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+
+        GL11.glVertex3d(bb.minX, bb.minY, bb.maxZ);
+        GL11.glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+
+        GL11.glEnd();
+    }
+}
