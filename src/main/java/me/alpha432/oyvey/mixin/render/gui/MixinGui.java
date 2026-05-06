@@ -17,8 +17,6 @@ public class MixinGui {
 
     @Inject(method = "render", at = @At("RETURN"))
     public void render(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
-        if (Minecraft.getInstance().gui.getDebugOverlay().showDebugScreen()) return;
-
         Render2DEvent event = new Render2DEvent(context, tickCounter.getGameTimeDeltaPartialTick(true));
         EVENT_BUS.post(event);
     }
