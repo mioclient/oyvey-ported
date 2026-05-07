@@ -11,12 +11,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
+import static me.alpha432.oyvey.util.traits.Util.mc;
 
 @Mixin(Gui.class)
 public class MixinGui {
 
     @Inject(method = "render", at = @At("RETURN"))
     public void render(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
+        boolean debugOpen = mc.debugEntries.isOverlayVisible();
+
+        if (debugOpen) return;
+
         Render2DEvent event = new Render2DEvent(context, tickCounter.getGameTimeDeltaPartialTick(true));
         EVENT_BUS.post(event);
     }
