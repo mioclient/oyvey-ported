@@ -45,8 +45,10 @@ public class EventBus {
                 Class<?> eventType = params[0];
 
                 Listener listener = Listener.of(host, subscribe.priority(), method);
-                List<Listener> registry = listeners.computeIfAbsent(eventType,
-                        k -> new CopyOnWriteArrayList<>());
+                List<Listener> registry = listeners.computeIfAbsent(
+                        eventType,
+                        k -> new CopyOnWriteArrayList<>()
+                );
 
                 register(registry, listener);
             }
@@ -58,10 +60,15 @@ public class EventBus {
 
     private void register(List<Listener> registry, Listener target) {
         int i = 0;
+
         for (Listener listener : registry) {
+            if (target.priority() > listener.priority()) {
+                break;
+            }
+
             i++;
-            if (target.priority() > listener.priority()) break;
         }
+
         registry.add(i, target);
     }
 }
