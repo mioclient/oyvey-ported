@@ -13,9 +13,9 @@ public class NoFallModule extends Module {
     public void onTick() {
         if (!mc.player.onGround() && OyVey.positionManager.getFallDistance() > 3) {
             boolean bl = mc.player.horizontalCollision;
-            ServerboundMovePlayerPacket.PosRot pakcet = new ServerboundMovePlayerPacket.PosRot(mc.player.getX(), mc.player.getY() + 0.000000001, mc.player.getZ(),
+            ServerboundMovePlayerPacket.PosRot packet = new ServerboundMovePlayerPacket.PosRot(mc.player.getX(), mc.player.getY() + 0.000000001, mc.player.getZ(),
                     mc.player.getYRot(), mc.player.getXRot(), false, bl);
-            mc.player.connection.send(pakcet);
+            mc.player.connection.send(packet);
         }
     }
 }

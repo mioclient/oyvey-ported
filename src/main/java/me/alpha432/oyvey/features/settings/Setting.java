@@ -4,6 +4,7 @@ import me.alpha432.oyvey.event.impl.ClientEvent;
 import me.alpha432.oyvey.features.Feature;
 import org.joml.Vector2f;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -255,6 +256,9 @@ public class Setting<T> {
     }
 
     public String getValueAsString() {
+        if (value instanceof Color color) {
+            return "%d, %d, %d".formatted(color.getRed(), color.getGreen(), color.getBlue());
+        }
         return this.value.toString();
     }
 

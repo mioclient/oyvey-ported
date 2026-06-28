@@ -11,6 +11,8 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Matrix3x2f;
 
 import java.awt.*;
@@ -217,46 +219,36 @@ public class RenderUtil implements Util {
     }
 
     public static void drawBox(PoseStack stack, AABB box, Color c, float lineWidth) {
+        drawBox(stack, Shapes.create(box), c, lineWidth);
+    }
+
+    public static void drawBox(PoseStack stack, VoxelShape shape, Color c, float lineWidth) {
         Vec3 camera = mc.getEntityRenderDispatcher().camera.position();
-        float minX = (float) (box.minX - camera.x());
-        float minY = (float) (box.minY - camera.y());
-        float minZ = (float) (box.minZ - camera.z());
-        float maxX = (float) (box.maxX - camera.x());
-        float maxY = (float) (box.maxY - camera.y());
-        float maxZ = (float) (box.maxZ - camera.z());
 
         BufferBuilder bufferBuilder = Tesselator.getInstance()
-                .begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_LINE_WIDTH);
+                .begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
         PoseStack.Pose pose = stack.last();
         int color = c.getRGB();
 
-        // this was the "ShapeRenderer.renderLineBox" method, however it was removed in 1.21.11
-        bufferBuilder.addVertex(pose, minX, minY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, minY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, minY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, minY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, minY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, minY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, minX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, minY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, maxY, minZ).setColor(color).setLineWidth(lineWidth);
-        bufferBuilder.addVertex(pose, maxX, maxY, maxZ).setColor(color).setLineWidth(lineWidth);
+        shape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {
+            addLine(bufferBuilder, pose, color, lineWidth,
+                    x1 - camera.x, y1 - camera.y, z1 - camera.z,
+                    x2 - camera.x, y2 - camera.y, z2 - camera.z
+            );
+        });
 
         Layers.lines().draw(bufferBuilder.buildOrThrow());
+    }
+
+    private static void addLine(BufferBuilder buf, PoseStack.Pose pose, int color, float lineWidth,
+                                double x1, double y1, double z1, double x2, double y2, double z2) {
+        float nx = (float) (x2 - x1);
+        float ny = (float) (y2 - y1);
+        float nz = (float) (z2 - z1);
+        buf.addVertex(pose, (float) x1, (float) y1, (float) z1)
+                .setColor(color).setNormal(pose, nx, ny, nz).setLineWidth(lineWidth);
+        buf.addVertex(pose, (float) x2, (float) y2, (float) z2)
+                .setColor(color).setNormal(pose, nx, ny, nz).setLineWidth(lineWidth);
     }
 
     public static void drawBox(PoseStack stack, Vec3 vec, Color c, float lineWidth) {

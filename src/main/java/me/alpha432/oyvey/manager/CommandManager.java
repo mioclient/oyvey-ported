@@ -15,8 +15,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static me.alpha432.oyvey.features.commands.Command.SINGLE_FAILURE;
+import static me.alpha432.oyvey.features.commands.MessageSignatures.GENERAL;
+import static me.alpha432.oyvey.features.commands.MessageSignatures.SUCCESS;
 
 public class CommandManager extends Feature implements Jsonable {
     private static final Logger LOGGER = LogManager.getLogger("Commands");
@@ -45,16 +46,14 @@ public class CommandManager extends Feature implements Jsonable {
 
     public void onChatSent(String message) {
         try {
-            int result = dispatcher.execute(message.substring(
-                    commandPrefix.length()).trim(), this);
-            if (result == SINGLE_SUCCESS) {
-                Command.sendMessage("{green} Command executed successfully");
-            } else if (result == SINGLE_FAILURE) {
-                Command.sendMessage("{red} Failed to execute command");
+            int result = dispatcher.execute(message.substring(commandPrefix.length()).trim(), this);
+
+            if (result == SINGLE_FAILURE) {
+                Command.sendMessage("{red} Failed to execute command", SUCCESS);
             }
         } catch (CommandSyntaxException e) {
             LOGGER.error("Failed to execute command", e);
-            Command.sendMessage("{red} %s", e.getMessage());
+            Command.sendMessage("{red} %s", GENERAL, e.getMessage());
         }
     }
 
@@ -101,10 +100,10 @@ public class CommandManager extends Feature implements Jsonable {
 
     @Override
     public void fromJson(JsonElement element) {
-        if (element == null || !element.isJsonObject()) {
-            return;
-        }
+        if (element == null || !element.isJsonObject()) return;
+
         JsonObject object = element.getAsJsonObject();
+
         if (object.has("prefix")) {
             setCommandPrefix(object.get("prefix").getAsString());
         }

@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class EnumArgumentType<T extends Enum<?>> implements ArgumentType<T> {
+import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
+
+public final class EnumArgumentType<T extends Enum<?>> implements ArgumentType<T> {
     private final Map<String, T> enumNameMap = new HashMap<>();
     private final T defaultValue;
 
@@ -42,14 +44,7 @@ public class EnumArgumentType<T extends Enum<?>> implements ArgumentType<T> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        String input = builder.getRemainingLowerCase();
-        for (String key : enumNameMap.keySet()) {
-            String name = key.toLowerCase();
-            if (name.contains(input)) {
-                builder.suggest(name);
-            }
-        }
-        return builder.buildFuture();
+        return suggest(enumNameMap.keySet(), builder);
     }
 
     @SuppressWarnings("unchecked")

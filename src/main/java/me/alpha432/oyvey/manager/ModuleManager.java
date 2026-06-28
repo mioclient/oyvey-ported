@@ -122,6 +122,12 @@ public class ModuleManager implements Jsonable, Util {
         stream().filter(module -> module.getBind().getKey() == key).forEach(Module::toggle);
     }
 
+    public void onMouseClicked(int button) {
+        if (mc.screen != null) return;
+        int key = -button - 2;
+        stream().filter(module -> module.getBind().getKey() == key).forEach(Module::toggle);
+    }
+
     @Override
     public JsonElement toJson() {
         JsonObject object = new JsonObject();

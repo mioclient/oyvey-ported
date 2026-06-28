@@ -13,7 +13,9 @@ import me.alpha432.oyvey.features.commands.CommandExceptions;
 
 import java.util.concurrent.CompletableFuture;
 
-public class CommandArgumentType implements ArgumentType<Command>, CommandExceptionType {
+import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
+
+public final class CommandArgumentType implements ArgumentType<Command>, CommandExceptionType {
     @Override
     public Command parse(StringReader reader) throws CommandSyntaxException {
         String value = reader.readString().toLowerCase();
@@ -29,16 +31,7 @@ public class CommandArgumentType implements ArgumentType<Command>, CommandExcept
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        String input = builder.getRemainingLowerCase();
-
-        for (String alias : OyVey.commandManager.getCommandAliases()) {
-            String name = alias.toLowerCase();
-            if (name.contains(input)) {
-                builder.suggest(name);
-            }
-        }
-
-        return builder.buildFuture();
+        return suggest(OyVey.commandManager.getCommandAliases(), builder);
     }
 
     public static Command getCommand(CommandContext<?> ctx, String name) {

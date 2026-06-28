@@ -5,7 +5,7 @@ import me.alpha432.oyvey.features.modules.client.HudModule;
 import me.alpha432.oyvey.features.settings.Setting;
 
 public class CoordinatesHudModule extends HudModule {
-    public Setting<Boolean> nether = bool("Nether", false);
+    public final Setting<Boolean> nether = bool("Nether", false);
 
     public CoordinatesHudModule() {
         super("Coordinates", "Display coordinates", 150, 20);
