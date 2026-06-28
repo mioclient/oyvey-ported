@@ -23,7 +23,7 @@ public class HoleManager extends Feature {
     }
 
     @Subscribe
-    private void onTick(TickEvent event) {
+    private void onTick(TickEvent.Pre event) {
         holes.clear();
         for (int x = -RANGE; x < RANGE; x++) {
             for (int y = -RANGE; y < RANGE; y++) {

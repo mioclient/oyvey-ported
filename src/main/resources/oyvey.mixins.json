@@ -7,13 +7,15 @@
     "network.MixinConnection"
   ],
   "client": [
+    "entity.MixinAbstractClientPlayer",
     "entity.MixinClientPlayerEntity",
     "input.MixinKeyboardHandler",
     "input.MixinMouseHandler",
     "network.MixinClientPacketListener",
+    "render.MixinAvatarRenderer",
     "render.MixinChatComponent",
-    "render.MixinLevelRenderer",
     "render.MixinDeltaTrackerTimer",
+    "render.MixinLevelRenderer",
     "render.gui.MixinCommandSuggestions",
     "render.gui.MixinGui"
   ],

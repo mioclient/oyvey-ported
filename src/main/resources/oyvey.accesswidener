@@ -7,3 +7,7 @@ accessible class net/minecraft/network/protocol/game/ServerboundInteractPacket$A
 accessible field net/minecraft/network/protocol/game/ServerboundInteractPacket action Lnet/minecraft/network/protocol/game/ServerboundInteractPacket$Action;
 accessible method net/minecraft/client/multiplayer/MultiPlayerGameMode ensureHasSentCarriedItem ()V
 accessible field com/mojang/blaze3d/platform/InputConstants$Type map Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
+
+accessible field net/minecraft/client/player/LocalPlayer positionReminder I
+accessible field net/minecraft/client/player/LocalPlayer yRotLast F
+accessible field net/minecraft/client/player/LocalPlayer xRotLast F
