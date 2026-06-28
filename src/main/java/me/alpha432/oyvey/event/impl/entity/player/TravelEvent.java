@@ -1,7 +1,9 @@
 package me.alpha432.oyvey.event.impl.entity.player;
 
-public class TravelEvent {
-    public static class Post extends TickEvent { }
+import me.alpha432.oyvey.event.Event;
 
-    public static class Pre extends TickEvent { }
+public class TravelEvent extends Event {
+    public static class Post extends TravelEvent { }
+
+    public static class Pre extends TravelEvent { }
 }
