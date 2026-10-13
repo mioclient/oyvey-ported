@@ -47,7 +47,7 @@ public class HoleManager extends Feature {
             if (block == Blocks.OBSIDIAN) type = HoleType.UNSAFE;
             else if (block != Blocks.BEDROCK) return null;
         }
-        return new Hole(pos, type);
+        return new Hole(pos.immutable(), type);
     }
 
     public List<Hole> getHoles() {
