@@ -45,6 +45,8 @@ public class KillAuraModule extends Module {
     }
 
     private void attack(Entity entity) {
+        if (nullCheck() || !entity.isAlive() || entity.isRemoved() || entity.distanceTo(mc.player) > range.getValue())
+            return;
         mc.gameMode.attack(mc.player, entity);
         mc.player.swing(InteractionHand.MAIN_HAND);
     }
