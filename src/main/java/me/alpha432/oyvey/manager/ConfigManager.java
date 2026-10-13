@@ -34,8 +34,10 @@ public class ConfigManager {
     public void load() {
         mkdirs();
         for (Jsonable jsonable : jsonables) {
+            Path path = OYVEY_PATH.resolve(jsonable.getFileName());
+            if (!Files.exists(path)) continue;
             try {
-                String read = Files.readString(OYVEY_PATH.resolve(jsonable.getFileName()));
+                String read = Files.readString(path);
                 jsonable.fromJson(JsonParser.parseString(read));
             } catch (Throwable e) {
                 LOGGER.error("Failed to load", e);
@@ -43,12 +45,13 @@ public class ConfigManager {
         }
     }
 
-    public void save() {
+    public synchronized void save() {
         mkdirs();
         for (Jsonable jsonable : jsonables) {
             try {
                 JsonElement json = jsonable.toJson();
-                Files.writeString(OYVEY_PATH.resolve(jsonable.getFileName()), GSON.toJson(json));
+                Path path = OYVEY_PATH.resolve(jsonable.getFileName());
+                Files.writeString(path, GSON.toJson(json));
             } catch (Throwable e) {
                 LOGGER.error("Failed to write to file", e);
             }
@@ -72,7 +75,7 @@ public class ConfigManager {
             case "Double" -> setting.setValue(element.getAsDouble());
             case "Float" -> setting.setValue(element.getAsFloat());
             case "Integer" -> setting.setValue(element.getAsInt());
-            case "String" -> setting.setValue(element.getAsString().replace("_", " "));
+            case "String" -> setting.setValue(element.getAsString());
             case "Bind" -> setting.setValue(new Bind(element.getAsInt()));
             case "Color" -> {
                 try {
@@ -104,7 +107,7 @@ public class ConfigManager {
             }
             case "Enum" -> {
                 try {
-                    EnumConverter converter = new EnumConverter(setting.getValue().getClass());
+                    EnumConverter converter = new EnumConverter(((Enum) setting.getValue()).getDeclaringClass());
                     Enum value = converter.doBackward(element);
                     setting.setValue(value);
                 } catch (Exception exception) {

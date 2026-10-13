@@ -12,14 +12,10 @@ import static me.alpha432.oyvey.util.traits.Util.EVENT_BUS;
 
 @Mixin(KeyboardHandler.class)
 public class MixinKeyboardHandler {
-    @Inject(method = "keyPress", at = @At("TAIL"), cancellable = true)
-    private void keyPress(long window, int action, KeyEvent input, CallbackInfo ci) {
-        if (action != 1) {
-            return;
-        }
+    @Inject(method = "keyPress", at = @At("TAIL"))
+    private void keyPress(long l, int i, KeyEvent keyEvent, CallbackInfo ci) {
+        if (i != 1) return;
 
-        if (EVENT_BUS.post(new KeyInputEvent(input.key()))) {
-            ci.cancel();
-        }
+        EVENT_BUS.post(new KeyInputEvent(keyEvent.key()));
     }
 }

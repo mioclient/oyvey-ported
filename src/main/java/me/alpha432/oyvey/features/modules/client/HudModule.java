@@ -78,8 +78,8 @@ public abstract class HudModule extends Module {
                 float finalY = Math.min(Math.max(getMouseY() - dragY, 0),
                         mc.getWindow().getGuiScaledHeight() - height);
 
-                pos.getValue().x = finalX / mc.getWindow().getGuiScaledWidth();
-                pos.getValue().y = finalY / mc.getWindow().getGuiScaledHeight();
+                pos.setValue(new Vector2f(finalX, finalY)
+                        .div(mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight()));
             }
         } else {
             dragging = false;
@@ -118,8 +118,8 @@ public abstract class HudModule extends Module {
     public void setBounds(float x, float y, float width, float height) {
         this.width = width;
         this.height = height;
-        pos.getValue().x = x / mc.getWindow().getGuiScaledWidth();
-        pos.getValue().y = y / mc.getWindow().getGuiScaledHeight();
+        pos.setValue(new Vector2f(x, y)
+                .div(mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight()));
     }
 
     public boolean isHovering() {

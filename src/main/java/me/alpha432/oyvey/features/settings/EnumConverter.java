@@ -36,14 +36,16 @@ public class EnumConverter<T extends Enum<T>> extends Converter<T, JsonElement> 
     }
 
     public JsonElement doForward(Enum anEnum) {
-        return new JsonPrimitive(anEnum.toString());
+        return new JsonPrimitive(anEnum.name());
     }
 
     public T doBackward(JsonElement jsonElement) {
-        try {
-            return Enum.valueOf(this.clazz, jsonElement.getAsString());
-        } catch (IllegalArgumentException e) {
-            return null;
+        String name = jsonElement.getAsString();
+        for (T constant : this.clazz.getEnumConstants()) {
+            if (constant.name().equalsIgnoreCase(name) || constant.toString().equalsIgnoreCase(name)) {
+                return constant;
+            }
         }
+        return null;
     }
 }

@@ -3,6 +3,8 @@ package me.alpha432.oyvey.features.modules.hud;
 import me.alpha432.oyvey.event.impl.render.Render2DEvent;
 import me.alpha432.oyvey.features.modules.client.HudModule;
 import me.alpha432.oyvey.features.settings.Setting;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
 
 public class CoordinatesHudModule extends HudModule {
     public final Setting<Boolean> nether = bool("Nether", false);
@@ -23,13 +25,12 @@ public class CoordinatesHudModule extends HudModule {
                 mc.player.getBlockZ());
 
         if (nether.getValue()) {
-            int netherX = mc.player.level().dimension().identifier().getPath().equals("the_nether")
-                    ? mc.player.getBlockX() * 8
-                    : mc.player.getBlockX() / 8;
-            int netherZ = mc.player.level().dimension().identifier().getPath().equals("the_nether")
-                    ? mc.player.getBlockZ() * 8
-                    : mc.player.getBlockZ() / 8;
-            coordsStr += String.format(" [%d, %d]", netherX, netherZ);
+            ResourceKey<Level> dimension = mc.player.level().dimension();
+            if (dimension == Level.NETHER) {
+                coordsStr += String.format(" [%d, %d]", mc.player.getBlockX() * 8, mc.player.getBlockZ() * 8);
+            } else if (dimension == Level.OVERWORLD) {
+                coordsStr += String.format(" [%d, %d]", Math.floorDiv(mc.player.getBlockX(), 8), Math.floorDiv(mc.player.getBlockZ(), 8));
+            }
         }
 
         e.getContext().drawString(mc.font, coordsStr,

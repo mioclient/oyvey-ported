@@ -25,26 +25,26 @@ public class Setting<T> {
     public Setting(String name, T defaultValue) {
         this.name = name;
         this.defaultValue = defaultValue;
-        this.value = defaultValue;
-        this.plannedValue = defaultValue;
+        this.value = copy(defaultValue);
+        this.plannedValue = this.value;
         this.description = "";
     }
 
     public Setting(String name, T defaultValue, String description) {
         this.name = name;
         this.defaultValue = defaultValue;
-        this.value = defaultValue;
-        this.plannedValue = defaultValue;
+        this.value = copy(defaultValue);
+        this.plannedValue = this.value;
         this.description = description;
     }
 
     public Setting(String name, T defaultValue, T min, T max, String description) {
         this.name = name;
         this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this.value = copy(defaultValue);
         this.min = min;
         this.max = max;
-        this.plannedValue = defaultValue;
+        this.plannedValue = this.value;
         this.description = description;
         this.hasRestriction = true;
     }
@@ -52,10 +52,10 @@ public class Setting<T> {
     public Setting(String name, T defaultValue, T min, T max) {
         this.name = name;
         this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this.value = copy(defaultValue);
         this.min = min;
         this.max = max;
-        this.plannedValue = defaultValue;
+        this.plannedValue = this.value;
         this.description = "";
         this.hasRestriction = true;
     }
@@ -63,10 +63,10 @@ public class Setting<T> {
     public Setting(String name, T defaultValue, T min, T max, Predicate<T> visibility, String description) {
         this.name = name;
         this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this.value = copy(defaultValue);
         this.min = min;
         this.max = max;
-        this.plannedValue = defaultValue;
+        this.plannedValue = this.value;
         this.visibility = visibility;
         this.description = description;
         this.hasRestriction = true;
@@ -75,10 +75,10 @@ public class Setting<T> {
     public Setting(String name, T defaultValue, T min, T max, Predicate<T> visibility) {
         this.name = name;
         this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this.value = copy(defaultValue);
         this.min = min;
         this.max = max;
-        this.plannedValue = defaultValue;
+        this.plannedValue = this.value;
         this.visibility = visibility;
         this.description = "";
         this.hasRestriction = true;
@@ -87,9 +87,9 @@ public class Setting<T> {
     public Setting(String name, T defaultValue, Predicate<T> visibility) {
         this.name = name;
         this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this.value = copy(defaultValue);
         this.visibility = visibility;
-        this.plannedValue = defaultValue;
+        this.plannedValue = this.value;
     }
 
     public String getName() {
@@ -120,7 +120,15 @@ public class Setting<T> {
     }
 
     public void reset() {
-        setValue(getDefaultValue());
+        setValue(copy(getDefaultValue()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T copy(T value) {
+        if (value instanceof Vector2f vector) {
+            return (T) new Vector2f(vector);
+        }
+        return value;
     }
 
     public T getPlannedValue() {
@@ -257,7 +265,10 @@ public class Setting<T> {
 
     public String getValueAsString() {
         if (value instanceof Color color) {
-            return "%d, %d, %d".formatted(color.getRed(), color.getGreen(), color.getBlue());
+            return "%d, %d, %d, %d".formatted(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        }
+        if (value instanceof Enum<?> e) {
+            return e.name();
         }
         return this.value.toString();
     }

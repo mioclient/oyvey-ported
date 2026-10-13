@@ -1,8 +1,5 @@
 package me.alpha432.oyvey.features.settings;
 
-import com.google.common.base.Converter;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.platform.InputConstants;
 import me.alpha432.oyvey.util.traits.Util;
 import net.minecraft.client.input.KeyEvent;
@@ -60,30 +57,5 @@ public class Bind implements Util {
             return "";
         }
         return Character.toUpperCase(str.charAt(0)) + (str.length() != 1 ? str.substring(1).toLowerCase() : "");
-    }
-
-    public static class BindConverter
-            extends Converter<Bind, JsonElement> {
-        public JsonElement doForward(Bind bind) {
-            return new JsonPrimitive(bind.toString());
-        }
-
-        public Bind doBackward(JsonElement jsonElement) {
-            String s = jsonElement.getAsString();
-            if (s.equalsIgnoreCase("None")) return Bind.none();
-            if (s.toLowerCase().startsWith("mouse ")) {
-                try {
-                    return new Bind(-Integer.parseInt(s.substring(6)) - 1);
-                } catch (Exception e) {
-                }
-            }
-            int key = -1;
-            try {
-                key = InputConstants.getKey("key.keyboard" + s).getValue();
-            } catch (Exception e) {
-            }
-            if (key == 0) return Bind.none();
-            return new Bind(key);
-        }
     }
 }

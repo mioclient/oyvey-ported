@@ -29,9 +29,11 @@ public class KeyboardUtil {
 
     public static Bind getBind(String name) {
         String lowercaseName = name.toLowerCase(Locale.ROOT).replace("_", ".");
-        if (name.startsWith("mouse")) {
+        if (lowercaseName.startsWith("mouse")) {
             try {
-                return new Bind(-Integer.parseInt(name.substring(5)) - 1);
+                int button = Integer.parseInt(lowercaseName.substring(5));
+                if (button < 1) return null;
+                return new Bind(-button - 1);
             } catch (Exception e) {
                 return null;
             }

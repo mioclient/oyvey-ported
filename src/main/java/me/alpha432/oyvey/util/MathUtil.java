@@ -20,11 +20,11 @@ public class MathUtil
     }
 
     public static double getRandom(double min, double max) {
-        return Mth.clamp(min + random.nextDouble() * max, min, max);
+        return Mth.clamp(min + random.nextDouble() * (max - min), min, max);
     }
 
     public static float getRandom(float min, float max) {
-        return Mth.clamp(min + random.nextFloat() * max, min, max);
+        return Mth.clamp(min + random.nextFloat() * (max - min), min, max);
     }
 
     public static int clamp(int num, int min, int max) {

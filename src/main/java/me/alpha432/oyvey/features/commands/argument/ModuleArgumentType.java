@@ -11,6 +11,7 @@ import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.CommandExceptions;
 import me.alpha432.oyvey.features.modules.Module;
 
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
@@ -18,11 +19,19 @@ import static me.alpha432.oyvey.features.commands.ArgumentSuggestions.suggest;
 public record ModuleArgumentType(boolean fullName) implements ArgumentType<Module> {
     @Override
     public Module parse(StringReader reader) throws CommandSyntaxException {
-        String value = reader.readString().toLowerCase();
+        String value = reader.readString().toLowerCase(Locale.ROOT);
 
         for (Module module : OyVey.moduleManager.getModules()) {
-            if (value.equalsIgnoreCase(module.getName()) || module.getName().startsWith(value)) {
+            if (value.equalsIgnoreCase(module.getName())) {
                 return module;
+            }
+        }
+
+        if (!fullName) {
+            for (Module module : OyVey.moduleManager.getModules()) {
+                if (module.getName().toLowerCase(Locale.ROOT).startsWith(value)) {
+                    return module;
+                }
             }
         }
 

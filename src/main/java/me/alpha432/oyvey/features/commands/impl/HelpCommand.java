@@ -61,7 +61,7 @@ public class HelpCommand extends Command {
             List<Component> usages = new ArrayList<>();
 
             for (String usage : smartUsages.values()) {
-                usages.add(text("   {gray}.%s %s", command.getName(), usage));
+                usages.add(text("   {gray}%s%s %s", ctx.getSource().getCommandPrefix(), command.getName(), usage));
             }
 
             text.append(ComponentUtils.formatList(usages, Component.literal("\n")));
@@ -75,11 +75,8 @@ public class HelpCommand extends Command {
         List<Command> commands = ctx.getSource().getCommands()
                 .stream().filter(Command::isShown).toList();
 
-        int pageIndex = page;
-        int pages = (int) Math.ceil((double) commands.size() / ITEMS_PER_PAGE);
-        if (pageIndex > pages) {
-            pageIndex = 1;
-        }
+        int pages = Math.max(1, (int) Math.ceil((double) commands.size() / ITEMS_PER_PAGE));
+        int pageIndex = page < 1 || page > pages ? 1 : page;
 
         List<Command> paginated = commands.subList((pageIndex - 1) * ITEMS_PER_PAGE,
                 Math.min(commands.size(), pageIndex * ITEMS_PER_PAGE));

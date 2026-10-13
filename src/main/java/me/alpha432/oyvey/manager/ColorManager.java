@@ -31,7 +31,8 @@ public class ColorManager {
 
     public int getColorWithAlpha(float offset, int alpha) {
         if (ClickGuiModule.getInstance().rainbow.getValue()) {
-            return ColorUtil.rainbow((int) (offset / 10f * ClickGuiModule.getInstance().rainbowHue.getValue())).getRGB();
+            int rgb = ColorUtil.rainbow((int) (offset / 10f * ClickGuiModule.getInstance().rainbowHue.getValue())).getRGB();
+            return (rgb & 0xFFFFFF) | ((alpha & 0xFF) << 24);
         }
         return new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), alpha).getRGB();
     }

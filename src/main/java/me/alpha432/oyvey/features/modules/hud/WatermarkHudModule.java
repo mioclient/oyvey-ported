@@ -5,6 +5,7 @@ import me.alpha432.oyvey.features.modules.client.HudModule;
 import me.alpha432.oyvey.features.settings.Setting;
 import me.alpha432.oyvey.util.BuildConfig;
 import me.alpha432.oyvey.util.TextUtil;
+import net.minecraft.network.chat.Component;
 
 public class WatermarkHudModule extends HudModule {
     public final Setting<String> text = str("Text", BuildConfig.NAME);
@@ -25,11 +26,10 @@ public class WatermarkHudModule extends HudModule {
             watermarkString += "/" + BuildConfig.BRANCH + "-" + BuildConfig.HASH;
         }
 
-        e.getContext().drawString(mc.font,
-                TextUtil.text(watermarkString, text.getValue(), BuildConfig.VERSION),
-                (int) getX(), (int) getY(), -1);
+        Component component = TextUtil.text(watermarkString, text.getValue(), BuildConfig.VERSION);
+        e.getContext().drawString(mc.font, component, (int) getX(), (int) getY(), -1);
 
-        setWidth(mc.font.width(watermarkString));
+        setWidth(mc.font.width(component));
         setHeight(mc.font.lineHeight);
     }
 }

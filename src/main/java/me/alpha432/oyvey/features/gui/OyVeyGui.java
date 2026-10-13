@@ -2,7 +2,6 @@ package me.alpha432.oyvey.features.gui;
 
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.Feature;
-import me.alpha432.oyvey.features.gui.items.Item;
 import me.alpha432.oyvey.features.gui.items.buttons.ModuleButton;
 import me.alpha432.oyvey.features.modules.Module;
 import net.minecraft.client.gui.GuiGraphics;
@@ -63,7 +62,6 @@ public class OyVeyGui extends Screen {
 
     @Override
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        Item.context = context;
         context.fill(0, 0, context.guiWidth(), context.guiHeight(), new Color(0, 0, 0, 120).hashCode());
         this.widgets.forEach(components -> components.drawScreen(context, mouseX, mouseY, delta));
     }

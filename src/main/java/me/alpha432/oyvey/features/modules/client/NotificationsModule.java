@@ -27,8 +27,12 @@ public class NotificationsModule extends Module {
         }
 
         boolean moduleState = event.getFeature().isEnabled();
+        String name = event.getFeature() instanceof Module module
+                ? module.getDisplayName()
+                : event.getFeature().getName();
+
         ChatUtil.sendMessage(TextUtil.text(MODULE_FORMAT,
-                event.getFeature().getName(),
+                name,
                 moduleState ? "{green}" : "{red}",
                 moduleState ? "on" : "off"), from(event.getFeature().getName()));
     }

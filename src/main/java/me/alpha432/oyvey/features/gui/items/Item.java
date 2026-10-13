@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class Item
         extends Feature {
-    public static GuiGraphics context;
     protected float x;
     protected float y;
     protected int width;
@@ -74,11 +73,11 @@ public class Item
         return this.hidden;
     }
 
-    protected void drawString(String text, double x, double y, Color color) {
-        drawString(text, x, y, color.hashCode());
+    protected void drawString(GuiGraphics context, String text, double x, double y, Color color) {
+        drawString(context, text, x, y, color.getRGB());
     }
 
-    protected void drawString(String text, double x, double y, int color) {
+    protected void drawString(GuiGraphics context, String text, double x, double y, int color) {
         context.drawString(mc.font, text, (int) x, (int) y, color);
     }
 

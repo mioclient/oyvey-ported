@@ -40,10 +40,11 @@ public abstract class MixinCommandSuggestions {
     @SuppressWarnings("unchecked")
     @Inject(method = "updateCommandInfo", at = @At("RETURN"))
     public void updateCommandInfo(CallbackInfo ci, @Local StringReader stringReader) {
-        if (!stringReader.canRead() || !stringReader.getString().startsWith(OyVey.commandManager.getCommandPrefix())) {
+        String prefix = OyVey.commandManager.getCommandPrefix();
+        if (!stringReader.canRead() || !stringReader.getString().startsWith(prefix)) {
             return;
         }
-        stringReader.skip();
+        stringReader.setCursor(prefix.length());
 
         CommandDispatcher<CommandManager> dispatcher = OyVey.commandManager.getDispatcher();
         ParseResults<CommandManager> parse = dispatcher.parse(stringReader, OyVey.commandManager);

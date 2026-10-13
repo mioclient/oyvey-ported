@@ -50,8 +50,13 @@ public class FriendManager implements Jsonable {
 
     @Override
     public void fromJson(JsonElement element) {
-        for (JsonElement e : element.getAsJsonObject().get("friends").getAsJsonArray()) {
-            friends.add(e.getAsString());
+        friends.clear();
+        if (element == null || !element.isJsonObject()) return;
+        JsonElement array = element.getAsJsonObject().get("friends");
+        if (array == null || !array.isJsonArray()) return;
+        for (JsonElement e : array.getAsJsonArray()) {
+            String name = e.getAsString();
+            if (!friends.contains(name)) friends.add(name);
         }
     }
 

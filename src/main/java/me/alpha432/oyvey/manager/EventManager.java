@@ -19,7 +19,12 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class EventManager extends Feature {
+    private final Set<Integer> deadPlayers = new HashSet<>();
+
     public void init() {
         EVENT_BUS.register(this);
     }
@@ -33,11 +38,16 @@ public class EventManager extends Feature {
         if (nullCheck())
             return;
         OyVey.moduleManager.onTick();
+        Set<Integer> dead = new HashSet<>();
         for (Player player : mc.level.players()) {
             if (player == null || player.getHealth() > 0.0F)
                 continue;
-            EVENT_BUS.post(new DeathEvent(player));
+            dead.add(player.getId());
+            if (!deadPlayers.contains(player.getId()))
+                EVENT_BUS.post(new DeathEvent(player));
         }
+        deadPlayers.clear();
+        deadPlayers.addAll(dead);
     }
 
     @Subscribe

@@ -13,23 +13,26 @@ public record NumberArgumentType<T extends Number>(Class<T> type, Constraint<T> 
         String input = reader.readString();
 
         T value = null;
-        if (type.isAssignableFrom(Integer.class)) {
-            value = (T) Integer.valueOf(input);
-        } else if (type.isAssignableFrom(Double.class)) {
-            value = (T) Double.valueOf(input);
-        } else if (type.isAssignableFrom(Float.class)) {
-            value = (T) Float.valueOf(input);
-        } else if (type.isAssignableFrom(Long.class)) {
-            value = (T) Long.valueOf(input);
-        }
-
-        if (constraint != null) {
-            constraint.validate(reader, value);
+        try {
+            if (type.isAssignableFrom(Integer.class)) {
+                value = (T) Integer.valueOf(input);
+            } else if (type.isAssignableFrom(Double.class)) {
+                value = (T) Double.valueOf(input);
+            } else if (type.isAssignableFrom(Float.class)) {
+                value = (T) Float.valueOf(input);
+            } else if (type.isAssignableFrom(Long.class)) {
+                value = (T) Long.valueOf(input);
+            }
+        } catch (NumberFormatException ignored) {
         }
 
         if (value == null) {
             throw CommandExceptions.invalidArgument("Could not parse \"%s\"", input)
                     .createWithContext(reader);
+        }
+
+        if (constraint != null) {
+            constraint.validate(reader, value);
         }
 
         return value;

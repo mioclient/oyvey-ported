@@ -89,7 +89,7 @@ public class Module extends Feature implements Jsonable, Toggleable {
         Module module = OyVey.moduleManager.getModuleByDisplayName(name);
         Module originalModule = OyVey.moduleManager.getModuleByName(name);
         if (module == null && originalModule == null) {
-            Command.sendMessage("%, name: %s, has been renamed to: %s", MessageSignatures.GENERAL,
+            Command.sendMessage("%s, name: %s, has been renamed to: %s", MessageSignatures.GENERAL,
                     getDisplayName(), getName(), name);
             this.displayName.setValue(name);
             return;
@@ -166,10 +166,11 @@ public class Module extends Feature implements Jsonable, Toggleable {
         if (element == null || element.isJsonNull()) return;
         JsonObject object = element.getAsJsonObject();
         if (object.has("Enabled")) {
-            String enabled = object.get("Enabled").getAsString();
-            if (Boolean.parseBoolean(enabled)) toggle();
+            boolean enabled = Boolean.parseBoolean(object.get("Enabled").getAsString());
+            if (enabled != isEnabled()) toggle();
         }
         for (Setting<?> setting : getSettings()) {
+            if (setting == this.enabled) continue;
             try {
                 JsonElement settingElement = object.get(setting.getName());
                 if (settingElement != null && !settingElement.isJsonNull()) {

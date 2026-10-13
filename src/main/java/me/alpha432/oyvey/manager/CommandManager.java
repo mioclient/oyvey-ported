@@ -46,7 +46,7 @@ public class CommandManager extends Feature implements Jsonable {
 
     public void onChatSent(String message) {
         try {
-            int result = dispatcher.execute(message.substring(commandPrefix.length()).trim(), this);
+            int result = dispatcher.execute(message.substring(getCommandPrefix().length()).trim(), this);
 
             if (result == SINGLE_FAILURE) {
                 Command.sendMessage("{red} Failed to execute command", SUCCESS);
@@ -54,6 +54,9 @@ public class CommandManager extends Feature implements Jsonable {
         } catch (CommandSyntaxException e) {
             LOGGER.error("Failed to execute command", e);
             Command.sendMessage("{red} %s", GENERAL, e.getMessage());
+        } catch (RuntimeException e) {
+            LOGGER.error("Unexpected error while executing command", e);
+            Command.sendMessage("{red} Failed to execute command", GENERAL);
         }
     }
 
@@ -107,10 +110,5 @@ public class CommandManager extends Feature implements Jsonable {
         if (object.has("prefix")) {
             setCommandPrefix(object.get("prefix").getAsString());
         }
-    }
-
-    @Override
-    public String getFileName() {
-        return "commands.json";
     }
 }

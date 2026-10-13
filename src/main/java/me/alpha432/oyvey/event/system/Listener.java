@@ -20,11 +20,11 @@ public record Listener(Object host, int priority, Consumer<Object> consumer) {
     @SuppressWarnings("unchecked")
     private static Consumer<Object> buildLambdaMetafactory(Object host, Method method) {
         try {
-            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(host.getClass(), MethodHandles.lookup());
+            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(method.getDeclaringClass(), MethodHandles.lookup());
             CallSite site = LambdaMetafactory.metafactory(
                     lookup,
                     "accept",
-                    MethodType.methodType(Consumer.class, host.getClass()),
+                    MethodType.methodType(Consumer.class, method.getDeclaringClass()),
                     MethodType.methodType(void.class, Object.class),
                     lookup.unreflect(method),
                     MethodType.methodType(void.class, method.getParameterTypes()[0])
