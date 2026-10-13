@@ -18,6 +18,11 @@ public class MCFModule extends Module {
 
     @Override
     public void onTick() {
+        if (mc.screen != null) {
+            pressed = false;
+            return;
+        }
+
         if (GLFW.glfwGetMouseButton(mc.getWindow().handle(), 2) == 1) {
             if (!pressed) click();
             pressed = true;
