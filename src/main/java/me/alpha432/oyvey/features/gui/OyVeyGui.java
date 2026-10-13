@@ -4,6 +4,7 @@ import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.gui.items.buttons.ModuleButton;
 import me.alpha432.oyvey.features.modules.Module;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.CharacterEvent;
@@ -23,6 +24,7 @@ public class OyVeyGui extends Screen {
         INSTANCE = new OyVeyGui();
     }
 
+    private Screen lastScreen;
     private final ArrayList<Widget> widgets = new ArrayList<>();
 
     public OyVeyGui() {
@@ -40,6 +42,19 @@ public class OyVeyGui extends Screen {
 
     public static OyVeyGui getClickGui() {
         return OyVeyGui.getInstance();
+    }
+
+    public static void open(Screen previous) {
+        OyVeyGui gui = getInstance();
+        gui.lastScreen = previous;
+        Minecraft.getInstance().setScreen(gui);
+    }
+
+    @Override
+    public void onClose() {
+        Screen previous = this.lastScreen;
+        this.lastScreen = null;
+        this.minecraft.setScreen(previous);
     }
 
     private void setInstance() {
@@ -62,6 +77,12 @@ public class OyVeyGui extends Screen {
 
     @Override
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+        if (lastScreen != null) {
+            lastScreen.renderBackground(context, Integer.MIN_VALUE, Integer.MIN_VALUE, delta);
+            lastScreen.render(context, Integer.MIN_VALUE, Integer.MIN_VALUE, delta);
+            context.nextStratum();
+        }
+
         context.fill(0, 0, context.guiWidth(), context.guiHeight(), new Color(0, 0, 0, 120).hashCode());
         this.widgets.forEach(components -> components.drawScreen(context, mouseX, mouseY, delta));
     }

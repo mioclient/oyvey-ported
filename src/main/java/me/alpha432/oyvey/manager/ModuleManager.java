@@ -4,6 +4,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.alpha432.oyvey.OyVey;
 import me.alpha432.oyvey.event.impl.render.Render2DEvent;
+import me.alpha432.oyvey.features.gui.OyVeyGui;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import me.alpha432.oyvey.event.impl.render.Render3DEvent;
 import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.commands.ModuleCommand;
@@ -120,7 +123,14 @@ public class ModuleManager implements Jsonable, Util {
     }
 
     public void onKeyPressed(int key) {
-        if (key <= 0 || mc.screen != null) return;
+        if (key <= 0) return;
+        if (mc.screen instanceof TitleScreen || mc.screen instanceof JoinMultiplayerScreen) {
+            if (ClickGuiModule.getInstance().getBind().getKey() == key) {
+                OyVeyGui.open(mc.screen);
+            }
+            return;
+        }
+        if (mc.screen != null) return;
         stream().filter(module -> module.getBind().getKey() == key).forEach(Module::toggle);
     }
 
