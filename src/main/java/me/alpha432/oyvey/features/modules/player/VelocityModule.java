@@ -13,7 +13,12 @@ public class VelocityModule extends Module {
 
     @Subscribe
     private void onPacketReceive(PacketEvent.Receive event) {
-        if (event.getPacket() instanceof ClientboundSetEntityMotionPacket || event.getPacket() instanceof ClientboundExplodePacket)
+        if (nullCheck())
+            return;
+
+        if (event.getPacket() instanceof ClientboundSetEntityMotionPacket packet && packet.getId() == mc.player.getId()
+                || event.getPacket() instanceof ClientboundExplodePacket) {
             event.cancel();
+        }
     }
 }
