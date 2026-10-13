@@ -20,6 +20,7 @@ import me.alpha432.oyvey.features.modules.combat.KeyPearlModule;
 import me.alpha432.oyvey.features.modules.hud.CoordinatesHudModule;
 import me.alpha432.oyvey.features.modules.hud.WatermarkHudModule;
 import me.alpha432.oyvey.features.modules.misc.MCFModule;
+import me.alpha432.oyvey.features.modules.movement.FastAccelModule;
 import me.alpha432.oyvey.features.modules.movement.ReverseStepModule;
 import me.alpha432.oyvey.features.modules.movement.StepModule;
 import me.alpha432.oyvey.features.modules.player.FastPlaceModule;
@@ -56,6 +57,7 @@ public class ModuleManager implements Jsonable, Util {
         register(new NoFallModule());
         register(new KeyPearlModule());
         register(new KillAuraModule());
+        register(new FastAccelModule());
 
         LOGGER.info("Registered {} modules", modules.size());
 

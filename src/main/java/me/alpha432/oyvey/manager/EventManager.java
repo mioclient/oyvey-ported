@@ -37,6 +37,7 @@ public class EventManager extends Feature {
     public void onTick(TickEvent.Post event) {
         if (nullCheck())
             return;
+        OyVey.speedManager.update();
         OyVey.moduleManager.onTick();
         Set<Integer> dead = new HashSet<>();
         for (Player player : mc.level.players()) {
