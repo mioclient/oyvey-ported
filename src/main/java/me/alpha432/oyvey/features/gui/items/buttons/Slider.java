@@ -18,6 +18,7 @@ public class Slider
 
     public Setting<Number> setting;
 
+    private boolean dragging;
     private boolean isListening = false;
     private String input = "";
 
@@ -34,15 +35,8 @@ public class Slider
     public void drawScreen(GuiGraphics context, int mouseX, int mouseY, float partialTicks) {
         this.dragSetting(mouseX, mouseY);
 
-        RenderUtil.rect(context, this.x, this.y, this.x + this.width + 7.4f, this.y + this.height - 0.5f, !this.isHovering(mouseX, mouseY) ? 0x11555555 : -2007673515);
-
-        RenderUtil.rect(context, this.x, this.y,
-                this.x + (this.width + 7.4f) * this.partialMultiplier(),
-                this.y + this.height - 0.5f,
-                !this.isHovering(mouseX, mouseY) ? OyVey.colorManager.getColorWithAlpha(y, ClickGuiModule.getInstance().color.getValue().getAlpha())
-                        : OyVey.colorManager.getColorWithAlpha(y, ClickGuiModule.getInstance().topColor.getValue().getAlpha()
-                )
-        );
+        RenderUtil.rect(context, this.x, this.y, this.x + (float) this.width + 7.4f, this.y + (float) this.height - 0.5f, !(this.dragging || this.isHovering(mouseX, mouseY)) ? 0x11555555 : -2007673515);
+        RenderUtil.rect(context, this.x, this.y, (this.setting.getValue()).floatValue() <= this.min.floatValue() ? this.x : this.x + ((float) this.width + 7.4f) * this.partialMultiplier(), this.y + (float) this.height - 0.5f, !(this.dragging || this.isHovering(mouseX, mouseY)) ? OyVey.colorManager.getColorWithAlpha(y, ClickGuiModule.getInstance().color.getValue().getAlpha()) : OyVey.colorManager.getColorWithAlpha(y, ClickGuiModule.getInstance().topColor.getValue().getAlpha()));
 
         String value = isListening ? input + "_" : String.valueOf(setting.getValue());
 
@@ -61,8 +55,8 @@ public class Slider
 
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
-        if (this.isHovering(mouseX, mouseY)
-                && mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+        if (this.isHovering(mouseX, mouseY) && mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            this.dragging = true;
             this.setSettingFromX(mouseX);
         }
     }
@@ -161,12 +155,12 @@ public class Slider
     }
 
     private void dragSetting(int mouseX, int mouseY) {
-        if (!isListening
-                && this.isHovering(mouseX, mouseY)
-                && GLFW.glfwGetMouseButton(
-                mc.getWindow().handle(),
-                GLFW.GLFW_MOUSE_BUTTON_LEFT
-        ) == 1) {
+        if (!isListening && this.isHovering(mouseX, mouseY) && GLFW.glfwGetMouseButton(mc.getWindow().handle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) != 1) {
+            this.dragging = false;
+            return;
+        }
+
+        if (this.dragging) {
             this.setSettingFromX(mouseX);
         }
     }
